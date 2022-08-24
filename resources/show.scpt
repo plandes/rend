@@ -14,5 +14,4 @@ on showPreview(filename, x, y, width, height)
                  click menu item "Continuous Scroll" of menu "View" of menu bar 1
          end tell
     end tell
-    tell application "Emacs" to activate
 end showPreview

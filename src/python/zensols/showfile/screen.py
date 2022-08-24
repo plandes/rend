@@ -5,6 +5,7 @@ __author__ = 'Paul Landes'
 
 from typing import Sequence, Dict, Set
 from dataclasses import dataclass, field
+from enum import Enum, auto
 import logging
 import textwrap
 from pathlib import Path
@@ -21,6 +22,12 @@ logger = logging.getLogger(__name__)
 
 class ApplescriptError(APIError):
     pass
+
+
+class ErrorType(Enum):
+    ignore = auto()
+    warning = auto()
+    error = auto()
 
 
 @dataclass(eq=True, unsafe_hash=True)
@@ -76,14 +83,20 @@ class ScreenManager(object):
     configuration.
 
     """
-    applescript_warns: Set[str] = field(default_factory=set())
+    applescript_warns: Dict[str, str] = field(default_factory=set())
+    """A set of string warning messages to log instead raise as an
+    :class:`.ApplicationError`.
 
-    def _is_warning(self, res: Result) -> bool:
+    """
+    switch_back_app: str = field(default=None)
+    """The application to activate (focus) after the resize is complete."""
+
+    def _get_error_type(self, res: Result) -> ErrorType:
         err: str = res.err
-        for warn in self.applescript_warns:
+        for warn, error_type in self.applescript_warns.items():
             if err.find(warn) > -1:
-                return True
-        return False
+                return ErrorType[error_type]
+        return ErrorType.throw
 
     def _exec(self, cmd: str, app: str = None) -> str:
         ret: aps.Result
@@ -92,12 +105,12 @@ class ScreenManager(object):
         else:
             ret = aps.tell.app(app, cmd)
         if ret.code != 0:
-            warning: bool = self._is_warning(ret)
+            err_type: ErrorType = self._get_error_type(ret)
             cmd_str: str = textwrap.shorten(cmd, 40)
             msg: str = f'Could not invoke <{cmd_str}>: {ret.err} ({ret.code})'
-            if warning:
+            if err_type == ErrorType.warning:
                 logger.warning(msg)
-            else:
+            elif err_type == ErrorType.error:
                 raise ApplescriptError(msg)
         return ret.out
 
@@ -134,6 +147,10 @@ class ScreenManager(object):
         width, height = bounds[2:]
         return Size(width, height)
 
+    def _switch_back(self):
+        if self.switch_back_app is not None:
+            self._exec(f'tell application "{self.switch_back_app}" to activate')
+
     def resize(self, file_name: Path, extent: Extent):
         """Open and resize a file.
 
@@ -148,6 +165,7 @@ class ScreenManager(object):
               f'{extent.width}, {extent.height})')
         cmd = (self.show_preview_script + '\n' + fn)
         self._exec(cmd)
+        self._switch_back()
 
     def detect_and_resize(self, file_name: Path):
         """Like :meth:`resize` but use the screen extents of the current screen.
@@ -162,3 +180,4 @@ class ScreenManager(object):
             raise ApplicationError(f'No display entry for bounds: {screen}')
         logger.debug(f'detected display {display}')
         self.resize(file_name, display.target)
+
