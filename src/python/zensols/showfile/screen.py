@@ -3,12 +3,13 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import Sequence, Dict
+from typing import Sequence, Dict, Set
 from dataclasses import dataclass, field
 import logging
 import textwrap
 from pathlib import Path
 import applescript as aps
+from applescript._result import Result
 import re
 from zensols.util import APIError
 from zensols.config import Dictable, ConfigFactory
@@ -75,6 +76,15 @@ class ScreenManager(object):
     configuration.
 
     """
+    applescript_warns: Set[str] = field(default_factory=set())
+
+    def _is_warning(self, res: Result) -> bool:
+        err: str = res.err
+        for warn in self.applescript_warns:
+            if err.find(warn) > -1:
+                return True
+        return False
+
     def _exec(self, cmd: str, app: str = None) -> str:
         ret: aps.Result
         if app is None:
@@ -82,9 +92,13 @@ class ScreenManager(object):
         else:
             ret = aps.tell.app(app, cmd)
         if ret.code != 0:
-            cmd = textwrap.shorten(cmd, 40)
-            raise ApplescriptError(
-                f'Could not invoke <{cmd}>: {ret.err} ({ret.code})')
+            warning: bool = self._is_warning(ret)
+            cmd_str: str = textwrap.shorten(cmd, 40)
+            msg: str = f'Could not invoke <{cmd_str}>: {ret.err} ({ret.code})'
+            if warning:
+                logger.warning(msg)
+            else:
+                raise ApplescriptError(msg)
         return ret.out
 
     @property

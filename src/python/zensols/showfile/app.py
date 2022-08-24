@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 import logging
 from pathlib import Path
 from zensols.cli import ApplicationError
-from . import ApplescriptError, ScreenManager, Size
+from . import ScreenManager, Size
 
 logger = logging.getLogger(__name__)
 
@@ -39,14 +39,10 @@ class Application(object):
         :param file_name: the file to show in the preview application
 
         """
-        try:
-            if self.width is None and self.height is None:
-                self.smng.detect_and_resize(file_name)
-            elif self.width is not None or self.height is not None:
-                raise ApplicationError(
-                    'Both width and height are expected when either is given')
-            else:
-                self.smng.resize(file_name, Size(self.width, self.height))
-        except ApplescriptError as e:
-            # an exception might have been raised only for switching page mode
-            logger.warning(f'warning: {e}')
+        if self.width is None and self.height is None:
+            self.smng.detect_and_resize(file_name)
+        elif self.width is not None or self.height is not None:
+            raise ApplicationError(
+                'Both width and height are expected when either is given')
+        else:
+            self.smng.resize(file_name, Size(self.width, self.height))
