@@ -13,7 +13,7 @@ from pathlib import Path
 import applescript as aps
 from applescript._result import Result
 from zensols.util import APIError
-from zensols.persist import persisted
+from zensols.config import ConfigFactory
 from . import Size, Extent, Browser
 
 logger = logging.getLogger(__name__)
@@ -37,9 +37,16 @@ class ErrorType(Enum):
 
 @dataclass
 class DarwinBrowser(Browser):
-    show_preview_script_path: Path = field()
-    """The applescript file path used for managing Preview.app."""
+    config_factory: ConfigFactory = field()
+    """The configuration factory used to create a default :class:`.Browser`
+    instance for URL viewing.
 
+    """
+    show_script_paths: Dict[str, Path] = field()
+    """The applescript file paths used for managing show apps (``Preview.app``
+    and ``Safari.app``).
+
+    """
     applescript_warns: Dict[str, str] = field(default_factory=set())
     """A set of string warning messages to log instead raise as an
     :class:`.ApplicationError`.
@@ -71,12 +78,22 @@ class DarwinBrowser(Browser):
                 raise ApplescriptError(msg)
         return ret.out
 
-    @property
-    @persisted('_show_preview_script')
-    def show_preview_script(self) -> str:
-        """The applescript content used for managing Preview.app."""
-        with open(self.show_preview_script_path) as f:
+    def get_show_script(self, name: str) -> str:
+        """The applescript content used for managing app ``name``."""
+        with open(self.show_script_paths[name]) as f:
             return f.read()
+
+    def _invoke_open_script(self, name: str, arg: str, extent: Extent):
+        show_script: str = self.get_show_script(name)
+        func: str = f'show{name.capitalize()}'
+        fn = (f'{func}("{arg}", {extent.x}, {extent.y}, ' +
+              f'{extent.width}, {extent.height})')
+        cmd = (show_script + '\n' + fn)
+        if logger.isEnabledFor(logging.DEBUG):
+            path: Path = self.show_script_paths[name]
+            logger.debug(f'invoking "{fn}" from {path}')
+        self._exec(cmd)
+        self._switch_back()
 
     def _switch_back(self):
         if self.switch_back_app is not None:
@@ -89,12 +106,9 @@ class DarwinBrowser(Browser):
         return Size(width, height)
 
     def show_file(self, path: Path, extent: Extent = None):
-        file_name_str: str = str(path.absolute())
-        fn = (f'showPreview("{file_name_str}", {extent.x}, {extent.y}, ' +
-              f'{extent.width}, {extent.height})')
-        cmd = (self.show_preview_script + '\n' + fn)
-        self._exec(cmd)
-        self._switch_back()
+        self._invoke_open_script('preview', str(path.absolute()), extent)
 
-    def show_url(self, url: str, extent: Extent):
-        pass
+    def show_url(self, url: str, extent: Extent = None):
+        if url[-1] != '/':
+            url = url + '/'
+        self._invoke_open_script('safari', url, extent)

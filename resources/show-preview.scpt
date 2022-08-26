@@ -1,3 +1,4 @@
+-- Display a PDF file with Preview.app and set the window extents of it.
 on showPreview(filename, x, y, width, height)
     --tell application "Finder" to open posixFile
     set command to "open " & filename

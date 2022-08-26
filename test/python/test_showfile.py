@@ -19,6 +19,7 @@ class TestApplication(unittest.TestCase):
         self.assertEqual(Application, type(app))
         smng: ScreenManager = app.smng
         self.assertEqual(['laptop'], smng.display_names)
-        self.assertTrue(len(smng.browser.show_preview_script) > 100)
+        show_script = smng.browser.get_show_script('preview')
+        self.assertTrue(len(show_script) > 100)
         display: Display = smng.displays['laptop']
         self.assertEqual('1024 X 760 (laptop)', str(display))
