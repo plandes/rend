@@ -19,6 +19,9 @@ logger = logging.getLogger(__name__)
 
 
 class LocatorType(Enum):
+    """Identifies a URL or a file name.
+
+    """
     file = auto()
     url = auto()
 
