@@ -88,18 +88,13 @@ class DarwinBrowser(Browser):
         width, height = bounds[2:]
         return Size(width, height)
 
-    def show(self, file_name: Path, extent: Extent = None):
-        """Open and resize a file.
-
-        :param file_name: the PDF (or image) file to resize
-
-        :param extent: the screen position of where to put the app
-
-        """
-        logger.info(f'resizing {file_name.name} to {extent}')
-        file_name_str: str = str(file_name.absolute())
+    def show_file(self, path: Path, extent: Extent = None):
+        file_name_str: str = str(path.absolute())
         fn = (f'showPreview("{file_name_str}", {extent.x}, {extent.y}, ' +
               f'{extent.width}, {extent.height})')
         cmd = (self.show_preview_script + '\n' + fn)
         self._exec(cmd)
         self._switch_back()
+
+    def show_url(self, url: str, extent: Extent):
+        pass

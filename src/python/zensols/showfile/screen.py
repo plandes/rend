@@ -3,17 +3,24 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import Sequence, Dict
+from typing import Sequence, Dict, Union
 from dataclasses import dataclass, field
+from enum import Enum, auto
 from abc import ABCMeta, abstractmethod
 import logging
 import platform
+from urllib.parse import urlparse
 from pathlib import Path
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
 from zensols.cli import ApplicationError
 
 logger = logging.getLogger(__name__)
+
+
+class LocatorType(Enum):
+    file = auto()
+    url = auto()
 
 
 @dataclass(eq=True, unsafe_hash=True)
@@ -69,10 +76,20 @@ class Browser(Dictable, metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def show(self, file_name: Path, extent: Extent):
+    def show_file(self, file_name: Path, extent: Extent):
         """Open and resize a file.
 
         :param file_name: the PDF (or image) file to resize
+
+        :param extent: the screen position of where to put the app
+
+        """
+        pass
+
+    def show_url(self, url: str, extent: Extent):
+        """Open and resize a URL.
+
+        :param url: the URL to open
 
         :param extent: the screen position of where to put the app
 
@@ -103,6 +120,18 @@ class ScreenManager(object):
                 sec_name = 'default_browser'
             self.browser: Browser = self.config_factory(sec_name)
 
+    @staticmethod
+    def guess_locator_type(s: str) -> LocatorType:
+        st: LocatorType = None
+        try:
+            result = urlparse(s)
+            if all([result.scheme, result.netloc]):
+                st = LocatorType.url
+        except Exception:
+            pass
+        st = LocatorType.file if st is None else st
+        return st
+
     @property
     @persisted('_displays')
     def displays(self) -> Dict[str, Size]:
@@ -121,14 +150,13 @@ class ScreenManager(object):
         """A dictionary of displays keyed by size."""
         return {Size(d.width, d.height): d for d in self.displays.values()}
 
-    def show(self, file_name: Path, extent: Extent = None):
+    def show(self, locator: Union[str, Path], extent: Extent = None):
         """Like :meth:`resize` but use the screen extents of the current screen.
 
-        :param file_name: the PDF (or image) file to resize
+        :param locator: the PDF (or image) file or URL to display and optionally
+                        resize
 
         """
-        if not file_name.is_file():
-            raise ApplicationError(f'No file found: {file_name}')
         if extent is None:
             screen: Size = self.browser.screen_size
             display: Display = self.displays_by_size.get(screen)
@@ -136,4 +164,10 @@ class ScreenManager(object):
             if display is None:
                 raise ApplicationError(f'No display entry for bounds: {screen}')
             extent = display.target
-        self.browser.show(file_name, extent)
+        if isinstance(locator, Path):
+            path: Path = locator
+            if not path.is_file():
+                raise ApplicationError(f'No file found: {path}')
+            self.browser.show_file(locator, extent)
+        else:
+            self.browser.show_url(locator, extent)

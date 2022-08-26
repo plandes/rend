@@ -6,7 +6,11 @@
 PROJ_TYPE =		python
 PROJ_MODULES =		git python-resources python-cli python-doc python-doc-deploy
 INFO_TARGETS +=		appinfo
+PY_DEP_POST_DEPS +=	modeldeps
+
+# project specific
 ENTRY =			./showfile
+
 
 include ./zenbuild/main.mk
 
@@ -14,9 +18,15 @@ include ./zenbuild/main.mk
 appinfo:
 			@echo "app-resources-dir: $(RESOURCES_DIR)"
 
+.PHONY:			modeldeps
+modeldeps:
+			if [ $$(uname) == "Darwin" ] ; then \
+				$(PIP_BIN) install -r $(PY_SRC)/requirements-darwin.txt ; \
+			fi
+
 .PHONY:			testpdf
 testpdf:
-			$(ENTRY) show --width 400 --height 600 test-resources/sample.pdf
+			$(ENTRY) show test-resources/sample.pdf
 
 .PHONY:			testall
 testall:		test testpdf

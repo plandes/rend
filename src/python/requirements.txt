@@ -1,2 +1,2 @@
 zensols.util~=1.11.0
-applescript~=2021.2.9
+screeninfo~=0.8
