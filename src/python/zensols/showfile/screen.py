@@ -180,4 +180,3 @@ class ScreenManager(object):
             raise ApplicationError(f'No display entry for bounds: {screen}')
         logger.debug(f'detected display {display}')
         self.resize(file_name, display.target)
-
