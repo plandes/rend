@@ -120,7 +120,11 @@ class DarwinBrowser(Browser):
         return Size(width, height)
 
     def show_file(self, path: Path, extent: Extent = None):
-        self._invoke_open_script('preview', str(path.absolute()), extent)
+        if path.suffix == '.html':
+            url: str = self._file_to_url(path)
+            self.show_url(url, extent)
+        else:
+            self._invoke_open_script('preview', str(path.absolute()), extent)
 
     def show_url(self, url: str, extent: Extent = None):
         # cannonize the URL so the applescript to find it in the list of

@@ -3,15 +3,13 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import Dict, Sequence, List
-from dataclasses import dataclass, field
+from typing import List
+from dataclasses import dataclass
 import logging
 from pathlib import Path
 import webbrowser
 import screeninfo as si
 from screeninfo.common import Monitor
-from zensols.util import APIError
-from zensols.persist import persisted
 from . import Size, Extent, Browser
 
 logger = logging.getLogger(__name__)
@@ -22,9 +20,6 @@ class WebBrowser(Browser):
     """A class that displays a file or URL in a web browser.
 
     """
-    def _file_to_url(self, path: Path) -> str:
-        return f'file://{path.absolute()}'
-
     def _open_url(self, url: str):
         if logger.isEnabledFor(logging.INFO):
             logger.info(f'opening browser at: {url}')

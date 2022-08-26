@@ -78,6 +78,9 @@ class Browser(Dictable, metaclass=ABCMeta):
         """Get the screen size for the current display."""
         pass
 
+    def _file_to_url(self, path: Path) -> str:
+        return f'file://{path.absolute()}'
+
     @abstractmethod
     def show_file(self, file_name: Path, extent: Extent):
         """Open and resize a file.
