@@ -3,7 +3,7 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import Sequence, Dict, Set
+from typing import Sequence, Dict
 from dataclasses import dataclass, field
 from enum import Enum, auto
 import logging
