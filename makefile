@@ -17,3 +17,6 @@ appinfo:
 .PHONY:			testpdf
 testpdf:
 			$(ENTRY) show --width 400 --height 600 test-resources/sample.pdf
+
+.PHONY:			testall
+testall:		test testpdf

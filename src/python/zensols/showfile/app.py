@@ -40,9 +40,9 @@ class Application(object):
 
         """
         if self.width is None and self.height is None:
-            self.smng.detect_and_resize(file_name)
+            self.smng.show(file_name)
         elif self.width is None or self.height is None:
             raise ApplicationError(
                 'Both width and height are expected when either is given')
         else:
-            self.smng.resize(file_name, Extent(self.width, self.height, 0, 0))
+            self.smng.show(file_name, Extent(self.width, self.height, 0, 0))

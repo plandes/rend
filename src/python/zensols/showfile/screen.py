@@ -8,7 +8,6 @@ from dataclasses import dataclass, field
 from abc import ABCMeta, abstractmethod
 import logging
 import platform
-import re
 from pathlib import Path
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
@@ -122,20 +121,19 @@ class ScreenManager(object):
         """A dictionary of displays keyed by size."""
         return {Size(d.width, d.height): d for d in self.displays.values()}
 
-    def _switch_back(self):
-        if self.switch_back_app is not None:
-            self._exec(f'tell application "{self.switch_back_app}" to activate')
-
-    def show(self, file_name: Path):
+    def show(self, file_name: Path, extent: Extent = None):
         """Like :meth:`resize` but use the screen extents of the current screen.
 
         :param file_name: the PDF (or image) file to resize
 
         """
-        screen: Size = self.browser.get_screen_size()
-        display: Display = self.displays_by_size.get(screen)
-        logger.debug(f'screen size: {screen} -> {display}')
-        if display is None:
-            raise ApplicationError(f'No display entry for bounds: {screen}')
-        logger.debug(f'detected display {display}')
-        self.browser.resize(file_name, display.target)
+        if not file_name.is_file():
+            raise ApplicationError(f'No file found: {file_name}')
+        if extent is None:
+            screen: Size = self.browser.screen_size
+            display: Display = self.displays_by_size.get(screen)
+            logger.debug(f'detected: {screen} -> {display}')
+            if display is None:
+                raise ApplicationError(f'No display entry for bounds: {screen}')
+            extent = display.target
+        self.browser.show(file_name, extent)

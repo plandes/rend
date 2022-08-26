@@ -36,7 +36,7 @@ class ErrorType(Enum):
 
 
 @dataclass
-class MacOSBrowser(Browser):
+class DarwinBrowser(Browser):
     show_preview_script_path: Path = field()
     """The applescript file path used for managing Preview.app."""
 
@@ -53,7 +53,7 @@ class MacOSBrowser(Browser):
         for warn, error_type in self.applescript_warns.items():
             if err.find(warn) > -1:
                 return ErrorType[error_type]
-        return ErrorType.throw
+        return ErrorType.error
 
     def _exec(self, cmd: str, app: str = None) -> str:
         ret: aps.Result
@@ -78,13 +78,17 @@ class MacOSBrowser(Browser):
         with open(self.show_preview_script_path) as f:
             return f.read()
 
+    def _switch_back(self):
+        if self.switch_back_app is not None:
+            self._exec(f'tell application "{self.switch_back_app}" to activate')
+
     def _get_screen_size(self) -> Size:
         bstr: str = self._exec('bounds of window of desktop', 'Finder')
         bounds: Sequence[int] = tuple(map(int, re.split(r'\s*,\s*', bstr)))
         width, height = bounds[2:]
         return Size(width, height)
 
-    def show(self, file_name: Path, extent: Extent):
+    def show(self, file_name: Path, extent: Extent = None):
         """Open and resize a file.
 
         :param file_name: the PDF (or image) file to resize

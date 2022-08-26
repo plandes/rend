@@ -19,10 +19,10 @@ these configurations by having the application echo them back at you:
 $ showfile config
 ```
 
-Invoke the application to show the file and resize it:
+Invoke the application to show the file and display it:
 
 ```bash
-$ showfile resize example.pdf
+$ showfile show example.pdf
 ```
 
 
