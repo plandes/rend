@@ -5,9 +5,11 @@ __author__ = 'Paul Landes'
 
 from typing import Sequence, Dict
 from dataclasses import dataclass, field
+from abc import ABCMeta, abstractmethod
 import logging
-from pathlib import Path
+import platform
 import re
+from pathlib import Path
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
 from zensols.cli import ApplicationError
@@ -21,8 +23,8 @@ class Size(Dictable):
     display, or one that's configured.
 
     """
-    width: int
-    height: int
+    width: int = field()
+    height: int = field()
 
     def __str__(self):
         return f'{self.width} X {self.height}'
@@ -43,6 +45,7 @@ class Display(Size):
 
     """
     _DICTABLE_WRITE_EXCLUDES = {'name'}
+
     name: str = field()
     """The name of the display as the section name in the configuration."""
 
@@ -54,20 +57,53 @@ class Display(Size):
 
 
 @dataclass
+class Browser(Dictable, metaclass=ABCMeta):
+    @property
+    @persisted('_screen_size')
+    def screen_size(self) -> Size:
+        """Get the screen size for the current display."""
+        return self._get_screen_size()
+
+    @abstractmethod
+    def _get_screen_size(self) -> Size:
+        """Get the screen size for the current display."""
+        pass
+
+    @abstractmethod
+    def show(self, file_name: Path, extent: Extent):
+        """Open and resize a file.
+
+        :param file_name: the PDF (or image) file to resize
+
+        :param extent: the screen position of where to put the app
+
+        """
+        pass
+
+
+@dataclass
 class ScreenManager(object):
     """Resizing Preview.app based on provided screen configuration.
     """
     config_factory: ConfigFactory = field()
     """Set by the framework and used to get other configurations."""
 
-    show_preview_script_path: Path = field()
-    """The applescript file path used for managing Preview.app."""
+    browser: Browser = field(default=None)
+    """The platform implementation of the file browser."""
 
     display_names: Sequence[str] = field(default_factory=list)
     """The configured display names, used to fetch displays in the
     configuration.
 
     """
+    def __post_init__(self):
+        if self.browser is None:
+            os_name = platform.system().lower()
+            sec_name = f'{os_name}_browser'
+            if sec_name not in self.config_factory.config.sections:
+                sec_name = 'default_browser'
+            self.browser: Browser = self.config_factory(sec_name)
+
     @property
     @persisted('_displays')
     def displays(self) -> Dict[str, Size]:
@@ -86,51 +122,20 @@ class ScreenManager(object):
         """A dictionary of displays keyed by size."""
         return {Size(d.width, d.height): d for d in self.displays.values()}
 
-    @property
-    @persisted('_show_preview_script')
-    def show_preview_script(self) -> str:
-        """The applescript content used for managing Preview.app."""
-        with open(self.show_preview_script_path) as f:
-            return f.read()
-
-    @property
-    def screen_size(self) -> Size:
-        """Get the screen size for the current display."""
-        bstr: str = self._exec('bounds of window of desktop', 'Finder')
-        bounds: Sequence[int] = tuple(map(int, re.split(r'\s*,\s*', bstr)))
-        width, height = bounds[2:]
-        return Size(width, height)
-
     def _switch_back(self):
         if self.switch_back_app is not None:
             self._exec(f'tell application "{self.switch_back_app}" to activate')
 
-    def resize(self, file_name: Path, extent: Extent):
-        """Open and resize a file.
-
-        :param file_name: the PDF (or image) file to resize
-
-        :param extent: the screen position of where to put the app
-
-        """
-        logger.info(f'resizing {file_name.name} to {extent}')
-        file_name_str: str = str(file_name.absolute())
-        fn = (f'showPreview("{file_name_str}", {extent.x}, {extent.y}, ' +
-              f'{extent.width}, {extent.height})')
-        cmd = (self.show_preview_script + '\n' + fn)
-        self._exec(cmd)
-        self._switch_back()
-
-    def detect_and_resize(self, file_name: Path):
+    def show(self, file_name: Path):
         """Like :meth:`resize` but use the screen extents of the current screen.
 
         :param file_name: the PDF (or image) file to resize
 
         """
-        screen: Size = self.screen_size
+        screen: Size = self.browser.get_screen_size()
         display: Display = self.displays_by_size.get(screen)
         logger.debug(f'screen size: {screen} -> {display}')
         if display is None:
             raise ApplicationError(f'No display entry for bounds: {screen}')
         logger.debug(f'detected display {display}')
-        self.resize(file_name, display.target)
+        self.browser.resize(file_name, display.target)

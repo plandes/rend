@@ -3,15 +3,18 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import Dict
+from typing import Dict, Sequence
 from dataclasses import dataclass, field
 from enum import Enum, auto
 import logging
 import textwrap
+import re
+from pathlib import Path
 import applescript as aps
 from applescript._result import Result
 from zensols.util import APIError
-from . import ScreenManager
+from zensols.persist import persisted
+from . import Size, Extent, Browser
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +36,10 @@ class ErrorType(Enum):
 
 
 @dataclass
-class MacOSScreenManager(ScreenManager):
+class MacOSBrowser(Browser):
+    show_preview_script_path: Path = field()
+    """The applescript file path used for managing Preview.app."""
+
     applescript_warns: Dict[str, str] = field(default_factory=set())
     """A set of string warning messages to log instead raise as an
     :class:`.ApplicationError`.
@@ -64,3 +70,32 @@ class MacOSScreenManager(ScreenManager):
             elif err_type == ErrorType.error:
                 raise ApplescriptError(msg)
         return ret.out
+
+    @property
+    @persisted('_show_preview_script')
+    def show_preview_script(self) -> str:
+        """The applescript content used for managing Preview.app."""
+        with open(self.show_preview_script_path) as f:
+            return f.read()
+
+    def _get_screen_size(self) -> Size:
+        bstr: str = self._exec('bounds of window of desktop', 'Finder')
+        bounds: Sequence[int] = tuple(map(int, re.split(r'\s*,\s*', bstr)))
+        width, height = bounds[2:]
+        return Size(width, height)
+
+    def show(self, file_name: Path, extent: Extent):
+        """Open and resize a file.
+
+        :param file_name: the PDF (or image) file to resize
+
+        :param extent: the screen position of where to put the app
+
+        """
+        logger.info(f'resizing {file_name.name} to {extent}')
+        file_name_str: str = str(file_name.absolute())
+        fn = (f'showPreview("{file_name_str}", {extent.x}, {extent.y}, ' +
+              f'{extent.width}, {extent.height})')
+        cmd = (self.show_preview_script + '\n' + fn)
+        self._exec(cmd)
+        self._switch_back()
