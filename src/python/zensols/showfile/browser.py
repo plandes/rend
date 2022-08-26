@@ -102,7 +102,10 @@ class Browser(Dictable, metaclass=ABCMeta):
 
 @dataclass
 class BrowserManager(object):
-    """Resizing Preview.app based on provided screen configuration.
+    """Manages configured browsers and invoking them to display files and URLs.
+    It also contains configuration for application extents based configured
+    displays.
+
     """
     config_factory: ConfigFactory = field()
     """Set by the framework and used to get other configurations."""
@@ -155,10 +158,12 @@ class BrowserManager(object):
         return {Size(d.width, d.height): d for d in self.displays.values()}
 
     def show(self, locator: Union[str, Path], extent: Extent = None):
-        """Like :meth:`resize` but use the screen extents of the current screen.
+        """Display ``locator`` content on the screen and optionally resize the
+        window to ``extent``.
 
-        :param locator: the PDF (or image) file or URL to display and optionally
-                        resize
+        :param locator: the PDF (or image) file or URL to display
+
+        :param extent: the position and size of the window after browsing
 
         """
         if extent is None:
