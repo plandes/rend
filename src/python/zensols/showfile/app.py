@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 import logging
 from pathlib import Path
 from zensols.cli import ApplicationError
-from . import ScreenManager, Size
+from . import ScreenManager, Extent
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +32,7 @@ class Application(object):
             print(f'{n}:')
             dsp.write(1)
 
-    def resize(self, file_name: Path):
+    def show(self, file_name: Path):
         """Open and display a file with the application's extents set for the
         display.
 
@@ -41,8 +41,8 @@ class Application(object):
         """
         if self.width is None and self.height is None:
             self.smng.detect_and_resize(file_name)
-        elif self.width is not None or self.height is not None:
+        elif self.width is None or self.height is None:
             raise ApplicationError(
                 'Both width and height are expected when either is given')
         else:
-            self.smng.resize(file_name, Size(self.width, self.height))
+            self.smng.resize(file_name, Extent(self.width, self.height, 0, 0))
