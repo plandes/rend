@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 import logging
 from pathlib import Path
 from zensols.cli import ApplicationError
-from . import Extent, LocatorType, ScreenManager
+from . import Extent, LocatorType, BrowserManager
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ class Application(object):
     """Probe screen, open and set the viewing application extends.
 
     """
-    smng: ScreenManager = field()
+    browser_manager: BrowserManager = field()
     """Detects and controls the screen."""
 
     width: int = field(default=None)
@@ -28,7 +28,8 @@ class Application(object):
 
     def config(self):
         """Print the display configurations."""
-        for n, dsp in sorted(self.smng.displays.items(), key=lambda x: x[0]):
+        dsps = sorted(self.browser_manager.displays.items(), key=lambda x: x[0])
+        for n, dsp in dsps:
             print(f'{n}:')
             dsp.write(1)
 
@@ -42,7 +43,7 @@ class Application(object):
 
         """
         if locator_type is None:
-            locator_type = self.smng.guess_locator_type(locator)
+            locator_type = self.browser_manager.guess_locator_type(locator)
         extent: Extent
         if self.width is None and self.height is None:
             extent = None
@@ -55,4 +56,4 @@ class Application(object):
             locator = Path(locator)
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug(f'showing {locator} ({type(locator)})')
-        self.smng.show(locator, extent)
+        self.browser_manager.show(locator, extent)

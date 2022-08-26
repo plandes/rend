@@ -1,8 +1,7 @@
 import unittest
 from zensols.cli import CliHarness
 from zensols.showfile import (
-    ScreenManager, Display,
-    Application, ApplicationFactory
+    BrowserManager, Display, Application, ApplicationFactory
 )
 
 
@@ -17,9 +16,9 @@ class TestApplication(unittest.TestCase):
     def test_somedata(self):
         app: Application = self.app
         self.assertEqual(Application, type(app))
-        smng: ScreenManager = app.smng
-        self.assertEqual(['laptop'], smng.display_names)
-        show_script = smng.browser.get_show_script('preview')
+        browser_manager: BrowserManager = app.browser_manager
+        self.assertEqual(['laptop'], browser_manager.display_names)
+        show_script = browser_manager.browser.get_show_script('preview')
         self.assertTrue(len(show_script) > 100)
-        display: Display = smng.displays['laptop']
+        display: Display = browser_manager.displays['laptop']
         self.assertEqual('1024 X 760 (laptop)', str(display))

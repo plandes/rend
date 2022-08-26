@@ -101,7 +101,7 @@ class Browser(Dictable, metaclass=ABCMeta):
 
 
 @dataclass
-class ScreenManager(object):
+class BrowserManager(object):
     """Resizing Preview.app based on provided screen configuration.
     """
     config_factory: ConfigFactory = field()

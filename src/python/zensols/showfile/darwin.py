@@ -1,4 +1,4 @@
-"""macOS bindings for file displaying.
+"""macOS bindings for displaying.
 
 """
 __author__ = 'Paul Landes'

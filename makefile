@@ -27,6 +27,7 @@ modeldeps:
 .PHONY:			testpdf
 testpdf:
 			$(ENTRY) show test-resources/sample.pdf
+			$(ENTRY) show http://example.com
 
 .PHONY:			testall
 testall:		test testpdf
