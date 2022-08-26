@@ -34,7 +34,3 @@ on showSafari(theUrl, x, y, width, height)
 	set the bounds of the window 1 to theBounds
     end tell
 end showSafari
-
-showSafari("http://example.com/", 0, 0, 800, 800)
-
-tell application "Emacs" to activate
