@@ -125,6 +125,7 @@ class ScreenManager(object):
 
     @staticmethod
     def guess_locator_type(s: str) -> LocatorType:
+        """Return whether ``s`` looks like a file or a URL."""
         st: LocatorType = None
         try:
             result = urlparse(s)

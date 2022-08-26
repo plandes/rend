@@ -42,7 +42,7 @@ class DarwinBrowser(Browser):
     instance for URL viewing.
 
     """
-    show_script_paths: Dict[str, Path] = field()
+    script_paths: Dict[str, Path] = field()
     """The applescript file paths used for managing show apps (``Preview.app``
     and ``Safari.app``).
 
@@ -80,22 +80,36 @@ class DarwinBrowser(Browser):
 
     def get_show_script(self, name: str) -> str:
         """The applescript content used for managing app ``name``."""
-        with open(self.show_script_paths[name]) as f:
+        with open(self.script_paths[name]) as f:
             return f.read()
 
     def _invoke_open_script(self, name: str, arg: str, extent: Extent):
+        """Invoke applescript.
+
+        :param name: the key of the script in :obj:`script_paths`
+
+        :param arg: the first argument to pass to the applescript (URL or file
+                    name)
+
+        :param exent: the bounds to set on the raised window
+
+        """
         show_script: str = self.get_show_script(name)
         func: str = f'show{name.capitalize()}'
         fn = (f'{func}("{arg}", {extent.x}, {extent.y}, ' +
               f'{extent.width}, {extent.height})')
         cmd = (show_script + '\n' + fn)
         if logger.isEnabledFor(logging.DEBUG):
-            path: Path = self.show_script_paths[name]
+            path: Path = self.script_paths[name]
             logger.debug(f'invoking "{fn}" from {path}')
         self._exec(cmd)
         self._switch_back()
 
     def _switch_back(self):
+        """Optionally active an application after running the show-script, which
+        is usually the previous running application.
+
+        """
         if self.switch_back_app is not None:
             self._exec(f'tell application "{self.switch_back_app}" to activate')
 
@@ -109,6 +123,8 @@ class DarwinBrowser(Browser):
         self._invoke_open_script('preview', str(path.absolute()), extent)
 
     def show_url(self, url: str, extent: Extent = None):
+        # cannonize the URL so the applescript to find it in the list of
+        # browsers
         if url[-1] != '/':
             url = url + '/'
         self._invoke_open_script('safari', url, extent)
