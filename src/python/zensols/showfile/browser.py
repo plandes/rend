@@ -174,8 +174,14 @@ class BrowserManager(object):
             display: Display = self.displays_by_size.get(screen)
             logger.debug(f'detected: {screen} -> {display}')
             if display is None:
-                raise ApplicationError(f'No display entry for bounds: {screen}')
-            extent = display.target
+                logger.warning(
+                    f'no display entry for bounds: {screen}--using default')
+                extent = Extent(
+                    x=0, y=0,
+                    width=screen.width // 2,
+                    height=screen.height)
+            else:
+                extent = display.target
         if isinstance(locator, Path):
             path: Path = locator
             if not path.is_file():
