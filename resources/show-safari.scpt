@@ -5,6 +5,7 @@ on showSafari(theUrl, x, y, width, height)
     set targetWindow to ""
     log("browsing to " & theUrl)
     tell application "Safari"
+	activate
 	repeat with thisWindow in windows
 	    set thisUrl to URL of current tab of thisWindow
 	    set numTabs to count of tabs of thisWindow
@@ -18,6 +19,7 @@ on showSafari(theUrl, x, y, width, height)
 	if (targetWindowFound) then
 	    log("target window found: " & thisUrl & " with " & numTabs & " tab(s) open")
 	    tell targetWindow
+	        set URL of document of targetWindow to theUrl
 	        set visible to true
 		set index to 1
 	    end tell
@@ -29,7 +31,6 @@ on showSafari(theUrl, x, y, width, height)
 	    end repeat
 	    log("target created with: " & URL of current tab of targetWindow)
 	end if
-	activate
 	set theBounds to {x, y, width, height}
 	set the bounds of the window 1 to theBounds
     end tell
