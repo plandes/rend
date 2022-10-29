@@ -10,6 +10,7 @@ import logging
 import textwrap
 import re
 from pathlib import Path
+import urllib.parse as up
 import applescript as aps
 from applescript._result import Result
 from zensols.util import APIError
@@ -127,8 +128,10 @@ class DarwinBrowser(Browser):
             self._invoke_open_script('preview', str(path.absolute()), extent)
 
     def show_url(self, url: str, extent: Extent = None):
-        # cannonize the URL so the applescript to find it in the list of
-        # browsers
-        if url[-1] != '/':
-            url = url + '/'
+        ures: up.ParseResult = up.urlparse(url)
+        if ures.scheme != 'file':
+            # cannonize the URL so the applescript to find it in the list of
+            # browsers
+            if url[-1] != '/':
+                url = url + '/'
         self._invoke_open_script('safari', url, extent)
