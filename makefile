@@ -26,8 +26,12 @@ modeldeps:
 
 .PHONY:			testpdf
 testpdf:
-			$(ENTRY) show test-resources/sample.pdf
-			$(ENTRY) show http://example.com
+			( unset SHOWFILERC ; $(ENTRY) show test-resources/sample.pdf )
+			( unset SHOWFILERC ; $(ENTRY) show http://example.com )
+
+.PHONY:			config
+config:
+			( unset SHOWFILERC ; $(ENTRY) config )
 
 .PHONY:			testall
 testall:		test testpdf
