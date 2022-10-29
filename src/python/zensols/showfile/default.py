@@ -3,7 +3,7 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import List
+from typing import List, Tuple
 from dataclasses import dataclass
 import logging
 from pathlib import Path
@@ -27,7 +27,8 @@ class WebBrowser(Browser):
 
     def _get_screen_size(self) -> Size:
         mons: List[Monitor] = si.get_monitors()
-        mon: Monitor = next(iter(filter(lambda m: m.is_primary, mons)))
+        primes: Tuple[Monitor] = tuple(filter(lambda m: m.is_primary, mons))
+        mon: Monitor = primes[0] if len(primes) > 0 else mons[0]
         return Size(mon.width, mon.height)
 
     def show_file(self, path: Path, extent: Extent = None):
