@@ -9,7 +9,7 @@ from enum import Enum, auto
 from abc import ABCMeta, abstractmethod
 import logging
 import platform
-from urllib.parse import urlparse
+import urllib.parse as up
 from pathlib import Path
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
@@ -134,7 +134,7 @@ class BrowserManager(object):
         """Return whether ``s`` looks like a file or a URL."""
         st: LocatorType = None
         try:
-            result = urlparse(s)
+            result: up.ParseResult = up.urlparse(s)
             if all([result.scheme, result.netloc]):
                 st = LocatorType.url
         except Exception:
