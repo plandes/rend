@@ -1,12 +1,13 @@
-# Invoke macOS applications to view files
+# Invoke native applications to view files
 
 [![PyPI][pypi-badge]][pypi-link]
 [![Python 3.9][python39-badge]][python39-link]
 [![Python 3.10][python310-badge]][python310-link]
 [![Build Status][build-badge]][build-link]
 
-Invoke macOS applications to view files.  Currently only Preview.app is
-supported.
+Invoke native applications to view files.  On macOS, the default web browser
+and Preview.app are used to view HTML and PDF files respectively.  On all other
+operating systems the default web browser is used to view files.
 
 
 ## Usage
