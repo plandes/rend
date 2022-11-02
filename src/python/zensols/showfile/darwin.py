@@ -3,14 +3,13 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import Dict, Sequence
+from typing import Dict, Sequence, Set
 from dataclasses import dataclass, field
 from enum import Enum, auto
 import logging
 import textwrap
 import re
 from pathlib import Path
-import urllib.parse as up
 import applescript as aps
 from applescript._result import Result
 from zensols.util import APIError
@@ -48,7 +47,10 @@ class DarwinBrowser(Browser):
     and ``Safari.app``).
 
     """
-    applescript_warns: Dict[str, str] = field(default_factory=set())
+    web_extensions: Set[str] = field()
+    """Extensions that indicate to use Safari.app rather than Preview.app."""
+
+    applescript_warns: Dict[str, str] = field()
     """A set of string warning messages to log instead raise as an
     :class:`.ApplicationError`.
 
@@ -121,17 +123,11 @@ class DarwinBrowser(Browser):
         return Size(width, height)
 
     def show_file(self, path: Path, extent: Extent = None):
-        if path.suffix == '.html':
+        if path.suffix[1:] in self.web_extensions:
             url: str = self._file_to_url(path)
             self.show_url(url, extent)
         else:
             self._invoke_open_script('preview', str(path.absolute()), extent)
 
     def show_url(self, url: str, extent: Extent = None):
-        ures: up.ParseResult = up.urlparse(url)
-        if ures.scheme != 'file':
-            # cannonize the URL so the applescript to find it in the list of
-            # browsers
-            if url[-1] != '/':
-                url = url + '/'
         self._invoke_open_script('safari', url, extent)
