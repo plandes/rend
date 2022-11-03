@@ -46,24 +46,17 @@ class Application(object):
             extent = Extent(self.width, self.height, 0, 0)
         return extent
 
-    def show(self, locator: str, locator_type: LocatorType = None,
-             delimiter: str = ','):
+    def show(self, locator: str, delimiter: str = ','):
         """Open and display a file with the application's extents set for the
         display.
 
         :param locator: the file or URL to display
-
-        :param locator_type: specify either a URL or file; determined by default
 
         :param delimiter: the string used to split locator strings
 
         """
         extent: Optional[Extent] = self._get_extent()
         pres: Presentation = Presentation.from_str(locator, delimiter, extent)
-        if locator_type is not None:
-            loc: Location
-            for loc in pres.locators:
-                loc.type = locator_type
         try:
             self.browser_manager.show(pres)
         except ShowFileError as e:
