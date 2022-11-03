@@ -165,6 +165,9 @@ class Location(Dictable):
             else:
                 self.source = self.url
                 self.type = LocatorType.url
+                self._file_url_path = None
+        elif locator_type == LocatorType.url and self.is_file_url:
+            self._file_url_path = None
 
 
 @dataclass
