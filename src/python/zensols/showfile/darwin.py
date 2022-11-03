@@ -134,7 +134,6 @@ class DarwinBrowser(Browser):
         self._invoke_open_script('safari', url, extent)
 
     def _show_urls(self, urls: Tuple[str], extent: Extent):
-        print(f'show urls: {urls}')
         url: str
         for url in urls:
             self._show_url(url, extent)
@@ -144,7 +143,6 @@ class DarwinBrowser(Browser):
         urls: Tuple[str] = None
         if len(presentation.locators) > 1:
             locs: Set[LocatorType] = presentation.locator_type_set
-            print(locs)
             if len(locs) != 1 or next(iter(locs)) != LocatorType.file:
                 urls = tuple(map(lambda loc: loc.url, presentation.locators))
         if urls is not None and False:
