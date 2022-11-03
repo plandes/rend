@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import unittest
 from zensols.showfile import (
     FileNotFoundError, ShowFileError, LocatorType, Location
@@ -38,3 +39,17 @@ class TestLocation(unittest.TestCase):
 
         loc = Location('file:///somedir/file.txt')
         self.assertEqual(LocatorType.url, loc.type)
+
+    def test_coerce(self):
+        loc = Location('test-resources/sample.pdf')
+        loc.coerce_type(LocatorType.url)
+        self.assertEqual(LocatorType.url, loc.type)
+        url = f'file://{os.getcwd()}/test-resources/sample.pdf'
+        self.assertEqual(url, loc.source)
+        self.assertEqual(url, loc.url)
+
+        loc = Location('file:///somedir/file.txt')
+        loc.coerce_type(LocatorType.file)
+        self.assertEqual(LocatorType.file, loc.type)
+        self.assertEqual(Path('/somedir/file.txt'), loc.source)
+        self.assertEqual(Path('/somedir/file.txt'), loc.path)

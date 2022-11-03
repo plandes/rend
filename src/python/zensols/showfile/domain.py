@@ -155,6 +155,17 @@ class Location(Dictable):
                 raise ShowFileError(f'Not a path or URL path: {self.source}')
             return self._file_url_path
 
+    def coerce_type(self, locator_type: LocatorType):
+        if locator_type != self.type:
+            if locator_type == LocatorType.file:
+                type, path = LocatorType.from_str(self.source)
+                if path is not None:
+                    self.type = LocatorType.file
+                    self.source = Path(path)
+            else:
+                self.source = self.url
+                self.type = LocatorType.url
+
 
 @dataclass
 class Presentation(Dictable):
