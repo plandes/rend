@@ -9,7 +9,7 @@ if (__name__ == '__main__'):
         1: 'http://example.com',
         2: 'test-resources/sample.pdf,http://example.com',
         3: f'file://{os.getcwd()}/test-resources/sample.pdf',
-    }[3]
+    }[2]
     harness = ConfigurationImporterCliHarness(
         src_dir_name='src/python',
         app_factory_class='zensols.showfile.ApplicationFactory',

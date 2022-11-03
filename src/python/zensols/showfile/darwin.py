@@ -87,7 +87,8 @@ class DarwinBrowser(Browser):
         with open(self.script_paths[name]) as f:
             return f.read()
 
-    def _invoke_open_script(self, name: str, arg: str, extent: Extent):
+    def _invoke_open_script(self, name: str, arg: str, extent: Extent,
+                            func: str = None, add_quotes: bool = True):
         """Invoke applescript.
 
         :param name: the key of the script in :obj:`script_paths`
@@ -99,13 +100,17 @@ class DarwinBrowser(Browser):
 
         """
         show_script: str = self.get_show_script(name)
-        func: str = f'show{name.capitalize()}'
-        fn = (f'{func}("{arg}", {extent.x}, {extent.y}, ' +
+        qstr: str = '"' if add_quotes else ''
+        func = f'show{name.capitalize()}' if func is None else func
+        fn = (f'{func}({qstr}{arg}{qstr}, {extent.x}, {extent.y}, ' +
               f'{extent.width}, {extent.height})')
         cmd = (show_script + '\n' + fn)
         if logger.isEnabledFor(logging.DEBUG):
             path: Path = self.script_paths[name]
             logger.debug(f'invoking "{fn}" from {path}')
+        if 0:
+            print(cmd)
+            return
         self._exec(cmd)
         self._switch_back()
 
@@ -123,6 +128,11 @@ class DarwinBrowser(Browser):
         width, height = bounds[2:]
         return Size(width, height)
 
+    def _safari_compliant_url(self, url: str) -> str:
+        if not url.endswith('/'):
+            url = url + '/'
+        return url
+
     def _show_file(self, path: Path, extent: Extent):
         if path.suffix[1:] in self.web_extensions:
             url: str = self._file_to_url(path)
@@ -131,12 +141,22 @@ class DarwinBrowser(Browser):
             self._invoke_open_script('preview', str(path.absolute()), extent)
 
     def _show_url(self, url: str, extent: Extent):
+        url = self._safari_compliant_url(url)
         self._invoke_open_script('safari', url, extent)
 
     def _show_urls(self, urls: Tuple[str], extent: Extent):
-        url: str
-        for url in urls:
-            self._show_url(url, extent)
+        def map_url(url: str) -> str:
+            url = self._safari_compliant_url(url)
+            return f'"{url}"'
+
+        url_str: str = ','.join(map(map_url, urls))
+        url_str = "{" + url_str + "}"
+        self._invoke_open_script(
+            name='safari-multi',
+            arg=url_str,
+            func='showSafariMulti',
+            extent=extent,
+            add_quotes=False)
 
     def show(self, presentation: Presentation):
         extent: Extent = presentation.extent
@@ -145,7 +165,7 @@ class DarwinBrowser(Browser):
             locs: Set[LocatorType] = presentation.locator_type_set
             if len(locs) != 1 or next(iter(locs)) != LocatorType.file:
                 urls = tuple(map(lambda loc: loc.url, presentation.locators))
-        if urls is not None and False:
+        if urls is not None:
             self._show_urls(urls, extent)
         else:
             loc: Location
