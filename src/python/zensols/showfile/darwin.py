@@ -134,11 +134,7 @@ class DarwinBrowser(Browser):
         return url
 
     def _show_file(self, path: Path, extent: Extent):
-        if path.suffix[1:] in self.web_extensions:
-            url: str = self._file_to_url(path)
-            self.show_url(url, extent)
-        else:
-            self._invoke_open_script('preview', str(path.absolute()), extent)
+        self._invoke_open_script('preview', str(path.absolute()), extent)
 
     def _show_url(self, url: str, extent: Extent):
         url = self._safari_compliant_url(url)
@@ -159,12 +155,20 @@ class DarwinBrowser(Browser):
             add_quotes=False)
 
     def show(self, presentation: Presentation):
+        def map_loc(loc: Location) -> Location:
+            if loc.is_file_url:
+                path: Path = loc.path
+                if path.suffix[1:] in self.web_extensions:
+                    loc.coerce_type(LocatorType.url)
+            return loc
+
         extent: Extent = presentation.extent
         urls: Tuple[str] = None
-        if len(presentation.locators) > 1:
-            locs: Set[LocatorType] = presentation.locator_type_set
-            if len(locs) != 1 or next(iter(locs)) != LocatorType.file:
-                urls = tuple(map(lambda loc: loc.url, presentation.locators))
+        locs: Tuple[Location] = tuple(map(map_loc, presentation.locators))
+        if len(locs) > 1:
+            loc_set: Set[LocatorType] = set(map(lambda lc: lc.type, locs))
+            if len(loc_set) != 1 or next(iter(loc_set)) != LocatorType.file:
+                urls = tuple(map(lambda loc: loc.url, locs))
         if urls is not None:
             self._show_urls(urls, extent)
         else:

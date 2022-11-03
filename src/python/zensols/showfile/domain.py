@@ -11,7 +11,7 @@ import urllib.parse as up
 from pathlib import Path
 from zensols.util import APIError
 from zensols.config import Dictable
-from zensols.persist import persisted
+from zensols.persist import persisted, PersistedWork
 
 
 class ShowFileError(APIError):
@@ -114,6 +114,8 @@ class Location(Dictable):
     """The type of resource (PDF or URL) to display."""
 
     def __post_init__(self):
+        self._url = PersistedWork('_url', self)
+        self._path = PersistedWork('_path', self)
         self._file_url_path = None
         if self.type is None:
             if isinstance(self.source, Path):
@@ -168,6 +170,8 @@ class Location(Dictable):
                 self._file_url_path = None
         elif locator_type == LocatorType.url and self.is_file_url:
             self._file_url_path = None
+        self._url.clear()
+        self._url.clear()
 
 
 @dataclass
