@@ -1,3 +1,4 @@
+from __future__ import annotations
 """Domain classes and the a screen manager class.
 
 """
@@ -5,64 +6,17 @@ __author__ = 'Paul Landes'
 
 from typing import Sequence, Dict, Union
 from dataclasses import dataclass, field
-from enum import Enum, auto
 from abc import ABCMeta, abstractmethod
 import logging
 import platform
-import urllib.parse as up
 from pathlib import Path
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
-from zensols.cli import ApplicationError
+from . import (
+    ShowFileError, Size, Extent, Display, LocatorType, Location, Presentation
+)
 
 logger = logging.getLogger(__name__)
-
-
-class LocatorType(Enum):
-    """Identifies a URL or a file name.
-
-    """
-    file = auto()
-    url = auto()
-
-
-@dataclass(eq=True, unsafe_hash=True)
-class Size(Dictable):
-    """A screen size configuration.  This is created either for the current
-    display, or one that's configured.
-
-    """
-    width: int = field()
-    height: int = field()
-
-    def __str__(self):
-        return f'{self.width} X {self.height}'
-
-
-@dataclass(eq=True, unsafe_hash=True)
-class Extent(Size):
-    """The size (parent class) and the position of the screen.
-
-    """
-    x: int = field(default=0)
-    y: int = field(default=0)
-
-
-@dataclass(eq=True, unsafe_hash=True)
-class Display(Size):
-    """The screen display.
-
-    """
-    _DICTABLE_WRITE_EXCLUDES = {'name'}
-
-    name: str = field()
-    """The name of the display as the section name in the configuration."""
-
-    target: Extent = field()
-    """The extends of the display or what to use for the Preview app."""
-
-    def __str__(self):
-        return super().__str__() + f' ({self.name})'
 
 
 @dataclass
@@ -78,26 +32,11 @@ class Browser(Dictable, metaclass=ABCMeta):
         """Get the screen size for the current display."""
         pass
 
-    def _file_to_url(self, path: Path) -> str:
-        return f'file://{path.absolute()}'
-
     @abstractmethod
-    def show_file(self, file_name: Path, extent: Extent):
-        """Open and resize a file.
+    def show(self, presentation: Presentation):
+        """Display the content.
 
-        :param file_name: the PDF (or image) file to resize
-
-        :param extent: the screen position of where to put the app
-
-        """
-        pass
-
-    def show_url(self, url: str, extent: Extent):
-        """Open and resize a URL.
-
-        :param url: the URL to open
-
-        :param extent: the screen position of where to put the app
+        :param presentation: the file/PDF (or image) to display
 
         """
         pass
@@ -129,19 +68,6 @@ class BrowserManager(object):
                 sec_name = 'default_browser'
             self.browser: Browser = self.config_factory(sec_name)
 
-    @staticmethod
-    def guess_locator_type(s: str) -> LocatorType:
-        """Return whether ``s`` looks like a file or a URL."""
-        st: LocatorType = None
-        try:
-            result: up.ParseResult = up.urlparse(s)
-            if all([result.scheme, result.netloc]):
-                st = LocatorType.url
-        except Exception:
-            pass
-        st = LocatorType.file if st is None else st
-        return st
-
     @property
     @persisted('_displays')
     def displays(self) -> Dict[str, Size]:
@@ -154,13 +80,43 @@ class BrowserManager(object):
         fac = self.config_factory
         return {d.name: d for d in map(map_display, self.display_names)}
 
+    def _get_extent(self) -> Extent:
+        screen: Size = self.browser.screen_size
+        display: Display = self.displays_by_size.get(screen)
+        logger.debug(f'detected: {screen} -> {display}')
+        if display is None:
+            logger.warning(
+                f'no display entry for bounds: {screen}--using default')
+            extent = Extent(
+                x=0, y=0,
+                width=screen.width // 2,
+                height=screen.height)
+        else:
+            extent = display.target
+        return extent
+
     @property
     @persisted('_displays_by_size')
     def displays_by_size(self) -> Dict[Size, Display]:
         """A dictionary of displays keyed by size."""
         return {Size(d.width, d.height): d for d in self.displays.values()}
 
-    def show(self, locator: Union[str, Path], extent: Extent = None):
+    def locator_to_presentation(self, locator: Union[str, Path, Presentation],
+                                extent: Extent = None) -> Presentation:
+        pres: Presentation
+        if isinstance(locator, (str, Path)):
+            loc_type: LocatorType = LocatorType.from_type(locator)
+            loc: Location = Location(source=locator, type=loc_type)
+            pres = Presentation(locators=(loc,))
+        elif isinstance(locator, Presentation):
+            pres = locator
+        else:
+            raise ShowFileError(f'Unsupported locator type: {type(locator)}')
+        pres.extent = self._get_extent() if extent is None else extent
+        return pres
+
+    def show(self, locator: Union[str, Path, Presentation],
+             extent: Extent = None):
         """Display ``locator`` content on the screen and optionally resize the
         window to ``extent``.
 
@@ -169,23 +125,5 @@ class BrowserManager(object):
         :param extent: the position and size of the window after browsing
 
         """
-        if extent is None:
-            screen: Size = self.browser.screen_size
-            display: Display = self.displays_by_size.get(screen)
-            logger.debug(f'detected: {screen} -> {display}')
-            if display is None:
-                logger.warning(
-                    f'no display entry for bounds: {screen}--using default')
-                extent = Extent(
-                    x=0, y=0,
-                    width=screen.width // 2,
-                    height=screen.height)
-            else:
-                extent = display.target
-        if isinstance(locator, Path):
-            path: Path = locator
-            if not path.is_file():
-                raise ApplicationError(f'No file found: {path}')
-            self.browser.show_file(locator, extent)
-        else:
-            self.browser.show_url(locator, extent)
+        pres: Presentation = self.locator_to_presentation(locator, extent)
+        self.browser.show(pres)

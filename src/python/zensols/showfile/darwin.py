@@ -3,7 +3,7 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import Dict, Sequence, Set
+from typing import Dict, Sequence, Set, Tuple
 from dataclasses import dataclass, field
 from enum import Enum, auto
 import logging
@@ -12,14 +12,15 @@ import re
 from pathlib import Path
 import applescript as aps
 from applescript._result import Result
-from zensols.util import APIError
 from zensols.config import ConfigFactory
-from . import Size, Extent, Browser
+from . import (
+    ShowFileError, LocatorType, Size, Extent, Location, Presentation, Browser
+)
 
 logger = logging.getLogger(__name__)
 
 
-class ApplescriptError(APIError):
+class ApplescriptError(ShowFileError):
     """Raised for macOS errors.
 
     """
@@ -122,12 +123,39 @@ class DarwinBrowser(Browser):
         width, height = bounds[2:]
         return Size(width, height)
 
-    def show_file(self, path: Path, extent: Extent = None):
+    def _show_file(self, path: Path, extent: Extent):
         if path.suffix[1:] in self.web_extensions:
             url: str = self._file_to_url(path)
             self.show_url(url, extent)
         else:
             self._invoke_open_script('preview', str(path.absolute()), extent)
 
-    def show_url(self, url: str, extent: Extent = None):
+    def _show_url(self, url: str, extent: Extent):
         self._invoke_open_script('safari', url, extent)
+
+    def _show_urls(self, urls: Tuple[str], extent: Extent):
+        print(f'show urls: {urls}')
+        url: str
+        for url in urls:
+            self._show_url(url, extent)
+
+    def show(self, presentation: Presentation):
+        extent: Extent = presentation.extent
+        urls: Tuple[str] = None
+        if len(presentation.locators) > 1:
+            locs: Set[LocatorType] = presentation.locator_type_set
+            print(locs)
+            if len(locs) != 1 or next(iter(locs)) != LocatorType.file:
+                urls = tuple(map(lambda loc: loc.url, presentation.locators))
+        if urls is not None and False:
+            self._show_urls(urls, extent)
+        else:
+            loc: Location
+            for loc in presentation.locators:
+                if loc.type == LocatorType.file:
+                    self._show_file(loc.path, extent)
+                else:
+                    if loc.is_file_url:
+                        self._show_file(loc.path, extent)
+                    else:
+                        self._show_url(loc.url, extent)

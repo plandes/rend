@@ -3,11 +3,13 @@
 """
 __author__ = 'Paul Landes'
 
+from typing import Optional
 from dataclasses import dataclass, field
 import logging
-from pathlib import Path
 from zensols.cli import ApplicationError
-from . import Extent, LocatorType, BrowserManager
+from . import (
+    ShowFileError, LocatorType, Extent, Location, Presentation, BrowserManager
+)
 
 logger = logging.getLogger(__name__)
 
@@ -33,17 +35,7 @@ class Application(object):
             print(f'{n}:')
             dsp.write(1)
 
-    def show(self, locator: str, locator_type: LocatorType = None):
-        """Open and display a file with the application's extents set for the
-        display.
-
-        :param locator: the file or URL to display
-
-        :param locator_type: specify either a URL or file; determined by default
-
-        """
-        if locator_type is None:
-            locator_type = self.browser_manager.guess_locator_type(locator)
+    def _get_extent(self) -> Optional[Extent]:
         extent: Extent
         if self.width is None and self.height is None:
             extent = None
@@ -52,8 +44,28 @@ class Application(object):
                 'Both width and height are expected when either is given')
         else:
             extent = Extent(self.width, self.height, 0, 0)
-        if locator_type == LocatorType.file:
-            locator = Path(locator)
-        if logger.isEnabledFor(logging.DEBUG):
-            logger.debug(f'showing {locator} ({type(locator)})')
-        self.browser_manager.show(locator, extent)
+        return extent
+
+    def show(self, locator: str, locator_type: LocatorType = None,
+             delimiter: str = ','):
+        """Open and display a file with the application's extents set for the
+        display.
+
+        :param locator: the file or URL to display
+
+        :param locator_type: specify either a URL or file; determined by default
+
+        :param delimiter: the string used to split locator strings
+
+        """
+        extent: Optional[Extent] = self._get_extent()
+        pres: Presentation = Presentation.from_str(locator, delimiter, extent)
+        if locator_type is not None:
+            loc: Location
+            for loc in pres.locators:
+                loc.type = locator_type
+        try:
+            self.browser_manager.show(pres)
+        except ShowFileError as e:
+            raise e
+            raise ApplicationError(str(e)) from e
