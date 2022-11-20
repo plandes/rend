@@ -103,6 +103,14 @@ class BrowserManager(object):
 
     def locator_to_presentation(self, locator: Union[str, Path, Presentation],
                                 extent: Extent = None) -> Presentation:
+        """Create a presentation instance from a string, path, or other
+        presentation.
+
+        :param locator: the PDF (or image) file or URL to display
+
+        :param extent: the position and size of the window after browsing
+
+        """
         pres: Presentation
         if isinstance(locator, (str, Path)):
             loc_type: LocatorType = LocatorType.from_type(locator)
