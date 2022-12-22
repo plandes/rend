@@ -28,6 +28,8 @@ end getPageNumber
 -- display a PDF file with Preview.app and set the window extents of it.
 on showPreview(filename, x, y, width, height, updatePage)
     set currentPageNumber to null
+    set maybeChangedPageNumber to null
+    set maybe to null
     if updatePage then
 	set currentPageNumber to getPageNumber()
     end if
@@ -39,7 +41,9 @@ on showPreview(filename, x, y, width, height, updatePage)
         set theBounds to {x, y, width, height}
         set the bounds of the window 1 to theBounds
     end tell
-    set maybeChangedPageNumber to getPageNumber()
+    if updatePage then
+	set maybeChangedPageNumber to getPageNumber()
+    end if
     log "page changed from " & currentPageNumber & " to " & maybeChangedPageNumber
     -- only chage page if it changes to avoid latency of changing it via GUI
     if currentPageNumber = maybeChangedPageNumber then

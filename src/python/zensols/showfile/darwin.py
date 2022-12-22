@@ -62,7 +62,6 @@ class DarwinBrowser(Browser):
 
     """
     switch_back_app: str = field(default=None)
-
     """The application to activate (focus) after the resize is complete."""
 
     def _get_error_type(self, res: Result) -> ErrorType:
