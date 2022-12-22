@@ -56,7 +56,13 @@ class DarwinBrowser(Browser):
     :class:`.ApplicationError`.
 
     """
+    update_page: bool = field(default=False)
+    """Record page before refresh, then go to the page after rendered.  This is
+    helpful when the PDF has changed and preview goes back to the first page.
+
+    """
     switch_back_app: str = field(default=None)
+
     """The application to activate (focus) after the resize is complete."""
 
     def _get_error_type(self, res: Result) -> ErrorType:
@@ -101,9 +107,10 @@ class DarwinBrowser(Browser):
         """
         show_script: str = self.get_show_script(name)
         qstr: str = '"' if add_quotes else ''
+        update_page: str = str(self.update_page).lower()
         func = f'show{name.capitalize()}' if func is None else func
         fn = (f'{func}({qstr}{arg}{qstr}, {extent.x}, {extent.y}, ' +
-              f'{extent.width}, {extent.height})')
+              f'{extent.width}, {extent.height}, {update_page})')
         cmd = (show_script + '\n' + fn)
         if logger.isEnabledFor(logging.DEBUG):
             path: Path = self.script_paths[name]
