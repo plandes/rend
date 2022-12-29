@@ -22,16 +22,15 @@ on getPageNumber()
     end if
     log "window title: " & theName
     log "current page number: " & currentPageNumber
-    return currentPageNumber
+    return currentPageNumber as integer
 end getPageNumber
 
 -- display a PDF file with Preview.app and set the window extents of it.
-on showPreview(filename, x, y, width, height, updatePage)
+on showPreview(filename, x, y, width, height, updatePage, pageToSet)
     set currentPageNumber to null
-    set maybeChangedPageNumber to null
-    set maybe to null
     if updatePage then
 	set currentPageNumber to getPageNumber()
+	log "current page: " & currentPageNumber
     end if
     set command to "open " & filename
     do shell script command
@@ -41,15 +40,16 @@ on showPreview(filename, x, y, width, height, updatePage)
         set theBounds to {x, y, width, height}
         set the bounds of the window 1 to theBounds
     end tell
-    if updatePage then
-	set maybeChangedPageNumber to getPageNumber()
+    if updatePage and pageToSet is null then
+ 	set pageToSet to getPageNumber()
     end if
-    log "page changed from " & currentPageNumber & " to " & maybeChangedPageNumber
     -- only chage page if it changes to avoid latency of changing it via GUI
-    if currentPageNumber = maybeChangedPageNumber then
+    if currentPageNumber = pageToSet then
 	set currentPageNumber to null
+	log "no page change"
     else
-	set currentPageNumber to maybeChangedPageNumber
+	set currentPageNumber to pageToSet
+	log "page changed from <" & currentPageNumber & "> to <" & pageToSet & ">"
     end if
     tell application "System Events"
         tell process "Preview"
@@ -58,7 +58,7 @@ on showPreview(filename, x, y, width, height, updatePage)
 	    if currentPageNumber is not null then
 		keystroke "g" using {option down, command down} -- Go menu : Go to Page…
 		log "going to page: " & currentPageNumber
-		keystroke currentPageNumber
+		keystroke (currentPageNumber as string)
 		delay 0.1
 		keystroke return
 	    end if

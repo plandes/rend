@@ -3,7 +3,7 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import Dict, Sequence, Set, Tuple
+from typing import Dict, Sequence, Set, Tuple, Union
 from dataclasses import dataclass, field
 from enum import Enum, auto
 import logging
@@ -56,9 +56,12 @@ class DarwinBrowser(Browser):
     :class:`.ApplicationError`.
 
     """
-    update_page: bool = field(default=False)
-    """Record page before refresh, then go to the page after rendered.  This is
-    helpful when the PDF has changed and preview goes back to the first page.
+    update_page: Union[bool, int] = field(default=False)
+    """How to update the page in Preview.app after the window displays.  If
+    ``True``, then record page before refresh, then go to the page after
+    rendered.  This is helpful when the PDF has changed and preview goes back to
+    the first page.  If this is a number, then go to that page number in
+    Preview.app.
 
     """
     switch_back_app: str = field(default=None)
@@ -85,6 +88,8 @@ class DarwinBrowser(Browser):
                 logger.warning(msg)
             elif err_type == ErrorType.error:
                 raise ApplescriptError(msg)
+        elif logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f'script output: <{ret.err}>')
         return ret.out
 
     def get_show_script(self, name: str) -> str:
@@ -106,17 +111,21 @@ class DarwinBrowser(Browser):
         """
         show_script: str = self.get_show_script(name)
         qstr: str = '"' if add_quotes else ''
-        update_page: str = str(self.update_page).lower()
+        update_page: str
+        page_num: str = 'null'
+        if isinstance(self.update_page, bool):
+            update_page = str(self.update_page).lower()
+            page_num = 'null'
+        else:
+            update_page = 'true'
+            page_num = str(self.update_page)
         func = f'show{name.capitalize()}' if func is None else func
         fn = (f'{func}({qstr}{arg}{qstr}, {extent.x}, {extent.y}, ' +
-              f'{extent.width}, {extent.height}, {update_page})')
+              f'{extent.width}, {extent.height}, {update_page}, {page_num})')
         cmd = (show_script + '\n' + fn)
         if logger.isEnabledFor(logging.DEBUG):
             path: Path = self.script_paths[name]
             logger.debug(f'invoking "{fn}" from {path}')
-        if 0:
-            print(cmd)
-            return
         self._exec(cmd)
         self._switch_back()
 
