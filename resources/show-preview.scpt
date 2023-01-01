@@ -22,7 +22,10 @@ on getPageNumber()
     end if
     log "window title: " & theName
     log "current page number: " & currentPageNumber
-    return currentPageNumber as integer
+    if currentPageNumber is not null then
+	set currentPageNumber to currentPageNumber as integer
+    end if
+    return currentPageNumber
 end getPageNumber
 
 -- display a PDF file with Preview.app and set the window extents of it.
