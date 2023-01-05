@@ -20,14 +20,27 @@ these configurations by having the application echo them back at you:
 $ showfile config
 ```
 
+
+### Command Line
+
 Invoke the application to show the file and display it:
 
 ```bash
 $ showfile show example.pdf
 ```
 
-
 See the [configuration file] example.
+
+
+### From Python
+
+The package is designed to be easy invoke from Python as well:
+```python
+from zensols.showfile import ApplicationFactory
+app = ApplicationFactory().get_instance()
+app('test-resources/showfile.conf')
+```
+
 
 
 ## Obtaining
