@@ -21,6 +21,9 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class Browser(Dictable, metaclass=ABCMeta):
+    """An abstract base class for browsers the can visually display files.
+
+    """
     @property
     @persisted('_screen_size')
     def screen_size(self) -> Size:
@@ -124,7 +127,7 @@ class BrowserManager(object):
         return pres
 
     def show(self, locator: Union[str, Path, Presentation],
-             extent: Extent = None):
+             extent: Extent = None) -> Presentation:
         """Display ``locator`` content on the screen and optionally resize the
         window to ``extent``.
 
@@ -135,3 +138,8 @@ class BrowserManager(object):
         """
         pres: Presentation = self.locator_to_presentation(locator, extent)
         self.browser.show(pres)
+        return pres
+
+    def __call__(self, *args, **kwargs):
+        """See :meth:`show`."""
+        return self.show(*args, **kwargs)

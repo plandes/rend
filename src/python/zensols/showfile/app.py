@@ -69,3 +69,7 @@ class Application(object):
         except ShowFileError as e:
             raise e
             raise ApplicationError(str(e)) from e
+
+    def __call__(self, *args, **kwargs):
+        """See :meth:`show`."""
+        return self.show(*args, **kwargs)

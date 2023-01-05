@@ -15,6 +15,7 @@ class ApplicationFactory(CliApplicationFactory):
         super().__init__(*args, **kwargs)
 
     def get_instance(self, args: Union[List[str], str] = None) -> Any:
+        """Get the application instance."""
         if args is None:
             args = 'config'
         return super().get_instance(args)
