@@ -65,9 +65,10 @@ class Application(object):
             for loc in pres.locators:
                 loc.coerce_type(locator_type)
         try:
+            for loc in pres.locators:
+                loc.validate()
             self.browser_manager.show(pres)
         except ShowFileError as e:
-            raise e
             raise ApplicationError(str(e)) from e
 
     def __call__(self, *args, **kwargs):
