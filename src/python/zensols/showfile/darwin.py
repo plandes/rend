@@ -67,6 +67,9 @@ class DarwinBrowser(Browser):
     switch_back_app: str = field(default=None)
     """The application to activate (focus) after the resize is complete."""
 
+    mangle_url: bool = field(default=True)
+    """Whether or not to add ending ``/`` neede by Safari."""
+
     def _get_error_type(self, res: Result) -> ErrorType:
         err: str = res.err
         for warn, error_type in self.applescript_warns.items():
@@ -144,7 +147,7 @@ class DarwinBrowser(Browser):
         return Size(width, height)
 
     def _safari_compliant_url(self, url: str) -> str:
-        if not url.endswith('/'):
+        if self.mangle_url and not url.endswith('/'):
             url = url + '/'
         return url
 
