@@ -1,9 +1,8 @@
-from __future__ import annotations
 """Contains application domain classes.
 
 """
+from __future__ import annotations
 __author__ = 'Paul Landes'
-
 from typing import Union, Tuple, Any, Set
 from dataclasses import dataclass, field
 from enum import Enum, auto

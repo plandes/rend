@@ -1,9 +1,8 @@
-from __future__ import annotations
 """Domain classes and the a screen manager class.
 
 """
+from __future__ import annotations
 __author__ = 'Paul Landes'
-
 from typing import Sequence, Dict, Union
 from dataclasses import dataclass, field
 from abc import ABCMeta, abstractmethod
