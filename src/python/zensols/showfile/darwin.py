@@ -67,8 +67,8 @@ class DarwinBrowser(Browser):
     switch_back_app: str = field(default=None)
     """The application to activate (focus) after the resize is complete."""
 
-    mangle_url: bool = field(default=True)
-    """Whether or not to add ending ``/`` neede by Safari."""
+    mangle_url: bool = field(default=False)
+    """Whether to add ending ``/`` neede by Safari on macOS."""
 
     def _get_error_type(self, res: Result) -> ErrorType:
         err: str = res.err
