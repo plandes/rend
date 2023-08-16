@@ -1,2 +1,2 @@
-zensols.util~=1.12.0
 screeninfo~=0.8
+zensols.util~=1.13.0
