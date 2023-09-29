@@ -129,6 +129,11 @@ class Location(Dictable):
             self.source = Path(self.source)
 
     def validate(self):
+        """Validate the location exists.
+
+        :raises FileNotFoundError: if the location points to a non-existant file
+
+        """
         if self.type == LocatorType.file or self.is_file_url:
             path: Path = self.path
             if not path.is_file():
@@ -136,11 +141,13 @@ class Location(Dictable):
 
     @property
     def is_file_url(self) -> bool:
+        """Whether the locator is a URL that points to a file."""
         return self._file_url_path is not None
 
     @property
     @persisted('_url')
     def url(self) -> str:
+        """The URL of the locator."""
         url: str = self.source
         if isinstance(self.source, Path):
             url = f'file://{self.source.absolute()}'
@@ -149,6 +156,12 @@ class Location(Dictable):
     @property
     @persisted('_path')
     def path(self) -> Path:
+        """The path of the locator.
+
+        :raises ShowFileError: if the locator does not point to a path or not a
+                               URL path
+
+        """
         if isinstance(self.source, Path):
             return self.source
         else:
@@ -157,6 +170,9 @@ class Location(Dictable):
             return self._file_url_path
 
     def coerce_type(self, locator_type: LocatorType):
+        """Change to the locator from a file to a URL or vica versa if possible.
+
+        """
         if locator_type != self.type:
             if locator_type == LocatorType.file:
                 type, path = LocatorType.from_str(self.source)
@@ -188,6 +204,7 @@ class Presentation(Dictable):
     @staticmethod
     def from_str(locator_defs: str, delimiter: str = ',',
                  extent: Extent = None) -> Presentation:
+        """Create a presentation from a comma-delimited list of locators."""
         locs: Tuple[Location] = tuple(
             map(Location, locator_defs.split(delimiter)))
         return Presentation(locs, extent)
@@ -195,4 +212,5 @@ class Presentation(Dictable):
     @property
     @persisted('_loctypes')
     def locator_type_set(self) -> Set[LocatorType]:
+        """A set of :obj:`locators`."""
         return frozenset(map(lambda loc: loc.type, self.locators))
