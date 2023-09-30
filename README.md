@@ -5,10 +5,17 @@
 [![Python 3.10][python310-badge]][python310-link]
 [![Build Status][build-badge]][build-link]
 
-Invoke native applications to view and render data from files.  On macOS, the
-default web browser and Preview.app are used to view HTML and PDF files
-respectively.  On all other operating systems the default web browser is used
-to view files.
+Invoke native applications to view and render data from files.
+
+Features:
+- Uses [Dash] to render Excel, CSV and TSV files.
+- Render PDF and HTML in the default web browser.
+
+Features on macOS:
+- Default web browser used for HTML, Preview.app used for PDF files.
+- Resize the window and a per display basis.
+
+The features on macOS are [need for other operating systems](#contributing).
 
 
 ## Usage
@@ -62,6 +69,14 @@ The [API reference](https://plandes.github.io/rend/api.html) is also
 available.
 
 
+## Contributing
+
+Currently the more advanced features are only available on macOS.  However, the
+API is written to easily add other operating systems as plugins.  If you would
+like to write one for other operating systems, please contact and/or submit a
+pull request.
+
+
 ## Changelog
 
 An extensive changelog is available [here](CHANGELOG.md).
@@ -86,3 +101,4 @@ Copyright (c) 2022 Paul Landes
 [build-link]: https://github.com/plandes/rend/actions
 
 [configuration file]: test-resources/rend.conf
+[Dash]: https://plotly.com/dash/
