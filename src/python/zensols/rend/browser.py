@@ -108,13 +108,16 @@ class BrowserManager(object):
         return {Size(d.width, d.height): d for d in self.displays.values()}
 
     def locator_to_presentation(self, locator: Union[str, Path, Presentation],
-                                extent: Extent = None) -> Presentation:
+                                extent: Extent = None, transmute: bool = True) \
+            -> Presentation:
         """Create a presentation instance from a string, path, or other
         presentation.
 
         :param locator: the PDF (or image) file or URL to display
 
         :param extent: the position and size of the window after browsing
+
+        :param transmute: whether to apply :class:`.LocationTransmuter`s
 
         """
         pres: Presentation
@@ -127,12 +130,11 @@ class BrowserManager(object):
         else:
             raise RenderFileError(f'Unsupported locator type: {type(locator)}')
         pres.extent = self._get_extent() if extent is None else extent
+        if transmute:
+            lt: LocationTransmuter
+            for lt in self.transmuters:
+                pres.apply_transmuter(lt)
         return pres
-
-    def _apply_transmuters(self, pres: Presentation):
-        lt: LocationTransmuter
-        for lt in self.transmuters:
-            pres.apply_transmuter(lt)
 
     def show(self, locator: Union[str, Path, Presentation],
              extent: Extent = None):
@@ -146,7 +148,6 @@ class BrowserManager(object):
         """
         pres: Presentation = self.locator_to_presentation(locator, extent)
         try:
-            self._apply_transmuters(pres)
             pres.validate()
             self.browser.show(pres)
         finally:
