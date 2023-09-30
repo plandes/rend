@@ -452,6 +452,11 @@ class DataFrameLocationTransmuter(LocationTransmuter):
     each use transmutation so avoid collisions.
 
     """
+    run_servers: bool = field(default=True)
+    """Whether to start Flask/Dash servers.  This is turned off for some unit
+    tests.
+
+    """
     def _get_next_port(self) -> int:
         port: int = self.start_port
         self.start_port += 1
@@ -464,7 +469,8 @@ class DataFrameLocationTransmuter(LocationTransmuter):
                 title=source.get_name(),
                 source=source)
             server = TerminalDashServer(layout_factory, self._get_next_port())
-            server.run()
+            if self.run_servers:
+                server.run()
             loc = TerminalDashServerLocation(
                 source=server.url,
                 server=server)
