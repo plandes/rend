@@ -44,5 +44,5 @@ class TestDataFrame(TestApplicationBase):
             lf_dict = lf.__dict__
             attrs = dict(map(lambda k: (k, lf_dict[k]), should.keys()))
             self.assertEqual(should, attrs)
-        except ScreenInfoError as e:
-            warning.warn('Warning: could not get screen info--skipping')
+        except ScreenInfoError:
+            warnings.warn('Warning: could not get screen info--skipping')
