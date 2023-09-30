@@ -320,6 +320,9 @@ class DataSourceFrameLayoutFactory(DataFrameLayoutFactory):
 
 @dataclass
 class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
+    """A layout that renderes data from a :class:`.DataFrameDescriber`.
+
+    """
     title: str = field(default=None)
     """The title of the browser frame."""
 
@@ -344,7 +347,17 @@ class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
 class TerminalDashServer(object):
     """A server that takes a single incoming request, renderes the client's
     page, the exists the interpreter.  This server can continue to run to serve
-    requests without a terminating callback.
+    requests without a terminating callback.  The lifecycle includes:
+
+      1. Create a multiprocessing queue.
+      2. Fork a child process ``C`` from parent process ``P``.
+      3. ``C`` starts the Flask service, which binds to a port on localhost.
+      4. The framework in ``P`` continues to renderer any other queued data.
+      5. The client browser creates a single request to render the Dash data.
+      6. Once the browser renders, a callback indicates to terminate the server.
+      7. After rendering all data, ``P`` waits for the child process via IPC.
+      7. The terminate callback in ``C`` sends a queue (IPC) message to ``P``.
+      8. Upon receiving this message, the ``P`` terminates ``C``.
 
     """
     layout_factory: LayoutFactory = field()
@@ -386,6 +399,7 @@ class TerminalDashServer(object):
         dash.layout = layout_factory.create_layout()
 
     def _child_run(self, queue: multiprocessing.Queue):
+        """Entry point for the child process from a parent spwan."""
         self._queue = queue
         self._create_flask()
         waitress.serve(self._flask, host=self.host, port=self.port)
@@ -404,6 +418,7 @@ class TerminalDashServer(object):
         time.sleep(self.sleep_secs)
 
     def wait(self):
+        """Wait for child server processes to end and cleanup."""
         logger.debug('waiting child page render')
         self._par_queue.get(block=True)
         self._proc.terminate()
