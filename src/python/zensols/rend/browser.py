@@ -55,6 +55,9 @@ class BrowserManager(object):
     config_factory: ConfigFactory = field()
     """Set by the framework and used to get other configurations."""
 
+    default_browser_name: str = field()
+    """The app config section name of the default browser definition."""
+
     browser: Browser = field(default=None)
     """The platform implementation of the file browser."""
 
@@ -69,9 +72,9 @@ class BrowserManager(object):
     def __post_init__(self):
         if self.browser is None:
             os_name = platform.system().lower()
-            sec_name = f'{os_name}_browser'
+            sec_name = f'rend_{os_name}_browser'
             if sec_name not in self.config_factory.config.sections:
-                sec_name = 'default_browser'
+                sec_name = self.default_browser_name
             self.browser: Browser = self.config_factory(sec_name)
 
     @property

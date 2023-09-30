@@ -403,7 +403,11 @@ class TerminalDashServer(object):
         """Entry point for the child process from a parent spwan."""
         self._queue = queue
         self._create_flask()
-        waitress.serve(self._flask, host=self.host, port=self.port)
+        try:
+            waitress.serve(self._flask, host=self.host, port=self.port)
+        except OSError as e:
+            raise RenderFileError(
+                f'Could not start server {self.host}:{self.port}: {e}') from e
         logger.debug('starting flask...')
         self._flask.run()
 
@@ -453,9 +457,16 @@ class DataFrameLocationTransmuter(LocationTransmuter):
     :class:`.DataFrameLocationTransmuter`.
 
     """
-    layout_factory_name: str = field()
-    """The name of theq :class:`.DataFrameLocationTransmuter` section."""
+    terminal_dash_server_name: str = field()
+    """The app config section name of the dash server
+    :class:`.TerminalDashServer` entry.
 
+    """
+    layout_factory_name: str = field()
+    """The app config section name of the
+    :class:`.DataFrameLocationTransmuter`.
+
+    """
     start_port: int = field(default=8050)
     """The starting port for the Dash server to bind.  This is incremented for
     each use transmutation so avoid collisions.
@@ -474,11 +485,16 @@ class DataFrameLocationTransmuter(LocationTransmuter):
     def _create(self, loc: Location) -> Iterable[Location]:
         source: DataFrameSource
         for source in PathDataFrameSource.from_path(loc.path):
-            layout_factory = self.config_factory.new_instance(
-                self.layout_factory_name,
-                title=source.get_name(),
-                source=source)
-            server = TerminalDashServer(layout_factory, self._get_next_port())
+            layout_factory: DataFrameLocationTransmuter = \
+                self.config_factory.new_instance(
+                    self.layout_factory_name,
+                    title=source.get_name(),
+                    source=source)
+            server: TerminalDashServer = \
+                self.config_factory.new_instance(
+                    self.terminal_dash_server_name,
+                    layout_factory=layout_factory,
+                    port=self._get_next_port())
             if self.run_servers:
                 server.run()
             loc = TerminalDashServerLocation(
