@@ -41,6 +41,3 @@ class TestDataFrame(TestApplicationBase):
         lf_dict = lf.__dict__
         attrs = dict(map(lambda k: (k, lf_dict[k]), should.keys()))
         self.assertEqual(should, attrs)
-        print()
-        print(loc)
-        loc.write()
