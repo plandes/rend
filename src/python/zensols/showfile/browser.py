@@ -3,7 +3,7 @@
 """
 from __future__ import annotations
 __author__ = 'Paul Landes'
-from typing import Sequence, Dict, Union
+from typing import Sequence, Dict, Union, Tuple
 from dataclasses import dataclass, field
 from abc import ABCMeta, abstractmethod
 import logging
@@ -12,7 +12,8 @@ from pathlib import Path
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
 from . import (
-    ShowFileError, Size, Extent, Display, LocatorType, Location, Presentation
+    ShowFileError, Size, Extent, LocatorType, Location, LocationTransmuter,
+    Display, Presentation,
 )
 
 logger = logging.getLogger(__name__)
@@ -62,6 +63,9 @@ class BrowserManager(object):
     configuration.
 
     """
+    transmuters: Tuple[LocationTransmuter] = field(default_factory=list)
+    """A list of transmuters that map concrete locations to the ephemeral."""
+
     def __post_init__(self):
         if self.browser is None:
             os_name = platform.system().lower()
@@ -125,8 +129,13 @@ class BrowserManager(object):
         pres.extent = self._get_extent() if extent is None else extent
         return pres
 
+    def _apply_transmuters(self, pres: Presentation):
+        lt: LocationTransmuter
+        for lt in self.transmuters:
+            pres.apply_transmuter(lt)
+
     def show(self, locator: Union[str, Path, Presentation],
-             extent: Extent = None) -> Presentation:
+             extent: Extent = None):
         """Display ``locator`` content on the screen and optionally resize the
         window to ``extent``.
 
@@ -136,8 +145,12 @@ class BrowserManager(object):
 
         """
         pres: Presentation = self.locator_to_presentation(locator, extent)
-        self.browser.show(pres)
-        return pres
+        try:
+            self._apply_transmuters(pres)
+            pres.validate()
+            self.browser.show(pres)
+        finally:
+            pres.deallocate()
 
     def __call__(self, *args, **kwargs):
         """See :meth:`show`."""

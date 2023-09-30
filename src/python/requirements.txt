@@ -1,2 +1,5 @@
 screeninfo~=0.8
-zensols.util~=1.13.0
+openpyxl~=3.1.2
+dash~=2.13.0
+waitress~=2.1.2
+zensols.datdesc~=0.1.0

@@ -3,18 +3,20 @@
 """
 from __future__ import annotations
 __author__ = 'Paul Landes'
-from typing import Union, Tuple, Any, Set
+from typing import Union, Tuple, Any, Set, List
 from dataclasses import dataclass, field
+from abc import abstractmethod, ABCMeta
 from enum import Enum, auto
 import urllib.parse as up
 from pathlib import Path
 from zensols.util import APIError
 from zensols.config import Dictable
-from zensols.persist import persisted, PersistedWork
+from zensols.persist import persisted, PersistedWork, PersistableContainer
 
 
 class ShowFileError(APIError):
     """Raised for any :module:`zensols.showfile` API error.
+
     """
     pass
 
@@ -102,8 +104,8 @@ class Display(Size):
 
 
 @dataclass
-class Location(Dictable):
-    """Has where to find the data and what it is to view.
+class Location(PersistableContainer, Dictable):
+    """Has the ability to find the data and how to view it.
 
     """
     source: Union[str, Path] = field()
@@ -113,6 +115,7 @@ class Location(Dictable):
     """The type of resource (PDF or URL) to display."""
 
     def __post_init__(self):
+        super().__init__()
         self._url = PersistedWork('_url', self)
         self._path = PersistedWork('_path', self)
         self._file_url_path = None
@@ -123,13 +126,12 @@ class Location(Dictable):
             else:
                 self.type, path = LocatorType.from_str(self.source)
                 if self.type == LocatorType.url and path is not None:
-                    path = Path(path)
-                    self._file_url_path = path
+                    self._file_url_path = Path(path)
         if self.type == LocatorType.file and isinstance(self.source, str):
             self.source = Path(self.source)
 
     def validate(self):
-        """Validate the location exists.
+        """Validate the location such as confirming file locations exist.
 
         :raises FileNotFoundError: if the location points to a non-existant file
 
@@ -152,6 +154,14 @@ class Location(Dictable):
         if isinstance(self.source, Path):
             url = f'file://{self.source.absolute()}'
         return url
+
+    @property
+    def has_path(self) -> bool:
+        """Whether this locator has a path and that access to :obj:`path` will
+        not raise an error.
+
+        """
+        return isinstance(self.source, Path) or self.is_file_url
 
     @property
     @persisted('_path')
@@ -190,7 +200,23 @@ class Location(Dictable):
 
 
 @dataclass
-class Presentation(Dictable):
+class LocationTransmuter(object, metaclass=ABCMeta):
+    """Transmutes concrete locations to their ephemeral counterparts, which
+    usually need additional resources.
+
+    """
+    @abstractmethod
+    def transmute(self, location: Location) -> Tuple[Location]:
+        """Transmute the location if possible.
+
+        :return: a transmuted location if possible, otherwise ``None``
+
+        """
+        pass
+
+
+@dataclass
+class Presentation(PersistableContainer, Dictable):
     """Contains all the data to view all at once and where on the screen to
     display it.
 
@@ -201,6 +227,10 @@ class Presentation(Dictable):
     extent: Extent = field(default=None)
     """Where to display the content."""
 
+    def __post_init__(self):
+        super().__init__()
+        self._locator_type_set = PersistedWork('_locator_type_set', self)
+
     @staticmethod
     def from_str(locator_defs: str, delimiter: str = ',',
                  extent: Extent = None) -> Presentation:
@@ -210,7 +240,37 @@ class Presentation(Dictable):
         return Presentation(locs, extent)
 
     @property
-    @persisted('_loctypes')
+    @persisted('_locator_type_set')
     def locator_type_set(self) -> Set[LocatorType]:
         """A set of :obj:`locators`."""
         return frozenset(map(lambda loc: loc.type, self.locators))
+
+    def apply_transmuter(self, transmuter: LocationTransmuter):
+        changed: bool = False
+        updates: List[Location] = []
+        loc: Location
+        for loc in self.locators:
+            locs: Tuple[Location] = transmuter.transmute(loc)
+            if len(locs) > 0:
+                updates.extend(locs)
+                changed = True
+            else:
+                updates.append(loc)
+        if changed:
+            self.locators = tuple(updates)
+            self._locator_type_set.clear()
+
+    def validate(self):
+        """Validate all locators.
+
+        :see: :meth:`.Location.validate`
+
+        """
+        for loc in self.locators:
+            loc.validate()
+
+    def deallocate(self):
+        loc: Location
+        for loc in self.locators:
+            loc.deallocate()
+        super().deallocate()

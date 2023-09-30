@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Support for visualizing Excel, CSV, and TSV files using Dash.
+
 
 ## [0.3.0] - 2023-08-16
 Downstream moderate risk update release.
