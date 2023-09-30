@@ -38,9 +38,10 @@ The package is designed to be easy invoke from Python as well:
 ```python
 from zensols.showfile import ApplicationFactory
 app = ApplicationFactory().get_instance()
-app('test-resources/showfile.conf')
-```
 
+if (__name__ == '__main__'):
+    app('test-resources/sample.pdf')
+```
 
 
 ## Obtaining
