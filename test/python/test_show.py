@@ -18,6 +18,8 @@ class TestApplication(unittest.TestCase):
 
     def test_monitor_config(self):
         app: Application = self.app
+        if isinstance(app, ApplicationFailure):
+            app.rethrow()
         self.assertEqual(Application, type(app))
         browser_manager: BrowserManager = app.browser_manager
         self.assertEqual(['laptop'], browser_manager.display_names)
