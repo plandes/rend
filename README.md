@@ -12,8 +12,9 @@ Features:
 - Render PDF and HTML in the default web browser.
 
 Features on macOS:
-- Default web browser used for HTML, Preview.app used for PDF files.
+- Default web browser used for HTML, [Preview.app] used for PDF files.
 - Resize the window and a per display basis.
+- Go to a specified page in [Preview.app].
 
 The features on macOS are [needed for other operating systems](#contributing).
 
@@ -21,7 +22,7 @@ The features on macOS are [needed for other operating systems](#contributing).
 ## Usage
 
 Create a [configuration file] with the dimensions of each of the screens you
-work with and where you want Preview.app to be displayed.  You can validate
+work with and where you want [Preview.app] to be displayed.  You can validate
 these configurations by having the application echo them back at you:
 
 ```bash
@@ -102,3 +103,4 @@ Copyright (c) 2022 Paul Landes
 
 [configuration file]: test-resources/rend.conf
 [Dash]: https://plotly.com/dash/
+[Preview.app]: https://en.wikipedia.org/wiki/Preview_(macOS)
