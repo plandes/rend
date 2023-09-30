@@ -20,6 +20,7 @@ from dash import Dash, html
 from dash.dash_table import DataTable
 import dash_bootstrap_components as dbc
 from dash import Input, Output
+from zensols.config import ConfigFactory
 from zensols.persist import Deallocatable
 from zensols.datdesc import DataFrameDescriber
 from . import RenderFileError, Location, LocationTransmuter
@@ -447,6 +448,14 @@ class DataFrameLocationTransmuter(LocationTransmuter):
     render the data.
 
     """
+    config_factory: ConfigFactory = field()
+    """Used to create layout factory instances of
+    :class:`.DataFrameLocationTransmuter`.
+
+    """
+    layout_factory_name: str = field()
+    """The name of theq :class:`.DataFrameLocationTransmuter` section."""
+
     start_port: int = field(default=8050)
     """The starting port for the Dash server to bind.  This is incremented for
     each use transmutation so avoid collisions.
@@ -465,7 +474,8 @@ class DataFrameLocationTransmuter(LocationTransmuter):
     def _create(self, loc: Location) -> Iterable[Location]:
         source: DataFrameSource
         for source in PathDataFrameSource.from_path(loc.path):
-            layout_factory = DataSourceFrameLayoutFactory(
+            layout_factory = self.config_factory.new_instance(
+                self.layout_factory_name,
                 title=source.get_name(),
                 source=source)
             server = TerminalDashServer(layout_factory, self._get_next_port())
