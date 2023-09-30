@@ -366,7 +366,7 @@ class TerminalDashServer(object):
         return f'http://{self.host}:{self.port}'
 
     def _shutdown_callback(self, n_clicks: int):
-        logger.info('page load complete')
+        logger.debug('page load complete')
         time.sleep(1)
         self._queue.put(1)
 
@@ -389,10 +389,8 @@ class TerminalDashServer(object):
         self._queue = queue
         self._create_flask()
         waitress.serve(self._flask, host=self.host, port=self.port)
-        logger.info('starting flask...')
+        logger.debug('starting flask...')
         self._flask.run()
-        logging.basicConfig(level=logging.WARNING)
-        logger.setLevel(logging.INFO)
 
     def run(self):
         """Start the Dash server."""
@@ -406,7 +404,7 @@ class TerminalDashServer(object):
         time.sleep(self.sleep_secs)
 
     def wait(self):
-        logger.info('waiting child page render')
+        logger.debug('waiting child page render')
         self._par_queue.get(block=True)
         self._proc.terminate()
 
