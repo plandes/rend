@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Application name from `showfile` to `rend` as the application now renders
   Pandas dataframes.
-  
+
 
 ## [0.3.0] - 2023-08-16
 Downstream moderate risk update release.
