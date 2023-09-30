@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-### Added
-- Support for visualizing Excel, CSV, and TSV files using Dash.
 
+### Added
+- Support for visualizing Excel, CSV, and TSV files using [Dash] `DataTable`s.
+
+### Changed
+- Application name from `showfile` to `rend` as the application now renders
+  Pandas dataframes.
+  
 
 ## [0.3.0] - 2023-08-16
 Downstream moderate risk update release.
@@ -40,3 +45,5 @@ Downstream moderate risk update release.
 [0.2.0]: https://github.com/plandes/rend/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/plandes/rend/compare/v0.0.1...v0.1.0
 [0.0.1]: https://github.com/plandes/rend/compare/v0.0.0...v0.0.1
+
+[Dash]: https://plotly.com/dash/
