@@ -1,3 +1,5 @@
+import warnings
+from screeninfo import ScreenInfoError
 from zensols.rend import Browser, BrowserManager, Application
 from util import TestApplicationBase
 
@@ -8,4 +10,7 @@ class TestBrowser(TestApplicationBase):
         mng: BrowserManager = app.browser_manager
         browser: Browser = mng.browser
         self.assertTrue(isinstance(browser, Browser))
-        self.assertTrue(browser.screen_size is not None)
+        try:
+            self.assertTrue(browser.screen_size is not None)
+        except ScreenInfoError:
+            warnings.warn('Warning: could not get screen info--skipping')
