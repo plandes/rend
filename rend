@@ -14,9 +14,9 @@ if (__name__ == '__main__'):
     }[5]
     harness = ConfigurationImporterCliHarness(
         src_dir_name='src/python',
-        app_factory_class='zensols.showfile.ApplicationFactory',
+        app_factory_class='zensols.rend.ApplicationFactory',
         proto_args=f'show -H 1200 -W 1200 {locs}',
         proto_factory_kwargs={
-            'reload_pattern': r'^zensols\.showfile\.?(?!domain)'},
+            'reload_pattern': r'^zensols\.rend\.?(?!domain)'},
     )
     harness.run()

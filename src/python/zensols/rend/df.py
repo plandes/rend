@@ -22,7 +22,7 @@ import dash_bootstrap_components as dbc
 from dash import Input, Output
 from zensols.persist import Deallocatable
 from zensols.datdesc import DataFrameDescriber
-from . import ShowFileError, Location, LocationTransmuter
+from . import RenderFileError, Location, LocationTransmuter
 
 
 logger = logging.getLogger(__name__)
@@ -108,7 +108,7 @@ class PathDataFrameSource(DataFrameSource):
         """Procure the dataframe from this source."""
         ext: str = self.get_extesion(self.path)
         if not self.is_supported_extension(ext):
-            raise ShowFileError(f'Unsupported extension: {ext}')
+            raise RenderFileError(f'Unsupported extension: {ext}')
         fn: Callable = {
             'csv': pd.read_csv,
             'tsv': lambda p: pd.read(p, sept='\t'),

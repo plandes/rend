@@ -12,7 +12,7 @@ from pathlib import Path
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
 from . import (
-    ShowFileError, Size, Extent, LocatorType, Location, LocationTransmuter,
+    RenderFileError, Size, Extent, LocatorType, Location, LocationTransmuter,
     Display, Presentation,
 )
 
@@ -125,7 +125,7 @@ class BrowserManager(object):
         elif isinstance(locator, Presentation):
             pres = locator
         else:
-            raise ShowFileError(f'Unsupported locator type: {type(locator)}')
+            raise RenderFileError(f'Unsupported locator type: {type(locator)}')
         pres.extent = self._get_extent() if extent is None else extent
         return pres
 

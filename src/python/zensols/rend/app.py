@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 import logging
 from zensols.cli import ApplicationError
 from . import (
-    ShowFileError, LocatorType, Extent, Location, Presentation, BrowserManager
+    RenderFileError, LocatorType, Extent, Location, Presentation, BrowserManager
 )
 
 logger = logging.getLogger(__name__)
@@ -66,7 +66,7 @@ class Application(object):
                 loc.coerce_type(locator_type)
         try:
             self.browser_manager.show(pres)
-        except ShowFileError as e:
+        except RenderFileError as e:
             raise ApplicationError(str(e)) from e
 
     def __call__(self, *args, **kwargs):

@@ -14,13 +14,13 @@ import applescript as aps
 from applescript._result import Result
 from zensols.config import ConfigFactory
 from . import (
-    ShowFileError, LocatorType, Size, Extent, Location, Presentation, Browser
+    RenderFileError, LocatorType, Size, Extent, Location, Presentation, Browser
 )
 
 logger = logging.getLogger(__name__)
 
 
-class ApplescriptError(ShowFileError):
+class ApplescriptError(RenderFileError):
     """Raised for macOS errors.
 
     """

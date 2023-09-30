@@ -14,14 +14,14 @@ from zensols.config import Dictable
 from zensols.persist import persisted, PersistedWork, PersistableContainer
 
 
-class ShowFileError(APIError):
-    """Raised for any :module:`zensols.showfile` API error.
+class RenderFileError(APIError):
+    """Raised for any :module:`zensols.rend` API error.
 
     """
     pass
 
 
-class FileNotFoundError(ShowFileError):
+class FileNotFoundError(RenderFileError):
     """Raised when a locator is a file, but the file isn't found."""
     def __init__(self, path: Path):
         super().__init__(f'File not found: {path}')
@@ -43,7 +43,7 @@ class LocatorType(Enum):
         elif isinstance(instance, str):
             type = LocatorType.url
         else:
-            raise ShowFileError(f'Unknown type: {type(instance)}')
+            raise RenderFileError(f'Unknown type: {type(instance)}')
         return type
 
     @staticmethod
@@ -168,7 +168,7 @@ class Location(PersistableContainer, Dictable):
     def path(self) -> Path:
         """The path of the locator.
 
-        :raises ShowFileError: if the locator does not point to a path or not a
+        :raises RenderFileError: if the locator does not point to a path or not a
                                URL path
 
         """
@@ -176,7 +176,7 @@ class Location(PersistableContainer, Dictable):
             return self.source
         else:
             if self._file_url_path is None:
-                raise ShowFileError(f'Not a path or URL path: {self.source}')
+                raise RenderFileError(f'Not a path or URL path: {self.source}')
             return self._file_url_path
 
     def coerce_type(self, locator_type: LocatorType):

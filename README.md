@@ -5,9 +5,10 @@
 [![Python 3.10][python310-badge]][python310-link]
 [![Build Status][build-badge]][build-link]
 
-Invoke native applications to view files.  On macOS, the default web browser
-and Preview.app are used to view HTML and PDF files respectively.  On all other
-operating systems the default web browser is used to view files.
+Invoke native applications to view and render data from files.  On macOS, the
+default web browser and Preview.app are used to view HTML and PDF files
+respectively.  On all other operating systems the default web browser is used
+to view files.
 
 
 ## Usage
@@ -17,7 +18,7 @@ work with and where you want Preview.app to be displayed.  You can validate
 these configurations by having the application echo them back at you:
 
 ```bash
-$ showfile config
+$ rend config
 ```
 
 
@@ -26,7 +27,7 @@ $ showfile config
 Invoke the application to show the file and display it:
 
 ```bash
-$ showfile show example.pdf
+$ rend show example.pdf
 ```
 
 See the [configuration file] example.
@@ -36,7 +37,7 @@ See the [configuration file] example.
 
 The package is designed to be easy invoke from Python as well:
 ```python
-from zensols.showfile import ApplicationFactory
+from zensols.rend import ApplicationFactory
 app = ApplicationFactory().get_instance()
 
 if (__name__ == '__main__'):
@@ -48,7 +49,7 @@ if (__name__ == '__main__'):
 
 The easiest way to install the command line program is via the `pip` installer:
 ```bash
-pip3 install zensols.showfile
+pip3 install zensols.rend
 ```
 
 Binaries are also available on [pypi].
@@ -56,8 +57,8 @@ Binaries are also available on [pypi].
 
 ## Documentation
 
-See the [full documentation](https://plandes.github.io/showfile/index.html).
-The [API reference](https://plandes.github.io/showfile/api.html) is also
+See the [full documentation](https://plandes.github.io/rend/index.html).
+The [API reference](https://plandes.github.io/rend/api.html) is also
 available.
 
 
@@ -74,14 +75,14 @@ Copyright (c) 2022 Paul Landes
 
 
 <!-- links -->
-[pypi]: https://pypi.org/project/zensols.showfile/
-[pypi-link]: https://pypi.python.org/pypi/zensols.showfile
-[pypi-badge]: https://img.shields.io/pypi/v/zensols.showfile.svg
+[pypi]: https://pypi.org/project/zensols.rend/
+[pypi-link]: https://pypi.python.org/pypi/zensols.rend
+[pypi-badge]: https://img.shields.io/pypi/v/zensols.rend.svg
 [python39-badge]: https://img.shields.io/badge/python-3.9-blue.svg
 [python39-link]: https://www.python.org/downloads/release/python-390
 [python310-badge]: https://img.shields.io/badge/python-3.10-blue.svg
 [python310-link]: https://www.python.org/downloads/release/python-310
-[build-badge]: https://github.com/plandes/showfile/workflows/CI/badge.svg
-[build-link]: https://github.com/plandes/showfile/actions
+[build-badge]: https://github.com/plandes/rend/workflows/CI/badge.svg
+[build-link]: https://github.com/plandes/rend/actions
 
-[configuration file]: test-resources/showfile.conf
+[configuration file]: test-resources/rend.conf

@@ -11,7 +11,7 @@ from zensols.cli import ApplicationFactory as CliApplicationFactory
 
 class ApplicationFactory(CliApplicationFactory):
     def __init__(self, *args, **kwargs):
-        kwargs['package_resource'] = 'zensols.showfile'
+        kwargs['package_resource'] = 'zensols.rend'
         super().__init__(*args, **kwargs)
 
     def get_instance(self, args: Union[List[str], str] = None) -> Any:

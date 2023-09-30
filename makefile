@@ -9,7 +9,7 @@ INFO_TARGETS +=		appinfo
 PY_DEP_POST_DEPS +=	modeldeps
 
 # project specific
-ENTRY =			./showfile
+ENTRY =			./rend
 
 
 include ./zenbuild/main.mk

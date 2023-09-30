@@ -1,8 +1,8 @@
 from pathlib import Path
 import os
 import unittest
-from zensols.showfile import (
-    FileNotFoundError, ShowFileError, LocatorType, Location
+from zensols.rend import (
+    FileNotFoundError, RenderFileError, LocatorType, Location
 )
 
 
@@ -12,7 +12,7 @@ class TestLocation(unittest.TestCase):
         loc.validate()
         self.assertEqual(LocatorType.url, loc.type)
         self.assertFalse(loc.is_file_url)
-        with self.assertRaisesRegex(ShowFileError, '^Not a path'):
+        with self.assertRaisesRegex(RenderFileError, '^Not a path'):
             self.assertEqual(Path('sample.pdf'), loc.path)
 
         loc = Location('sample.pdf')
