@@ -15,6 +15,7 @@ Features on macOS:
 - Default web browser used for HTML, [Preview.app] used for PDF files.
 - Resize the window and a per display basis.
 - Go to a specified page in [Preview.app].
+- Multiple file rendering in browser tabs.
 
 The features on macOS are [needed for other operating systems](#contributing).
 
