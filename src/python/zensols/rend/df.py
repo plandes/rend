@@ -591,12 +591,11 @@ class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
     from :class:`~zensols.datdesc.desc.DataDescriber` in memory instances.
 
     """
-    def _create_from_loc(self, loc: Location) -> Iterable[Location]:
+    def _create_from_loc(self, desc: DataDescriber) -> Iterable[Location]:
         """Create locations, one for each
         :obj:`~zensols.datdesc.desc.DataDescriber.describers`.
 
         """
-        desc: DataDescriber = loc.source
         dfd: DataFrameDescriber
         for dfd in desc.describers:
             layout_factory: DataFrameDescriberLayoutFactory = \
@@ -607,6 +606,11 @@ class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
 
     def transmute(self, location: Location) -> Tuple[Location]:
         locs: Tuple[Location] = ()
+        desc: DataDescriber = None
         if isinstance(location, DataDescriberLocation):
-            locs = tuple(self._create_from_loc(location))
+            desc = location.source
+        elif location.has_path and location.path.suffix == '.yml':
+            desc = DataDescriber.from_yaml_file(location.path)
+        if desc is not None:
+            locs = tuple(self._create_from_loc(desc))
         return locs
