@@ -6,7 +6,7 @@ __author__ = 'Paul Landes'
 from typing import (
     Callable, Union, Optional, Iterable, Tuple, Dict, Set, ClassVar
 )
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, InitVar
 from abc import abstractmethod, ABCMeta
 from pathlib import Path
 import logging
@@ -23,7 +23,7 @@ import dash_bootstrap_components as dbc
 from dash import Input, Output
 from zensols.config import ConfigFactory
 from zensols.persist import Deallocatable
-from zensols.datdesc import DataFrameDescriber
+from zensols.datdesc import DataFrameDescriber, DataDescriber
 from . import RenderFileError, Location, LocationTransmuter
 
 
@@ -53,6 +53,12 @@ class CachedDataFrameSource(DataFrameSource):
     """
     df: pd.DataFrame = field()
     """The cached datagrame to return in meth:`get_dataframe`."""
+
+    name: InitVar[str] = field(default=None)
+
+    def __post_init__(self, name: str):
+        if name is not None:
+            self._name = name
 
     def get_dataframe(self) -> pd.DataFrame:
         return self.df
@@ -343,8 +349,14 @@ class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
         return self.source.df
 
     def _get_column_tooltips(self, df: pd.DataFrame) -> Dict[str, str]:
+        def map_col(c: str):
+            v: str = cols.get(c)
+            if v is not None and v != c:
+                v = f'{c}: {v}'
+            return c, v
+
         cols: Dict[str, str] = self.source.asdict()
-        return {c: cols.get(c) or c for c in cols.keys()}
+        return dict(map(map_col, cols.keys()))
 
 
 @dataclass
@@ -362,7 +374,17 @@ class DataFrameLocation(Location):
             self.source = CachedDataFrameSource(self.source)
 
     def validate(self):
-        pass
+        if not isinstance(self.source, DataFrameSource):
+            raise RenderFileError(f'Not a DataFrameSource: {type(self.source)}')
+
+
+class DataDescriberLocation(Location):
+    source: DataDescriber = field()
+    """The used to as the source rather than :obj:`source`."""
+
+    def validate(self):
+        if not isinstance(self.source, DataDescriber):
+            raise RenderFileError(f'Not a DataDescriber: {type(self.source)}')
 
 
 @dataclass
@@ -512,22 +534,9 @@ class DashServerLocationTransmuter(LocationTransmuter):
         self.start_port += 1
         return port
 
-
-@dataclass
-class DataFrameLocationTransmuter(DashServerLocationTransmuter):
-    """Transmutes spreadsheet like files (Excel, CSV, etc.) to deallocatable
-    :class:`.TerminalDashServerLocation` instances that use a Dash server to
-    render the data.
-
-    """
-    def _source_to_dash_loc(self, source: DataFrameSource) -> \
-            TerminalDashServerLocation:
+    def _create_dash_server_loc_from_lf(self, layout_factory: LayoutFactory) \
+            -> TerminalDashServerLocation:
         """Create a Dash server location from a dataframe source."""
-        layout_factory: DataFrameLocationTransmuter = \
-            self.config_factory.new_instance(
-                self.layout_factory_name,
-                title=source.get_name(),
-                source=source)
         server: TerminalDashServer = \
             self.config_factory.new_instance(
                 self.dash_server_name,
@@ -539,6 +548,24 @@ class DataFrameLocationTransmuter(DashServerLocationTransmuter):
             source=server.url,
             server=server)
 
+
+@dataclass
+class DataFrameLocationTransmuter(DashServerLocationTransmuter):
+    """Transmutes spreadsheet like files (Excel, CSV, etc.) to deallocatable
+    :class:`.TerminalDashServerLocation` instances that use a Dash server to
+    render the data.
+
+    """
+    def _create_dash_server_loc(self, source: DataFrameSource) -> \
+            TerminalDashServerLocation:
+        """Create a dash server location from a dataframe source."""
+        layout_factory: DataSourceFrameLayoutFactory = \
+            self.config_factory.new_instance(
+                self.layout_factory_name,
+                title=source.get_name(),
+                source=source)
+        return self._create_dash_server_loc_from_lf(layout_factory)
+
     def _create_from_path(self, loc: Location) -> Iterable[Location]:
         """Create locations from an Excel, CSV or TSV path.  If the file is an
         Excel file, a location for each sheet is generated.
@@ -546,13 +573,40 @@ class DataFrameLocationTransmuter(DashServerLocationTransmuter):
         """
         source: DataFrameSource
         for source in PathDataFrameSource.from_path(loc.path):
-            yield self._source_to_dash_loc(source)
+            yield self._create_dash_server_loc(source)
 
     def transmute(self, location: Location) -> Tuple[Location]:
         locs: Tuple[Location] = ()
         if isinstance(location, DataFrameLocation):
-            locs = (self._source_to_dash_loc(location.source),)
+            locs = (self._create_dash_server_loc(location.source),)
         elif location.has_path and PathDataFrameSource.is_supported_path(
                 location.path):
             locs = tuple(self._create_from_path(location))
+        return locs
+
+
+@dataclass
+class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
+    """Like :class:`.DataFrameLocationTransmuter` but create server locations
+    from :class:`~zensols.datdesc.desc.DataDescriber` in memory instances.
+
+    """
+    def _create_from_loc(self, loc: Location) -> Iterable[Location]:
+        """Create locations, one for each
+        :obj:`~zensols.datdesc.desc.DataDescriber.describers`.
+
+        """
+        desc: DataDescriber = loc.source
+        dfd: DataFrameDescriber
+        for dfd in desc.describers:
+            layout_factory: DataFrameDescriberLayoutFactory = \
+                self.config_factory.new_instance(
+                    self.layout_factory_name,
+                    source=dfd)
+            yield self._create_dash_server_loc_from_lf(layout_factory)
+
+    def transmute(self, location: Location) -> Tuple[Location]:
+        locs: Tuple[Location] = ()
+        if isinstance(location, DataDescriberLocation):
+            locs = tuple(self._create_from_loc(location))
         return locs
