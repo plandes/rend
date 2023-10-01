@@ -38,6 +38,7 @@ class DataFrameSource(object, metaclass=ABCMeta):
     def get_name(self) -> str:
         if hasattr(self, '_name'):
             return self._name
+        return 'Untitled'
 
     @abstractmethod
     def get_dataframe(self) -> pd.DataFrame:
@@ -99,6 +100,7 @@ class PathDataFrameSource(DataFrameSource):
             src = CachedDataFrameSource(t[1])
             src._name = t[0]
             return src
+
         ext: str = cls.get_extesion(path)
         if ext == 'xlsx':
             sheets: Dict[str, pd.DataFrame] = pd.read_excel(
@@ -346,6 +348,24 @@ class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
 
 
 @dataclass
+class DataFrameLocation(Location):
+    """A location of an in memory Pandas dataframe oro
+    :class:`.DataFrameSource`.
+
+    """
+    source: Union[pd.DataFrame, DataFrameSource] = field()
+    """The used to as the source rather than :obj:`source`."""
+
+    def __post_init__(self):
+        super().__post_init__()
+        if isinstance(self.source, pd.DataFrame):
+            self.source = CachedDataFrameSource(self.source)
+
+    def validate(self):
+        pass
+
+
+@dataclass
 class TerminalDashServer(object):
     """A server that takes a single incoming request, renderes the client's
     page, the exists the interpreter.  This server can continue to run to serve
@@ -456,8 +476,8 @@ class TerminalDashServerLocation(Location, Deallocatable):
 
 
 @dataclass
-class DataFrameLocationTransmuter(LocationTransmuter):
-    """Transmutes spreadsheet like files (Excel, CSV, etc.) to deallocatable
+class DashServerLocationTransmuter(LocationTransmuter):
+    """Transmutes locations to deallocatable
     :class:`.TerminalDashServerLocation` instances that use a Dash server to
     render the data.
 
@@ -467,7 +487,7 @@ class DataFrameLocationTransmuter(LocationTransmuter):
     :class:`.DataFrameLocationTransmuter`.
 
     """
-    terminal_dash_server_name: str = field()
+    dash_server_name: str = field()
     """The app config section name of the dash server
     :class:`.TerminalDashServer` entry.
 
@@ -492,29 +512,47 @@ class DataFrameLocationTransmuter(LocationTransmuter):
         self.start_port += 1
         return port
 
-    def _create(self, loc: Location) -> Iterable[Location]:
+
+@dataclass
+class DataFrameLocationTransmuter(DashServerLocationTransmuter):
+    """Transmutes spreadsheet like files (Excel, CSV, etc.) to deallocatable
+    :class:`.TerminalDashServerLocation` instances that use a Dash server to
+    render the data.
+
+    """
+    def _source_to_dash_loc(self, source: DataFrameSource) -> \
+            TerminalDashServerLocation:
+        """Create a Dash server location from a dataframe source."""
+        layout_factory: DataFrameLocationTransmuter = \
+            self.config_factory.new_instance(
+                self.layout_factory_name,
+                title=source.get_name(),
+                source=source)
+        server: TerminalDashServer = \
+            self.config_factory.new_instance(
+                self.dash_server_name,
+                layout_factory=layout_factory,
+                port=self._get_next_port())
+        if self.run_servers:
+            server.run()
+        return TerminalDashServerLocation(
+            source=server.url,
+            server=server)
+
+    def _create_from_path(self, loc: Location) -> Iterable[Location]:
+        """Create locations from an Excel, CSV or TSV path.  If the file is an
+        Excel file, a location for each sheet is generated.
+
+        """
         source: DataFrameSource
         for source in PathDataFrameSource.from_path(loc.path):
-            layout_factory: DataFrameLocationTransmuter = \
-                self.config_factory.new_instance(
-                    self.layout_factory_name,
-                    title=source.get_name(),
-                    source=source)
-            server: TerminalDashServer = \
-                self.config_factory.new_instance(
-                    self.terminal_dash_server_name,
-                    layout_factory=layout_factory,
-                    port=self._get_next_port())
-            if self.run_servers:
-                server.run()
-            loc = TerminalDashServerLocation(
-                source=server.url,
-                server=server)
-            yield loc
+            yield self._source_to_dash_loc(source)
 
     def transmute(self, location: Location) -> Tuple[Location]:
-        if location.has_path:
-            path: Path = location.path
-            if PathDataFrameSource.is_supported_path(path):
-                return tuple(self._create(location))
-        return ()
+        locs: Tuple[Location] = ()
+        if isinstance(location, DataFrameLocation):
+            locs = (self._source_to_dash_loc(location.source),)
+        elif location.has_path and PathDataFrameSource.is_supported_path(
+                location.path):
+            locs = tuple(self._create_from_path(location))
+        return locs
