@@ -168,8 +168,8 @@ class Location(PersistableContainer, Dictable):
     def path(self) -> Path:
         """The path of the locator.
 
-        :raises RenderFileError: if the locator does not point to a path or not a
-                               URL path
+        :raises RenderFileError: if the locator does not point to a path or not
+                               a URL path
 
         """
         if isinstance(self.source, Path):
