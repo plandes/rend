@@ -12,6 +12,7 @@ from pathlib import Path
 import logging
 import time
 import multiprocessing
+from queue import Empty
 import pandas as pd
 import numpy as np
 from flask import Flask
@@ -375,6 +376,11 @@ class TerminalDashServer(object):
     for the browser.
 
     """
+    timeout_sec: float = field(default=5)
+    """The timeout in seconds to wait for the child to quit before it is
+    terminated.
+
+    """
     @property
     def url(self) -> str:
         return f'http://{self.host}:{self.port}'
@@ -425,7 +431,11 @@ class TerminalDashServer(object):
     def wait(self):
         """Wait for child server processes to end and cleanup."""
         logger.debug('waiting child page render')
-        self._par_queue.get(block=True)
+        try:
+            self._par_queue.get(block=True, timeout=self.timeout_sec)
+        except Empty:
+            logger.warning('killed child process did not respond ' +
+                           f'after {self.timeout_sec}s')
         self._proc.terminate()
 
 
