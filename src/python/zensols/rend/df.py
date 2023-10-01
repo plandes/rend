@@ -361,8 +361,8 @@ class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
 
 @dataclass
 class DataFrameLocation(Location):
-    """A location of an in memory Pandas dataframe oro
-    :class:`.DataFrameSource`.
+    """A location of an in memory Pandas dataframe of :class:`.DataFrameSource`.
+    Use this as a way to programmatically render data in Python applications.
 
     """
     source: Union[pd.DataFrame, DataFrameSource] = field()
@@ -379,6 +379,11 @@ class DataFrameLocation(Location):
 
 
 class DataDescriberLocation(Location):
+    """Like :class:`.DataFrameLocation` but renders additional tool tips from
+    metadata in the :class:`~zensols.datdesc.desc.DataDescriber`.  Use this as a
+    way to programmatically render data in Python applications.
+
+    """
     source: DataDescriber = field()
     """The used to as the source rather than :obj:`source`."""
 
