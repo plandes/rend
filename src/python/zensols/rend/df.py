@@ -193,6 +193,11 @@ class DataFrameLayoutFactory(LayoutFactory, metaclass=ABCMeta):
         pass
 
     def _get_column_tooltips(self, df: pd.DataFrame) -> Dict[str, str]:
+        """Create column tooltips for hoverover on the header, which are
+        populated (for example) from
+        :class:`~zensols.datdesc.desc.DataFrameDescriber`.
+
+        """
         return {i: i for i in df.columns}
 
     def _create_data_table(self) -> DataTable:
@@ -285,7 +290,7 @@ class DataFrameLayoutFactory(LayoutFactory, metaclass=ABCMeta):
                         html.Span(
                             self.title,
                             id="tooltip-target",
-                            style={'fontSize': 'x-large',}
+                            style={'fontSize': 'x-large'}
                         ),
                     ],
                     style={
@@ -293,9 +298,10 @@ class DataFrameLayoutFactory(LayoutFactory, metaclass=ABCMeta):
                         'maxHeight': '50px',
                         'width': '100%',
                         'padding-bottom': '5px',
-                        #'border': '1px solid grey',
                     },
                 ),
+                # add a tool top for any available (i.e DataFrameDescriber)
+                # description of the table
                 dbc.Tooltip(
                     *self.description,
                     target='tooltip-target'
@@ -388,9 +394,10 @@ class DataDescriberLocation(Location):
     source: DataDescriber = field()
     """The used to as the source rather than :obj:`source`."""
 
-    table_format: bool = field(default=False)
+    table_format: Optional[bool] = field(default=None)
     """Whether to render the dataframe using
-    :obj:`~zensols.datdesc.table.Table.formatted_dataframe`.
+    :obj:`~zensols.datdesc.table.Table.formatted_dataframe`.  If not set, the
+    :obj:`.DataDescriberLocationTransmuter.table_format` default is used.
 
     """
     def validate(self):
@@ -649,7 +656,9 @@ class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
         table_format: bool = self.table_format
         if isinstance(location, DataDescriberLocation):
             desc = location.source
-            table_format = location.table_format
+            # allow the location to override the table formatting option
+            if location.table_format is not None:
+                table_format = location.table_format
         elif location.has_path and location.path.suffix == '.yml':
             desc = DataDescriber.from_yaml_file(location.path)
         if desc is not None:
