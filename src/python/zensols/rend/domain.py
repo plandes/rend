@@ -107,6 +107,10 @@ class Display(Size):
 class Location(PersistableContainer, Dictable):
     """Has the ability to find the data and how to view it.
 
+    **Important**: All instances of this class must be deallocated using
+    :meth:`deallocate`.  Failure to do so will result in Python interpreter
+    hanging on exit.
+
     """
     source: Union[str, Path] = field()
     """Where to find the data to display."""
@@ -219,6 +223,11 @@ class LocationTransmuter(object, metaclass=ABCMeta):
 class Presentation(PersistableContainer, Dictable):
     """Contains all the data to view all at once and where on the screen to
     display it.
+
+    **Important**: All instances of this class must be deallocated using
+    :meth:`deallocate`.  Failure to do so will result in Python interpreter
+    hanging on exit.  Only a deallocation of objects of this class are
+    necessary, and not contained :class:`.Location`.
 
     """
     locators: Tuple[Location] = field()

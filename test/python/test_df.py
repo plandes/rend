@@ -17,8 +17,9 @@ class TestDataFrame(TestApplicationBase):
         app: Application = self.app
         mng: BrowserManager = app.browser_manager
         path = Path('test-resources/states.csv')
+        pres: Presentation = None
         try:
-            pres: Presentation = mng.locator_to_presentation(path)
+            pres = mng.locator_to_presentation(path)
             self.assertTrue(isinstance(pres, Presentation))
             self.assertEqual(1, len(pres.locators))
             loc: Location = pres.locators[0]
@@ -46,3 +47,6 @@ class TestDataFrame(TestApplicationBase):
             self.assertEqual(should, attrs)
         except ScreenInfoError:
             warnings.warn('Warning: could not get screen info--skipping')
+        finally:
+            if pres is not None:
+                pres.deallocate()

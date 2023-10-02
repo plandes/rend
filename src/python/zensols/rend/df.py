@@ -79,10 +79,7 @@ class PathDataFrameSource(DataFrameSource):
     """The sheet number or name if an Excel file."""
 
     def get_name(self) -> str:
-        name: str = super().get_name()
-        if name is None:
-            name = str(self.path)
-        return name
+        return str(self.path)
 
     @staticmethod
     def get_extesion(path: Path) -> str:
@@ -477,7 +474,8 @@ class TerminalDashServer(object):
 
     def wait(self):
         """Wait for child server processes to end and cleanup."""
-        logger.debug('waiting child page render')
+        if logger.isEnabledFor(logging.INFO):
+            logger.info('waiting child page render for {self.timeout_sec}s')
         try:
             self._par_queue.get(block=True, timeout=self.timeout_sec)
         except Empty:
