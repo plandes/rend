@@ -388,6 +388,11 @@ class DataDescriberLocation(Location):
     source: DataDescriber = field()
     """The used to as the source rather than :obj:`source`."""
 
+    table_format: bool = field(default=False)
+    """Whether to render the dataframe using
+    :obj:`~zensols.datdesc.table.Table.formatted_dataframe`.
+
+    """
     def validate(self):
         if not isinstance(self.source, DataDescriber):
             raise RenderFileError(f'Not a DataDescriber: {type(self.source)}')
@@ -620,6 +625,11 @@ class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
     from :class:`~zensols.datdesc.desc.DataDescriber` in memory instances.
 
     """
+    table_format: bool = field(default=False)
+    """Whether to render the dataframe using
+    :obj:`~zensols.datdesc.table.Table.formatted_dataframe`.
+
+    """
     def _create_from_loc(self, desc: DataDescriber) -> Iterable[Location]:
         """Create locations, one for each
         :obj:`~zensols.datdesc.desc.DataDescriber.describers`.
@@ -636,10 +646,14 @@ class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
     def transmute(self, location: Location) -> Tuple[Location]:
         locs: Tuple[Location] = ()
         desc: DataDescriber = None
+        table_format: bool = self.table_format
         if isinstance(location, DataDescriberLocation):
             desc = location.source
+            table_format = location.table_format
         elif location.has_path and location.path.suffix == '.yml':
             desc = DataDescriber.from_yaml_file(location.path)
         if desc is not None:
+            if table_format:
+                desc.format_tables()
             locs = tuple(self._create_from_loc(desc))
         return locs
