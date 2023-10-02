@@ -1,2 +1,2 @@
 {"includes": {"named": ["zensols.util"],
-	      "mapped": []}}
+	      "mapped": ["zensols.datdesc", "{url}/datdesc/"]}}
