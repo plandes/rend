@@ -418,8 +418,8 @@ class TerminalDashServer(object):
       5. The client browser creates a single request to render the Dash data.
       6. Once the browser renders, a callback indicates to terminate the server.
       7. After rendering all data, ``P`` waits for the child process via IPC.
-      7. The terminate callback in ``C`` sends a queue (IPC) message to ``P``.
-      8. Upon receiving this message, the ``P`` terminates ``C``.
+      8. The terminate callback in ``C`` sends a queue (IPC) message to ``P``.
+      9. Upon receiving this message, the ``P`` terminates ``C``.
 
     """
     layout_factory: LayoutFactory = field()
