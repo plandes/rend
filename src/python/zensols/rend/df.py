@@ -491,7 +491,7 @@ class TerminalDashServer(object):
                 logger.debug('already shutdown')
         else:
             if timeout_sec is None:
-                timeout_sec = self.timeout_sec 
+                timeout_sec = self.timeout_sec
             if timeout_sec > 0:
                 if logger.isEnabledFor(logging.INFO):
                     logger.info(f'waiting on child for {timeout_sec}s')
