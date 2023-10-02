@@ -6,12 +6,15 @@ __author__ = 'Paul Landes'
 from typing import Union, Tuple, Any, Set, List
 from dataclasses import dataclass, field
 from abc import abstractmethod, ABCMeta
+import logging
 from enum import Enum, auto
 import urllib.parse as up
 from pathlib import Path
 from zensols.util import APIError
 from zensols.config import Dictable
 from zensols.persist import persisted, PersistedWork, PersistableContainer
+
+logger = logging.getLogger(__name__)
 
 
 class RenderFileError(APIError):
@@ -201,6 +204,10 @@ class Location(PersistableContainer, Dictable):
             self._file_url_path = None
         self._url.clear()
         self._url.clear()
+
+    def deallocate(self):
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f'deallocating {type(self)}')
 
 
 @dataclass

@@ -6,7 +6,7 @@ __author__ = 'Paul Landes'
 from typing import (
     Callable, Union, Optional, Iterable, Tuple, Dict, Set, ClassVar
 )
-from dataclasses import dataclass, field, InitVar
+from dataclasses import dataclass, field
 from abc import abstractmethod, ABCMeta
 from pathlib import Path
 import logging
@@ -54,11 +54,15 @@ class CachedDataFrameSource(DataFrameSource):
     df: pd.DataFrame = field()
     """The cached datagrame to return in meth:`get_dataframe`."""
 
-    name: InitVar[str] = field(default=None)
+    name: Optional[str] = field(default=None)
+    """The name of the source, if available."""
 
-    def __post_init__(self, name: str):
-        if name is not None:
-            self._name = name
+    def get_name(self) -> str:
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f'name: {self.name}, super: {super().get_name()}')
+        if self.name is not None:
+            return self.name
+        return super().get_name()
 
     def get_dataframe(self) -> pd.DataFrame:
         return self.df
@@ -425,6 +429,9 @@ class TerminalDashServer(object):
     terminated.
 
     """
+    def __post_init__(self):
+        self._shutdown = False
+
     @property
     def url(self) -> str:
         return f'http://{self.host}:{self.port}'
@@ -472,16 +479,32 @@ class TerminalDashServer(object):
         # servers in parallel rather than wait for each in series
         time.sleep(self.sleep_secs)
 
-    def wait(self):
-        """Wait for child server processes to end and cleanup."""
-        if logger.isEnabledFor(logging.INFO):
-            logger.info('waiting child page render for {self.timeout_sec}s')
-        try:
-            self._par_queue.get(block=True, timeout=self.timeout_sec)
-        except Empty:
-            logger.warning('killed child process did not respond ' +
-                           f'after {self.timeout_sec}s')
+    def shutdown(self, timeout_sec: float = None):
+        """Optionally wait, and then kill the child server processes.
+
+        :param timeout_sec: the number of seconds to wait before the server
+                            subprocess is killed
+
+        """
+        if self._shutdown:
+            if logger.isEnabledFor(logging.DEBUG):
+                logger.debug('already shutdown')
+        else:
+            if timeout_sec is None:
+                timeout_sec = self.timeout_sec 
+            if timeout_sec > 0:
+                if logger.isEnabledFor(logging.INFO):
+                    logger.info(f'waiting on child for {timeout_sec}s')
+                try:
+                    self._par_queue.get(block=True, timeout=timeout_sec)
+                except Empty:
+                    logger.warning('killed server child process did not ' +
+                                   f'respond after {timeout_sec}s')
+            else:
+                if logger.isEnabledFor(logging.INFO):
+                    logger.info('killing server child process')
         self._proc.terminate()
+        self._shutdown = True
 
 
 @dataclass
@@ -493,10 +516,11 @@ class TerminalDashServerLocation(Location, Deallocatable):
 
     """
     server: TerminalDashServer = field(default=None)
+    """The server used to render this location."""
 
     def deallocate(self):
         if self.server is not None:
-            self.server.wait()
+            self.server.shutdown()
         super().deallocate()
 
 
@@ -562,6 +586,8 @@ class DataFrameLocationTransmuter(DashServerLocationTransmuter):
     def _create_dash_server_loc(self, source: DataFrameSource) -> \
             TerminalDashServerLocation:
         """Create a dash server location from a dataframe source."""
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f'creating layout factory for: {source.get_name()}')
         layout_factory: DataSourceFrameLayoutFactory = \
             self.config_factory.new_instance(
                 self.layout_factory_name,
