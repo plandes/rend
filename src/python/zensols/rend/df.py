@@ -436,7 +436,7 @@ class TerminalDashServer(object):
     for the browser.
 
     """
-    timeout_sec: float = field(default=5)
+    timeout_secs: float = field(default=5)
     """The timeout in seconds to wait for the child to quit before it is
     terminated.
 
@@ -491,10 +491,10 @@ class TerminalDashServer(object):
         # servers in parallel rather than wait for each in series
         time.sleep(self.sleep_secs)
 
-    def shutdown(self, timeout_sec: float = None):
+    def shutdown(self, timeout_secs: float = None):
         """Optionally wait, and then kill the child server processes.
 
-        :param timeout_sec: the number of seconds to wait before the server
+        :param timeout_secs: the number of seconds to wait before the server
                             subprocess is killed
 
         """
@@ -502,16 +502,16 @@ class TerminalDashServer(object):
             if logger.isEnabledFor(logging.DEBUG):
                 logger.debug('already shutdown')
         else:
-            if timeout_sec is None:
-                timeout_sec = self.timeout_sec
-            if timeout_sec > 0:
+            if timeout_secs is None:
+                timeout_secs = self.timeout_secs
+            if timeout_secs > 0:
                 if logger.isEnabledFor(logging.INFO):
-                    logger.info(f'waiting on child for {timeout_sec}s')
+                    logger.info(f'waiting on child for {timeout_secs}s')
                 try:
-                    self._par_queue.get(block=True, timeout=timeout_sec)
+                    self._par_queue.get(block=True, timeout=timeout_secs)
                 except Empty:
                     logger.warning('killed server child process did not ' +
-                                   f'respond after {timeout_sec}s')
+                                   f'respond after {timeout_secs}s')
             else:
                 if logger.isEnabledFor(logging.INFO):
                     logger.info('killing server child process')
