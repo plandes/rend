@@ -9,6 +9,7 @@ from abc import ABCMeta, abstractmethod
 import logging
 import platform
 from pathlib import Path
+from pandas import DataFrame
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
 from . import (
@@ -110,13 +111,26 @@ class BrowserManager(object):
         """A dictionary of displays keyed by size."""
         return {Size(d.width, d.height): d for d in self.displays.values()}
 
-    def locator_to_presentation(self, locator: Union[str, Path, Presentation],
-                                extent: Extent = None, transmute: bool = True) \
+    def dataframe_to_location(self, df: DataFrame, name: str = None) -> \
+            Location:
+        """Create a location from a Pandas dataframe.
+
+        :param df: the datafram to display
+
+        :param name: the name of the location and used as the title of the frame
+
+        """
+        from zensols.rend.df import CachedDataFrameSource, DataFrameLocation
+        df_source = CachedDataFrameSource(df, name)
+        return DataFrameLocation(df_source)
+
+    def to_presentation(self, data: Union[str, Path, Presentation, DataFrame],
+                        extent: Extent = None, transmute: bool = True) \
             -> Presentation:
         """Create a presentation instance from a string, path, or other
         presentation.
 
-        :param locator: the PDF (or image) file or URL to display
+        :param data: the PDF (or image) file, URL or Pandas dataframe to display
 
         :param extent: the position and size of the window after browsing
 
@@ -124,14 +138,17 @@ class BrowserManager(object):
 
         """
         pres: Presentation
-        if isinstance(locator, (str, Path)):
-            loc_type: LocatorType = LocatorType.from_type(locator)
-            loc: Location = Location(source=locator, type=loc_type)
+        if isinstance(data, (str, Path)):
+            loc_type: LocatorType = LocatorType.from_type(data)
+            loc: Location = Location(source=data, type=loc_type)
             pres = Presentation(locators=(loc,))
-        elif isinstance(locator, Presentation):
-            pres = locator
+        elif isinstance(data, DataFrame):
+            loc: Location = self.dataframe_to_location(data)
+            pres = Presentation(locators=(loc,))
+        elif isinstance(data, Presentation):
+            pres = data
         else:
-            raise RenderFileError(f'Unsupported locator type: {type(locator)}')
+            raise RenderFileError(f'Unsupported locator type: {type(data)}')
         pres.extent = self._get_extent() if extent is None else extent
         if transmute:
             lt: LocationTransmuter
@@ -139,17 +156,17 @@ class BrowserManager(object):
                 pres.apply_transmuter(lt)
         return pres
 
-    def show(self, locator: Union[str, Path, Presentation],
+    def show(self, data: Union[str, Path, Presentation, DataFrame],
              extent: Extent = None):
-        """Display ``locator`` content on the screen and optionally resize the
+        """Display ``data`` content on the screen and optionally resize the
         window to ``extent``.
 
-        :param locator: the PDF (or image) file or URL to display
+        :param data: the PDF (or image) file, URL or Pandas dataframe to display
 
         :param extent: the position and size of the window after browsing
 
         """
-        pres: Presentation = self.locator_to_presentation(locator, extent)
+        pres: Presentation = self.to_presentation(data, extent)
         try:
             pres.validate()
             self.browser.show(pres)

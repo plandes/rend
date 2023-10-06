@@ -19,7 +19,7 @@ class TestDataFrame(TestApplicationBase):
         path = Path('test-resources/states.csv')
         pres: Presentation = None
         try:
-            pres = mng.locator_to_presentation(path)
+            pres = mng.to_presentation(path)
             self.assertTrue(isinstance(pres, Presentation))
             self.assertEqual(1, len(pres.locators))
             loc: Location = pres.locators[0]

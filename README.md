@@ -36,7 +36,7 @@ $ rend config
 Invoke the application to show the file and display it:
 
 ```bash
-$ rend show example.pdf
+$ rend example.pdf
 ```
 
 See the [configuration file] example.
@@ -51,6 +51,16 @@ app = ApplicationFactory().get_instance()
 
 if (__name__ == '__main__'):
     app('test-resources/sample.pdf')
+```
+
+Pandas `DataFrame`s can be rendered using the browser API:
+```python
+import pandas as pd
+from zensols.rend import ApplicationFactory
+app = ApplicationFactory().get_instance()
+url = 'https://raw.githubusercontent.com/scpike/us-state-county-zip/master/geo-data.csv'
+df = pd.read_csv(url)
+app.browser_manager(df)
 ```
 
 
