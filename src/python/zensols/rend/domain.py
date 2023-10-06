@@ -25,13 +25,13 @@ class RenderFileError(APIError):
 
 
 class FileNotFoundError(RenderFileError):
-    """Raised when a locator is a file, but the file isn't found."""
+    """Raised when a location is a file, but the file isn't found."""
     def __init__(self, path: Path):
         super().__init__(f'File not found: {path}')
         self.path = path
 
 
-class LocatorType(Enum):
+class LocationType(Enum):
     """Identifies a URL or a file name.
 
     """
@@ -39,31 +39,31 @@ class LocatorType(Enum):
     url = auto()
 
     @staticmethod
-    def from_type(instance: Any) -> LocatorType:
-        type: LocatorType
+    def from_type(instance: Any) -> LocationType:
+        type: LocationType
         if isinstance(instance, Path):
-            type = LocatorType.file
+            type = LocationType.file
         elif isinstance(instance, str):
-            type = LocatorType.url
+            type = LocationType.url
         else:
             raise RenderFileError(f'Unknown type: {type(instance)}')
         return type
 
     @staticmethod
-    def from_str(s: str) -> Tuple[LocatorType, str]:
+    def from_str(s: str) -> Tuple[LocationType, str]:
         """Return whether ``s`` looks like a file or a URL."""
-        st: LocatorType = None
+        st: LocationType = None
         path: str = None
         try:
             result: up.ParseResult = up.urlparse(s)
             if result.scheme == 'file' and len(result.path) > 0:
-                st = LocatorType.url
+                st = LocationType.url
                 path = result.path
             elif all([result.scheme, result.netloc]):
-                st = LocatorType.url
+                st = LocationType.url
         except Exception:
             pass
-        st = LocatorType.file if st is None else st
+        st = LocationType.file if st is None else st
         return st, path
 
 
@@ -118,7 +118,7 @@ class Location(PersistableContainer, Dictable):
     source: Union[str, Path] = field()
     """Where to find the data to display."""
 
-    type: LocatorType = field(default=None)
+    type: LocationType = field(default=None)
     """The type of resource (PDF or URL) to display."""
 
     def __post_init__(self):
@@ -128,13 +128,13 @@ class Location(PersistableContainer, Dictable):
         self._file_url_path = None
         if self.type is None:
             if isinstance(self.source, Path):
-                self.type = LocatorType.file
+                self.type = LocationType.file
                 self.validate()
             else:
-                self.type, path = LocatorType.from_str(self.source)
-                if self.type == LocatorType.url and path is not None:
+                self.type, path = LocationType.from_str(self.source)
+                if self.type == LocationType.url and path is not None:
                     self._file_url_path = Path(path)
-        if self.type == LocatorType.file and isinstance(self.source, str):
+        if self.type == LocationType.file and isinstance(self.source, str):
             self.source = Path(self.source)
 
     def validate(self):
@@ -143,20 +143,20 @@ class Location(PersistableContainer, Dictable):
         :raises FileNotFoundError: if the location points to a non-existant file
 
         """
-        if self.type == LocatorType.file or self.is_file_url:
+        if self.type == LocationType.file or self.is_file_url:
             path: Path = self.path
             if not path.is_file():
                 raise FileNotFoundError(path)
 
     @property
     def is_file_url(self) -> bool:
-        """Whether the locator is a URL that points to a file."""
+        """Whether the location is a URL that points to a file."""
         return self._file_url_path is not None
 
     @property
     @persisted('_url')
     def url(self) -> str:
-        """The URL of the locator."""
+        """The URL of the location."""
         url: str = self.source
         if isinstance(self.source, Path):
             url = f'file://{self.source.absolute()}'
@@ -164,7 +164,7 @@ class Location(PersistableContainer, Dictable):
 
     @property
     def has_path(self) -> bool:
-        """Whether this locator has a path and that access to :obj:`path` will
+        """Whether this location has a path and that access to :obj:`path` will
         not raise an error.
 
         """
@@ -173,9 +173,9 @@ class Location(PersistableContainer, Dictable):
     @property
     @persisted('_path')
     def path(self) -> Path:
-        """The path of the locator.
+        """The path of the location.
 
-        :raises RenderFileError: if the locator does not point to a path or not
+        :raises RenderFileError: if the location does not point to a path or not
                                a URL path
 
         """
@@ -186,21 +186,21 @@ class Location(PersistableContainer, Dictable):
                 raise RenderFileError(f'Not a path or URL path: {self.source}')
             return self._file_url_path
 
-    def coerce_type(self, locator_type: LocatorType):
-        """Change to the locator from a file to a URL or vica versa if possible.
+    def coerce_type(self, location_type: LocationType):
+        """Change to the location from a file to a URL or vica versa if possible.
 
         """
-        if locator_type != self.type:
-            if locator_type == LocatorType.file:
-                type, path = LocatorType.from_str(self.source)
+        if location_type != self.type:
+            if location_type == LocationType.file:
+                type, path = LocationType.from_str(self.source)
                 if path is not None:
-                    self.type = LocatorType.file
+                    self.type = LocationType.file
                     self.source = Path(path)
             else:
                 self.source = self.url
-                self.type = LocatorType.url
+                self.type = LocationType.url
                 self._file_url_path = None
-        elif locator_type == LocatorType.url and self.is_file_url:
+        elif location_type == LocationType.url and self.is_file_url:
             self._file_url_path = None
         self._url.clear()
         self._url.clear()
@@ -237,7 +237,7 @@ class Presentation(PersistableContainer, Dictable):
     necessary, and not contained :class:`.Location`.
 
     """
-    locators: Tuple[Location] = field()
+    locations: Tuple[Location] = field()
     """The locations of the content to display"""
 
     extent: Extent = field(default=None)
@@ -245,27 +245,27 @@ class Presentation(PersistableContainer, Dictable):
 
     def __post_init__(self):
         super().__init__()
-        self._locator_type_set = PersistedWork('_locator_type_set', self)
+        self._location_type_set = PersistedWork('_location_type_set', self)
 
     @staticmethod
-    def from_str(locator_defs: str, delimiter: str = ',',
+    def from_str(location_defs: str, delimiter: str = ',',
                  extent: Extent = None) -> Presentation:
-        """Create a presentation from a comma-delimited list of locators."""
+        """Create a presentation from a comma-delimited list of locations."""
         locs: Tuple[Location] = tuple(
-            map(Location, locator_defs.split(delimiter)))
+            map(Location, location_defs.split(delimiter)))
         return Presentation(locs, extent)
 
     @property
-    @persisted('_locator_type_set')
-    def locator_type_set(self) -> Set[LocatorType]:
-        """A set of :obj:`locators`."""
-        return frozenset(map(lambda loc: loc.type, self.locators))
+    @persisted('_location_type_set')
+    def location_type_set(self) -> Set[LocationType]:
+        """A set of :obj:`locations`."""
+        return frozenset(map(lambda loc: loc.type, self.locations))
 
     def apply_transmuter(self, transmuter: LocationTransmuter):
         changed: bool = False
         updates: List[Location] = []
         loc: Location
-        for loc in self.locators:
+        for loc in self.locations:
             locs: Tuple[Location] = transmuter.transmute(loc)
             if len(locs) > 0:
                 updates.extend(locs)
@@ -273,20 +273,20 @@ class Presentation(PersistableContainer, Dictable):
             else:
                 updates.append(loc)
         if changed:
-            self.locators = tuple(updates)
-            self._locator_type_set.clear()
+            self.locations = tuple(updates)
+            self._location_type_set.clear()
 
     def validate(self):
-        """Validate all locators.
+        """Validate all locations.
 
         :see: :meth:`.Location.validate`
 
         """
-        for loc in self.locators:
+        for loc in self.locations:
             loc.validate()
 
     def deallocate(self):
         loc: Location
-        for loc in self.locators:
+        for loc in self.locations:
             loc.deallocate()
         super().deallocate()

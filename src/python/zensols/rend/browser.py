@@ -13,7 +13,7 @@ from pandas import DataFrame
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
 from . import (
-    RenderFileError, Size, Extent, LocatorType, Location, LocationTransmuter,
+    RenderFileError, Size, Extent, LocationType, Location, LocationTransmuter,
     Display, Presentation,
 )
 
@@ -139,16 +139,16 @@ class BrowserManager(object):
         """
         pres: Presentation
         if isinstance(data, (str, Path)):
-            loc_type: LocatorType = LocatorType.from_type(data)
+            loc_type: LocationType = LocationType.from_type(data)
             loc: Location = Location(source=data, type=loc_type)
-            pres = Presentation(locators=(loc,))
+            pres = Presentation(locations=(loc,))
         elif isinstance(data, DataFrame):
             loc: Location = self.dataframe_to_location(data)
-            pres = Presentation(locators=(loc,))
+            pres = Presentation(locations=(loc,))
         elif isinstance(data, Presentation):
             pres = data
         else:
-            raise RenderFileError(f'Unsupported locator type: {type(data)}')
+            raise RenderFileError(f'Unsupported location type: {type(data)}')
         pres.extent = self._get_extent() if extent is None else extent
         if transmute:
             lt: LocationTransmuter

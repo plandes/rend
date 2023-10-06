@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Application name from `showfile` to `rend` as the application now renders
-  Pandas dataframes.
+  Pandas DataFrames.
+- Renamed `Locator[Type]` to `Location[Type]` to standardize class naming.
 
 
 ## [0.3.0] - 2023-08-16

@@ -32,5 +32,5 @@ class WebBrowser(Browser):
 
     def show(self, presentation: Presentation):
         loc: Location
-        for loc in presentation.locators:
+        for loc in presentation.locations:
             self._open_url(loc.url)

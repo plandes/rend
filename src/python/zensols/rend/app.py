@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 import logging
 from zensols.cli import ApplicationError
 from . import (
-    RenderFileError, LocatorType, Extent, Location, Presentation, BrowserManager
+    RenderFileError, LocationType, Extent, Location, Presentation, BrowserManager
 )
 
 logger = logging.getLogger(__name__)
@@ -46,24 +46,24 @@ class Application(object):
             extent = Extent(self.width, self.height, 0, 0)
         return extent
 
-    def show(self, locator: str, locator_type: LocatorType = None,
+    def show(self, location: str, location_type: LocationType = None,
              delimiter: str = ','):
         """Open and display a file with the application's extents set for the
         display.
 
-        :param locator: the file or URL to display
+        :param location: the file or URL to display
 
-        :param locator_type: specify either a URL or file; determined by default
+        :param location_type: specify either a URL or file; determined by default
 
-        :param delimiter: the string used to split locator strings
+        :param delimiter: the string used to split location strings
 
         """
         extent: Optional[Extent] = self._get_extent()
-        pres: Presentation = Presentation.from_str(locator, delimiter, extent)
-        if locator_type is not None:
+        pres: Presentation = Presentation.from_str(location, delimiter, extent)
+        if location_type is not None:
             loc: Location
-            for loc in pres.locators:
-                loc.coerce_type(locator_type)
+            for loc in pres.locations:
+                loc.coerce_type(location_type)
         try:
             self.browser_manager.show(pres)
         except RenderFileError as e:

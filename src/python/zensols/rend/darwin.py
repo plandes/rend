@@ -14,7 +14,7 @@ import applescript as aps
 from applescript._result import Result
 from zensols.config import ConfigFactory
 from . import (
-    RenderFileError, LocatorType, Size, Extent, Location, Presentation, Browser
+    RenderFileError, LocationType, Size, Extent, Location, Presentation, Browser
 )
 
 logger = logging.getLogger(__name__)
@@ -174,25 +174,25 @@ class DarwinBrowser(Browser):
 
     def show(self, presentation: Presentation):
         def map_loc(loc: Location) -> Location:
-            if loc.is_file_url or loc.type == LocatorType.file:
+            if loc.is_file_url or loc.type == LocationType.file:
                 path: Path = loc.path
                 if path.suffix[1:] in self.web_extensions:
-                    loc.coerce_type(LocatorType.url)
+                    loc.coerce_type(LocationType.url)
             return loc
 
         extent: Extent = presentation.extent
         urls: Tuple[str] = None
-        locs: Tuple[Location] = tuple(map(map_loc, presentation.locators))
+        locs: Tuple[Location] = tuple(map(map_loc, presentation.locations))
         if len(locs) > 1:
-            loc_set: Set[LocatorType] = set(map(lambda lc: lc.type, locs))
-            if len(loc_set) != 1 or next(iter(loc_set)) != LocatorType.file:
+            loc_set: Set[LocationType] = set(map(lambda lc: lc.type, locs))
+            if len(loc_set) != 1 or next(iter(loc_set)) != LocationType.file:
                 urls = tuple(map(lambda loc: loc.url, locs))
         if urls is not None:
             self._show_urls(urls, extent)
         else:
             loc: Location
-            for loc in presentation.locators:
-                if loc.type == LocatorType.file:
+            for loc in presentation.locations:
+                if loc.type == LocationType.file:
                     self._show_file(loc.path, extent)
                 else:
                     if loc.is_file_url:

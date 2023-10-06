@@ -21,8 +21,8 @@ class TestDataFrame(TestApplicationBase):
         try:
             pres = mng.to_presentation(path)
             self.assertTrue(isinstance(pres, Presentation))
-            self.assertEqual(1, len(pres.locators))
-            loc: Location = pres.locators[0]
+            self.assertEqual(1, len(pres.locations))
+            loc: Location = pres.locations[0]
             self.assertEqual(TerminalDashServerLocation, type(loc))
             self.assertEqual('http://localhost:8050', loc.url)
             lf: DataSourceFrameLayoutFactory = loc.server.layout_factory
