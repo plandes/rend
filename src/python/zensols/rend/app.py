@@ -8,7 +8,8 @@ from dataclasses import dataclass, field
 import logging
 from zensols.cli import ApplicationError
 from . import (
-    RenderFileError, LocationType, Extent, Location, Presentation, BrowserManager
+    RenderFileError, LocationType, Extent, Location,
+    Presentation, BrowserManager
 )
 
 logger = logging.getLogger(__name__)
@@ -53,7 +54,8 @@ class Application(object):
 
         :param location: the file or URL to display
 
-        :param location_type: specify either a URL or file; determined by default
+        :param location_type: specify either a URL or file; determined by
+                              default
 
         :param delimiter: the string used to split location strings
 

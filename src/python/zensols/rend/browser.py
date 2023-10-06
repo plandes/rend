@@ -124,13 +124,13 @@ class BrowserManager(object):
         df_source = CachedDataFrameSource(df, name)
         return DataFrameLocation(df_source)
 
-    def to_presentation(self, data: Union[str, Path, Presentation, DataFrame],
+    def to_presentation(self, data: Union[str, Path, Presentation, Location, DataFrame],
                         extent: Extent = None, transmute: bool = True) \
             -> Presentation:
         """Create a presentation instance from a string, path, or other
         presentation.
 
-        :param data: the PDF (or image) file, URL or Pandas dataframe to display
+        :param data: the data (image file, URL, Pandas dataframe) to display
 
         :param extent: the position and size of the window after browsing
 
@@ -142,11 +142,13 @@ class BrowserManager(object):
             loc_type: LocationType = LocationType.from_type(data)
             loc: Location = Location(source=data, type=loc_type)
             pres = Presentation(locations=(loc,))
+        elif isinstance(data, Presentation):
+            pres = data
+        elif isinstance(data, Location):
+            pres = Presentation(locations=(loc,))
         elif isinstance(data, DataFrame):
             loc: Location = self.dataframe_to_location(data)
             pres = Presentation(locations=(loc,))
-        elif isinstance(data, Presentation):
-            pres = data
         else:
             raise RenderFileError(f'Unsupported location type: {type(data)}')
         pres.extent = self._get_extent() if extent is None else extent
@@ -156,12 +158,12 @@ class BrowserManager(object):
                 pres.apply_transmuter(lt)
         return pres
 
-    def show(self, data: Union[str, Path, Presentation, DataFrame],
+    def show(self, data: Union[str, Path, Presentation, Location, DataFrame],
              extent: Extent = None):
         """Display ``data`` content on the screen and optionally resize the
         window to ``extent``.
 
-        :param data: the PDF (or image) file, URL or Pandas dataframe to display
+        :param data: the data (image file, URL, Pandas dataframe) to display
 
         :param extent: the position and size of the window after browsing
 
