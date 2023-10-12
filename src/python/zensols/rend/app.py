@@ -35,6 +35,8 @@ class Application(object):
         for n, dsp in dsps:
             print(f'{n}:')
             dsp.write(1)
+        print('current:')
+        self.browser_manager.browser.screen_size.write(depth=1)
 
     def _get_extent(self) -> Optional[Extent]:
         extent: Extent
