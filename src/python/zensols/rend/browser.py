@@ -145,7 +145,7 @@ class BrowserManager(object):
         elif isinstance(data, Presentation):
             pres = data
         elif isinstance(data, Location):
-            pres = Presentation(locations=(loc,))
+            pres = Presentation(locations=(data,))
         elif isinstance(data, DataFrame):
             loc: Location = self.dataframe_to_location(data)
             pres = Presentation(locations=(loc,))
