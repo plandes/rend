@@ -13,6 +13,7 @@ from pathlib import Path
 from pandas import DataFrame
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
+from zensols.datdesc import DataFrameDescriber, DataDescriber
 from . import (
     RenderFileError, Size, Extent, LocationType, Location, LocationTransmuter,
     Display, Presentation,
@@ -154,6 +155,12 @@ class BrowserManager(object):
             pres = Presentation(
                 locations=tuple(chain.from_iterable(map(
                     lambda loc: self.to_presentation(loc).locations, data))))
+        elif isinstance(data, DataFrameDescriber):
+            pres = self.to_presentation(DataDescriber(describers=(data,)))
+        elif isinstance(data, DataDescriber):
+            from .df import DataDescriberLocation
+            loc: Location = DataDescriberLocation(data)
+            pres = Presentation(locations=(loc,))
         else:
             raise RenderFileError(f'Unsupported location type: {type(data)}')
         pres.extent = self._get_extent() if extent is None else extent
