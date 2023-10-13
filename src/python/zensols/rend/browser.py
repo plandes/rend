@@ -8,6 +8,7 @@ from dataclasses import dataclass, field
 from abc import ABCMeta, abstractmethod
 import logging
 import platform
+from itertools import chain
 from pathlib import Path
 from pandas import DataFrame
 from zensols.config import Dictable, ConfigFactory
@@ -124,7 +125,7 @@ class BrowserManager(object):
         df_source = CachedDataFrameSource(df, name)
         return DataFrameLocation(df_source)
 
-    def to_presentation(self, data: Union[str, Path, Presentation, Location, DataFrame],
+    def to_presentation(self, data: Union[str, Path, Presentation, Location, DataFrame, List],
                         extent: Extent = None, transmute: bool = True) \
             -> Presentation:
         """Create a presentation instance from a string, path, or other
@@ -149,6 +150,10 @@ class BrowserManager(object):
         elif isinstance(data, DataFrame):
             loc: Location = self.dataframe_to_location(data)
             pres = Presentation(locations=(loc,))
+        elif isinstance(data, Sequence):
+            pres = Presentation(
+                locations=tuple(chain.from_iterable(map(
+                    lambda loc: self.to_presentation(loc).locations, data))))
         else:
             raise RenderFileError(f'Unsupported location type: {type(data)}')
         pres.extent = self._get_extent() if extent is None else extent
@@ -158,7 +163,7 @@ class BrowserManager(object):
                 pres.apply_transmuter(lt)
         return pres
 
-    def show(self, data: Union[str, Path, Presentation, Location, DataFrame],
+    def show(self, data: Union[str, Path, Presentation, Location, DataFrame, Sequence],
              extent: Extent = None):
         """Display ``data`` content on the screen and optionally resize the
         window to ``extent``.
