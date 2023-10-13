@@ -47,20 +47,23 @@ See the [configuration file] example.
 The package is designed to be easy invoke from Python as well:
 ```python
 from zensols.rend import ApplicationFactory
-app = ApplicationFactory().get_instance()
 
 if (__name__ == '__main__'):
+    app = ApplicationFactory().get_instance()
     app('test-resources/sample.pdf')
 ```
 
 Pandas `DataFrame`s can be rendered using the browser API:
 ```python
+from zensols.rend import BrowserManager, ApplicationFactory
 import pandas as pd
-from zensols.rend import ApplicationFactory
-app = ApplicationFactory().get_instance()
-url = 'https://raw.githubusercontent.com/scpike/us-state-county-zip/master/geo-data.csv'
-df = pd.read_csv(url)
-app.browser_manager(df)
+
+if (__name__ == '__main__'):
+    app = ApplicationFactory().get_instance()
+    mng: BrowserManager = ApplicationFactory().get_browser_manager()
+    url = 'https://raw.githubusercontent.com/scpike/us-state-county-zip/master/geo-data.csv'
+    df = pd.read_csv(url)
+    mng.show(df)
 ```
 
 
