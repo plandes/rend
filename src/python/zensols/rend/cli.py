@@ -16,14 +16,16 @@ class ApplicationFactory(CliApplicationFactory):
         super().__init__(*args, **kwargs)
 
     def get_instance(self, args: Union[List[str], str] = None) -> Application:
-        """Get the application instance."""
         if args is None:
             args = 'config'
         return super().get_instance(args)
 
-    def get_browser_manager(self) -> BrowserManager:
+    @classmethod
+    def get_browser_manager(cls, args: Union[List[str], str] = None) -> \
+            BrowserManager:
         """Get a new instance of the browser manager."""
-        return self.get_instance().browser_manager
+        app: Application = cls().get_instance(args)
+        return app.browser_manager
 
 
 def main(args: List[str] = sys.argv, **kwargs: Dict[str, Any]) -> ActionResult:

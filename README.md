@@ -44,7 +44,8 @@ See the [configuration file] example.
 
 ### From Python
 
-The package is designed to be easy invoke from Python as well:
+The package is designed to be easy invoke from Python as well (note the
+parenthesis needed to make the instance):
 ```python
 from zensols.rend import ApplicationFactory
 
@@ -53,14 +54,15 @@ if (__name__ == '__main__'):
     app('test-resources/sample.pdf')
 ```
 
-Pandas `DataFrame`s can be rendered using the browser API:
+Pandas `DataFrame`s can be rendered using the browser API (note the lack of
+parenthesis as it is called as a class method):
 ```python
 from zensols.rend import BrowserManager, ApplicationFactory
 import pandas as pd
 
 if (__name__ == '__main__'):
     app = ApplicationFactory().get_instance()
-    mng: BrowserManager = ApplicationFactory().get_browser_manager()
+    mng: BrowserManager = ApplicationFactory.get_browser_manager()
     url = 'https://raw.githubusercontent.com/scpike/us-state-county-zip/master/geo-data.csv'
     df = pd.read_csv(url)
     mng.show(df)
