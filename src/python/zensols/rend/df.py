@@ -224,6 +224,9 @@ class DataFrameLayoutFactory(LayoutFactory, metaclass=ABCMeta):
                 for i in df.columns
             ],
             tooltip_header=self._get_column_tooltips(df),
+            # disable tooltips from going away
+            tooltip_delay=0,
+            tooltip_duration=None,
             filter_action='native' if self.column_filterable else 'none',
             sort_action='native' if self.column_sort else 'none',
             sort_mode='multi',
