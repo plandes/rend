@@ -385,6 +385,7 @@ class DataFrameLocation(Location):
             raise RenderFileError(f'Not a DataFrameSource: {type(self.source)}')
 
 
+@dataclass
 class DataDescriberLocation(Location):
     """Like :class:`.DataFrameLocation` but renders additional tool tips from
     metadata in the :class:`~zensols.datdesc.desc.DataDescriber`.  Use this as a
