@@ -61,7 +61,6 @@ from zensols.rend import BrowserManager, ApplicationFactory
 import pandas as pd
 
 if (__name__ == '__main__'):
-    app = ApplicationFactory().get_instance()
     mng: BrowserManager = ApplicationFactory.get_browser_manager()
     url = 'https://raw.githubusercontent.com/scpike/us-state-county-zip/master/geo-data.csv'
     df = pd.read_csv(url)
