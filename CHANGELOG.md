@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+## [1.1.0] - 2023-12-05
+### Changed
+- Upgrade to [zensols.util] version 1.14.
+
+### Added
+- Support for Python 3.11.
+
+### Removed
+- Support for Python 3.9.
+
+
 ## [1.0.0] - 2023-11-16
 Major feature release and project name change.
 
@@ -44,7 +55,8 @@ Downstream moderate risk update release.
 
 
 <!-- links -->
-[Unreleased]: https://github.com/plandes/rend/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/plandes/rend/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/plandes/rend/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/plandes/rend/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/plandes/rend/compare/v0.1.1...v0.3.0
 [0.2.0]: https://github.com/plandes/rend/compare/v0.1.0...v0.2.0
@@ -52,3 +64,4 @@ Downstream moderate risk update release.
 [0.0.1]: https://github.com/plandes/rend/compare/v0.0.0...v0.0.1
 
 [Dash]: https://plotly.com/dash/
+[zenbuild]: https://github.com/plandes/zenbuild
