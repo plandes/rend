@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+### Added
+- Rendering of column metadata in [zensols.datdesc] `DataFrameDescriber`
+  instance.
+
+
 ## [1.1.0] - 2023-12-05
 ### Changed
 - Upgrade to [zensols.util] version 1.14.
@@ -65,3 +70,4 @@ Downstream moderate risk update release.
 
 [Dash]: https://plotly.com/dash/
 [zenbuild]: https://github.com/plandes/zenbuild
+[zensols.datdesc]: https://github.com/plandes/datdesc

@@ -349,6 +349,11 @@ class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
     source: DataFrameDescriber = field(default=None)
     """The data source."""
 
+    index_meta_format: str = field(default=None)
+    """Used as the index metadata on :obj:`source` when creating the dataframe
+    with :meth:`~zensols.datdesc.desc.DataFrameDescriver.df_with_index_meta`.
+
+    """
     def __post_init__(self):
         if self.title is None:
             self.title = self.source.name
@@ -356,7 +361,7 @@ class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
             self.description = (self.source.desc,)
 
     def _get_dataframe(self) -> pd.DataFrame:
-        return self.source.df
+        return self.source.df_with_index_meta(self.index_meta_format)
 
     def _get_column_tooltips(self, df: pd.DataFrame) -> Dict[str, str]:
         def map_col(c: str):
