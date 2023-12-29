@@ -1,0 +1,23 @@
+<map id="inheritance4916944b3e" name="inheritance4916944b3e">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="54,3,92,19"/>
+<area shape="rect" id="node15" title="All subclasses have the ability to deallocate any resources. &#160;This is" alt="" coords="3,45,73,61"/>
+<area shape="rect" id="node17" title="An interface for classes that have multi&#45;line debuging capability." alt="" coords="85,45,132,61"/>
+<area shape="rect" id="node2" href="#zensols.rend.df.CachedDataFrameSource" target="_top" title="Returns :obj:`df` as the dataframe." alt="" coords="145,45,269,61"/>
+<area shape="rect" id="node3" href="#zensols.rend.df.DataFrameSource" target="_top" title="Generates a dataframe." alt="" coords="226,3,317,19"/>
+<area shape="rect" id="node19" href="#zensols.rend.df.PathDataFrameSource" target="_top" title="Reads a dataframe from a file." alt="" coords="282,45,392,61"/>
+<area shape="rect" id="node4" href="#zensols.rend.df.DashServerLocationTransmuter" target="_top" title="Transmutes locations to deallocatable" alt="" coords="405,45,553,61"/>
+<area shape="rect" id="node8" href="#zensols.rend.df.DataDescriberLocationTransmuter" target="_top" title="Like :class:`.DataFrameLocationTransmuter` but create server locations" alt="" coords="203,87,363,103"/>
+<area shape="rect" id="node13" href="#zensols.rend.df.DataFrameLocationTransmuter" target="_top" title="Transmutes spreadsheet like files (Excel, CSV, etc.) to deallocatable" alt="" coords="375,87,522,103"/>
+<area shape="rect" id="node5" href="#zensols.rend.domain.LocationTransmuter" target="_top" title="Transmutes concrete locations to their ephemeral counterparts, which" alt="" coords="430,3,528,19"/>
+<area shape="rect" id="node6" href="#zensols.rend.df.DataDescriberLocation" target="_top" title="Like :class:`.DataFrameLocation` but renders additional tool tips from" alt="" coords="262,171,371,187"/>
+<area shape="rect" id="node7" href="#zensols.rend.domain.Location" target="_top" title="Has the ability to find the data and how to view it." alt="" coords="143,129,191,145"/>
+<area shape="rect" id="node12" href="#zensols.rend.df.DataFrameLocation" target="_top" title="A location of an in memory Pandas dataframe of :class:`.DataFrameSource`." alt="" coords="152,171,249,187"/>
+<area shape="rect" id="node21" href="#zensols.rend.df.TerminalDashServerLocation" target="_top" title="A location started by a :class:`.TerminalDashServer` which waits and" alt="" coords="3,171,139,187"/>
+<area shape="rect" id="node9" href="#zensols.rend.df.DataFrameDescriberLayoutFactory" target="_top" title="A layout that renderes data from a :class:`.DataFrameDescriber`." alt="" coords="535,87,697,103"/>
+<area shape="rect" id="node10" href="#zensols.rend.df.DataFrameLayoutFactory" target="_top" title="Create a layout with a top title and a resizable" alt="" coords="588,45,709,61"/>
+<area shape="rect" id="node14" href="#zensols.rend.df.DataSourceFrameLayoutFactory" target="_top" title="Uses a :class:`.DataFrameSource` to create the dataframe." alt="" coords="710,87,861,103"/>
+<area shape="rect" id="node11" href="#zensols.rend.df.LayoutFactory" target="_top" title="A factory class that creates a layout to be used with :class:`dash.Dash`." alt="" coords="612,3,685,19"/>
+<area shape="rect" id="node18" title="Classes can extend this that want to persist :class:`.PersistedWork`" alt="" coords="30,87,131,103"/>
+<area shape="rect" id="node16" title="A class that that generates a dictionary recursively from data classes" alt="" coords="144,87,190,103"/>
+<area shape="rect" id="node20" href="#zensols.rend.df.TerminalDashServer" target="_top" title="A server that takes a single incoming request, renderes the client&#39;s" alt="" coords="740,3,839,19"/>
+</map>

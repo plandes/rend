@@ -1,0 +1,12 @@
+<map id="inheritance389bc95807" name="inheritance389bc95807">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="41,5,113,36"/>
+<area shape="rect" id="node8" title="An interface for classes that have multi&#45;line debuging capability." alt="" coords="33,84,121,115"/>
+<area shape="rect" id="node2" title="Base exception from which almost all library raised errors extend." alt="" coords="388,5,479,36"/>
+<area shape="rect" id="node4" href="#zensols.rend.domain.RenderFileError" target="_top" title="Raised for any :module:`zensols.rend` API error." alt="" coords="358,84,509,115"/>
+<area shape="rect" id="node3" href="#zensols.rend.darwin.ApplescriptError" target="_top" title="Raised for macOS errors." alt="" coords="358,163,509,193"/>
+<area shape="rect" id="node5" href="#zensols.rend.browser.Browser" target="_top" title="An abstract base class for browsers the can visually display files." alt="" coords="33,241,121,272"/>
+<area shape="rect" id="node7" href="#zensols.rend.darwin.DarwinBrowser" target="_top" title="DarwinBrowser(config_factory: zensols.config.facbase.ConfigFactory, script_paths: Dict[str, pathlib.Path], web_extensions: Set[str], applescript_warns: Dict[str, str], update_page: Union[bool, int] = False, switch_back_app: str = None, mangle_url: bool = False)" alt="" coords="5,320,149,351"/>
+<area shape="rect" id="node6" title="A class that that generates a dictionary recursively from data classes" alt="" coords="34,163,121,193"/>
+<area shape="rect" id="node9" title="Create a collection of name/value pairs." alt="" coords="655,5,727,36"/>
+<area shape="rect" id="node10" href="#zensols.rend.darwin.ErrorType" target="_top" title="Types of errors raised by :class:`.ApplescriptError`." alt="" coords="640,84,741,115"/>
+</map>

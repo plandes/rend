@@ -1,0 +1,7 @@
+<map id="inheritanceb1ddd1625b" name="inheritanceb1ddd1625b">
+<area shape="rect" id="node1" title="Helper class that provides a standard way to create an ABC using" alt="" coords="13,5,85,36"/>
+<area shape="rect" id="node5" title="An interface for classes that have multi&#45;line debuging capability." alt="" coords="5,84,93,115"/>
+<area shape="rect" id="node2" href="#zensols.rend.browser.Browser" target="_top" title="An abstract base class for browsers the can visually display files." alt="" coords="5,241,93,272"/>
+<area shape="rect" id="node3" title="A class that that generates a dictionary recursively from data classes" alt="" coords="6,163,93,193"/>
+<area shape="rect" id="node4" href="#zensols.rend.browser.BrowserManager" target="_top" title="Manages configured browsers and invoking them to display files and URLs." alt="" coords="399,5,559,36"/>
+</map>
