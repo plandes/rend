@@ -136,7 +136,7 @@ class BrowserManager(object):
 
         :param extent: the position and size of the window after browsing
 
-        :param transmute: whether to apply :class:`.LocationTransmuter`s
+        :param transmute: whether to apply :class:`.LocationTransmuter` instanes
 
         """
         pres: Presentation
