@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+### Changed
+- Bug fix when using Preview.app on macOS with files in names.
+- Better handling of files with spaces in name.
+
+
 ## [1.1.1] - 2023-12-29
 ### Added
 - Rendering of column metadata in [zensols.datdesc] `DataFrameDescriber`

@@ -59,10 +59,13 @@ class Application(object):
         :param location_type: specify either a URL or file; determined by
                               default
 
-        :param delimiter: the string used to split location strings
+        :param delimiter: the string used to split location strings or ``-`` for
+                          none
 
         """
         extent: Optional[Extent] = self._get_extent()
+        if delimiter == '-':
+            delimiter = None
         pres: Presentation = Presentation.from_str(location, delimiter, extent)
         if location_type is not None:
             loc: Location

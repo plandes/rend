@@ -251,8 +251,11 @@ class Presentation(PersistableContainer, Dictable):
     def from_str(location_defs: str, delimiter: str = ',',
                  extent: Extent = None) -> Presentation:
         """Create a presentation from a comma-delimited list of locations."""
-        locs: Tuple[Location] = tuple(
-            map(Location, location_defs.split(delimiter)))
+        locs: Tuple[Location]
+        if delimiter is None:
+            locs = (Location(location_defs),)
+        else:
+            locs = tuple(map(Location, location_defs.split(delimiter)))
         return Presentation(locs, extent)
 
     @property

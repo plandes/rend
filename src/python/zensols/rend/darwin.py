@@ -101,7 +101,8 @@ class DarwinBrowser(Browser):
             return f.read()
 
     def _invoke_open_script(self, name: str, arg: str, extent: Extent,
-                            func: str = None, add_quotes: bool = True):
+                            func: str = None, add_quotes: bool = True,
+                            is_file: bool = False):
         """Invoke applescript.
 
         :param name: the key of the script in :obj:`script_paths`
@@ -122,8 +123,14 @@ class DarwinBrowser(Browser):
         else:
             update_page = 'true'
             page_num = str(self.update_page)
-        func = f'show{name.capitalize()}' if func is None else func
-        fn = (f'{func}({qstr}{arg}{qstr}, {extent.x}, {extent.y}, ' +
+        func: str = f'show{name.capitalize()}' if func is None else func
+        file_form: str
+        if is_file:
+            # add single quote for files with spaces in the name
+            file_form = f"{qstr}'{arg}'{qstr}"
+        else:
+            file_form = f'{qstr}{arg}{qstr}'
+        fn = (f'{func}({file_form}, {extent.x}, {extent.y}, ' +
               f'{extent.width}, {extent.height}, {update_page}, {page_num})')
         cmd = (show_script + '\n' + fn)
         if logger.isEnabledFor(logging.DEBUG):
@@ -152,7 +159,8 @@ class DarwinBrowser(Browser):
         return url
 
     def _show_file(self, path: Path, extent: Extent):
-        self._invoke_open_script('preview', str(path.absolute()), extent)
+        self._invoke_open_script('preview', str(path.absolute()),
+                                 extent, is_file=True)
 
     def _show_url(self, url: str, extent: Extent):
         url = self._safari_compliant_url(url)
