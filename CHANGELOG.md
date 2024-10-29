@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+### Added
+- Column metadata formatting optional configuration.
+
+
 ## [1.1.2] - 2024-09-22
 ### Changed
 - Bug fix when using Preview.app on macOS with files in names.

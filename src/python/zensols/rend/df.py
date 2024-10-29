@@ -349,6 +349,9 @@ class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
     source: DataFrameDescriber = field(default=None)
     """The data source."""
 
+    column_meta_format: str = field(default='{c}: {v}')
+    """Used to format the column metadata on :obj:`source`."""
+
     index_meta_format: str = field(default=None)
     """Used as the index metadata on :obj:`source` when creating the dataframe
     with :meth:`~zensols.datdesc.desc.DataFrameDescriver.df_with_index_meta`.
@@ -367,7 +370,7 @@ class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
         def map_col(c: str):
             v: str = cols.get(c)
             if v is not None and v != c:
-                v = f'{c}: {v}'
+                v = self.column_meta_format.format(c=c, v=v)
             return c, v
 
         cols: Dict[str, str] = self.source.asdict()
