@@ -27,6 +27,12 @@ class ApplicationFactory(CliApplicationFactory):
         app: Application = cls().get_instance(args)
         return app.browser_manager
 
+    @classmethod
+    def render(cls, data: Any):
+        """Render ``data`` using :meth:`.BrowserManager.show`."""
+        browser_manager = cls.get_browser_manager()
+        browser_manager(data)
+
 
 def main(args: List[str] = sys.argv, **kwargs: Dict[str, Any]) -> ActionResult:
     harness: CliHarness = ApplicationFactory.create_harness(relocate=False)

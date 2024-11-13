@@ -94,8 +94,17 @@ class BrowserManager(object):
 
     def _get_extent(self) -> Extent:
         screen: Size = self.browser.screen_size
-        display: Display = self.displays_by_size.get(screen)
-        logger.debug(f'detected: {screen} -> {display}')
+        displays: Dict[Size, Display] = self.displays_by_size
+        display: Display = displays.get(screen)
+        if logger.isEnabledFor(logging.TRACE):
+            from pprint import pprint
+            from io import StringIO
+            sio = StringIO()
+            sio.write('displays:\n')
+            pprint(displays, sio)
+            logger.debug(f'displays: {sio.getvalue()}')
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f'detected: {screen} -> {display}')
         if display is None:
             logger.warning(
                 f'no display entry for bounds: {screen}--using default')
