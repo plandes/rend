@@ -1,7 +1,7 @@
 from typing import Union
-import platform as plt
 from zensols.cli import ApplicationFailure
 from zensols.rend import BrowserManager, Display, Application
+from zensols.rend.darwin import DarwinBrowser
 from util import TestApplicationBase
 
 
@@ -16,6 +16,6 @@ class TestApplication(TestApplicationBase):
     def test_preview_script(self):
         app: Union[ApplicationFailure, Application] = self.app
         browser_manager: BrowserManager = app.browser_manager
-        if plt.system() == 'Darwin':
+        if isinstance(browser_manager.browser, DarwinBrowser):
             show_script = browser_manager.browser.get_show_script('preview')
             self.assertTrue(len(show_script) > 100)

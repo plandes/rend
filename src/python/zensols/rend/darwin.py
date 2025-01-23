@@ -3,15 +3,13 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import Dict, Sequence, Set, Tuple, Union
+from typing import Dict, Sequence, Set, Tuple, Union, TYPE_CHECKING
 from dataclasses import dataclass, field
 from enum import Enum, auto
 import logging
 import textwrap
 import re
 from pathlib import Path
-import applescript as aps
-from applescript._result import Result
 from zensols.config import ConfigFactory
 from . import (
     RenderFileError, LocationType, Size, Extent, Location, Presentation, Browser
@@ -70,7 +68,11 @@ class DarwinBrowser(Browser):
     mangle_url: bool = field(default=False)
     """Whether to add ending ``/`` neede by Safari on macOS."""
 
-    def _get_error_type(self, res: Result) -> ErrorType:
+    def __post_init__(self):
+        # raise error now so BrowserManager can recover
+        import applescript
+
+    def _get_error_type(self, res: 'applescript.Result') -> ErrorType:
         err: str = res.err
         for warn, error_type in self.applescript_warns.items():
             if err.find(warn) > -1:
@@ -78,11 +80,12 @@ class DarwinBrowser(Browser):
         return ErrorType.error
 
     def _exec(self, cmd: str, app: str = None) -> str:
-        ret: aps.Result
+        import applescript
+        ret: applescript.Result
         if app is None:
-            ret = aps.run(cmd)
+            ret = applescript.run(cmd)
         else:
-            ret = aps.tell.app(app, cmd)
+            ret = applescript.tell.app(app, cmd)
         if ret.code != 0:
             err_type: ErrorType = self._get_error_type(ret)
             cmd_str: str = textwrap.shorten(cmd, 40)

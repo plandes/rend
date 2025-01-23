@@ -74,11 +74,17 @@ class BrowserManager(object):
 
     def __post_init__(self):
         if self.browser is None:
-            os_name = platform.system().lower()
-            sec_name = f'rend_{os_name}_browser'
+            os_name: str = platform.system().lower()
+            sec_name: str = f'rend_{os_name}_browser'
             if sec_name not in self.config_factory.config.sections:
                 sec_name = self.default_browser_name
-            self.browser: Browser = self.config_factory(sec_name)
+            try:
+                self.browser: Browser = self.config_factory(sec_name)
+            except Exception as e:
+                logger.warning(f'Could not create browser: {sec_name}: {e}')
+            if self.browser is None:
+                sec_name = self.default_browser_name
+                self.browser: Browser = self.config_factory(sec_name)
 
     @property
     @persisted('_displays')
@@ -179,7 +185,8 @@ class BrowserManager(object):
                 pres.apply_transmuter(lt)
         return pres
 
-    def show(self, data: Union[str, Path, Presentation, Location, DataFrame, Sequence],
+    def show(self,
+             data: Union[str, Path, Presentation, Location, DataFrame, Sequence],
              extent: Extent = None):
         """Display ``data`` content on the screen and optionally resize the
         window to ``extent``.

@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+## [1.2.1] - 2025-01-22
+### Changed
+- Fix dependence on the `applescript` Python package.
+
+
 ## [1.2.0] - 2025-01-11
 ### Removed
 - Support for Python 3.10.
@@ -78,7 +83,8 @@ Downstream moderate risk update release.
 
 
 <!-- links -->
-[Unreleased]: https://github.com/plandes/rend/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/plandes/rend/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/plandes/rend/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/plandes/rend/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/plandes/rend/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/plandes/rend/compare/v1.1.0...v1.1.1

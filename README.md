@@ -19,6 +19,15 @@ Features on macOS:
 The features on macOS are [needed for other operating systems](#contributing).
 
 
+## Installing
+
+The easiest way to install the command line program is via the `pip` installer:
+```bash
+pip3 install zensols.rend
+```
+For macOS systems, also install AppleScript: `pip install applescript`.
+
+
 ## Usage
 
 Create a [configuration file] with the dimensions of each of the screens you
@@ -65,16 +74,6 @@ if (__name__ == '__main__'):
     df = pd.read_csv(url)
     mng.show(df)
 ```
-
-
-## Obtaining
-
-The easiest way to install the command line program is via the `pip` installer:
-```bash
-pip3 install zensols.rend
-```
-
-Binaries are also available on [pypi].
 
 
 ## Documentation
