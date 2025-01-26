@@ -20,7 +20,8 @@ appinfo:
 
 .PHONY:			modeldeps
 modeldeps:
-			if [ $$(uname) == "Darwin" ] ; then \
+			@if [ $$(uname) == "Darwin" ] ; then \
+				echo "installing macOS dependencies" ; \
 				$(PIP_BIN) install -r $(PY_SRC)/requirements-darwin.txt ; \
 			fi
 
