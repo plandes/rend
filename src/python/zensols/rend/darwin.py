@@ -69,8 +69,25 @@ class DarwinBrowser(Browser):
     """Whether to add ending ``/`` neede by Safari on macOS."""
 
     def __post_init__(self):
+        # try to install the applescript module if possible
+        self._assert_applescript()
         # raise error now so BrowserManager can recover
         import applescript
+
+    def _assert_applescript(self):
+        from zensols.util import (
+            PackageResource, PackageManager, PackageRequirement
+        )
+        package: str = 'applescript'
+        pr = PackageResource(package)
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f'{package} installed: {pr.installed}, ' +
+                         f'available: {pr.available}')
+        if not pr.installed:
+            if logger.isEnabledFor(logging.INFO):
+                logger.info(f'attempting to install {package}')
+            pm = PackageManager()
+            pm.install(PackageRequirement(package, version=None))
 
     def _get_error_type(self, res: 'applescript.Result') -> ErrorType:
         err: str = res.err
