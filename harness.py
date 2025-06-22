@@ -13,7 +13,7 @@ if (__name__ == '__main__'):
         5: 'test-resources/states.csv',
     }[5]
     harness = ConfigurationImporterCliHarness(
-        src_dir_name='src/python',
+        src_dir_name='src',
         app_factory_class='zensols.rend.ApplicationFactory',
         proto_args=f'show -H 1200 -W 1200 {locs}',
         proto_factory_kwargs={

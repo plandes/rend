@@ -87,7 +87,7 @@ class DarwinBrowser(Browser):
             if logger.isEnabledFor(logging.INFO):
                 logger.info(f'attempting to install {package}')
             pm = PackageManager()
-            pm.install(PackageRequirement(package, version=None))
+            pm.install(PackageRequirement.from_spec(package))
 
     def _get_error_type(self, res: 'applescript.Result') -> ErrorType:
         err: str = res.err

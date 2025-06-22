@@ -1,38 +1,57 @@
-## makefile automates the build and deployment for python projects
+#@meta {author: "Paul Landes"}
+#@meta {desc: "build, test and deploy automation", date: "2025-06-22"}
 
-## build config
 
+## Build config
+#
 # type of project
 PROJ_TYPE =		python
-PROJ_MODULES =		git python-resources python-cli python-doc python-doc-deploy
+PROJ_MODULES =		python/test python/doc python/package python/deploy
+PY_TEST_ALL_TARGETS +=	runshow
 INFO_TARGETS +=		appinfo
-PY_DEP_POST_DEPS +=	modeldeps
-
-# project specific
-ENTRY =			./rend
 
 
+## Includes
+#
 include ./zenbuild/main.mk
 
+
+## Targets
+#
 .PHONY:			appinfo
 appinfo:
 			@echo "app-resources-dir: $(RESOURCES_DIR)"
 
-.PHONY:			modeldeps
-modeldeps:
-			@if [ $$(uname) == "Darwin" ] ; then \
-				echo "installing macOS dependencies" ; \
-				$(PIP_BIN) install -r $(PY_SRC)/requirements-darwin.txt ; \
-			fi
+# print the isolated configuration
+.PHONY:			runconfig
+runconfig:
+			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate ARG=config
 
-.PHONY:			testpdf
-testpdf:
-			( unset SHOWFILERC ; $(ENTRY) show test-resources/sample.pdf )
-			( unset SHOWFILERC ; $(ENTRY) show http://example.com )
 
-.PHONY:			config
-config:
-			( unset SHOWFILERC ; $(ENTRY) config )
+# run the harness isolated from the environment (variables)
+.PHONY:			invokeisolate
+invokeisolate:
+			@( unset RENDRC ; unset ZENSOLSRC ; \
+			   $(MAKE) $(PY_MAKE_ARGS) pyharn ARG="$(ARG)" )
 
-.PHONY:			testall
-testall:		test testpdf
+# show a PDF file
+.PHONY:			runshowpdf
+runshowpdf:
+			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
+				ARG="show test-resources/sample.pdf"
+
+
+# show tabular data
+.PHONY:			runshowcsv
+runshowcsv:
+			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
+				ARG="show test-resources/states.csv"
+
+# show a website
+.PHONY:			runshowwebsite
+runshowwebsite:
+			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
+				ARG="show http://example.com"
+
+.PHONY:			runshow
+runshow:		runshowpdf runshowcsv runshowwebsite
