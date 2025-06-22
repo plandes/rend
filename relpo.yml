@@ -14,7 +14,8 @@ project:
   domain: zensols
   name: rend
   short_description: Invoke macOS applications to view files
-  long_description: Invoke native applications to view and render data from files.
+  long_description: >-
+    Invoke native applications to view and render data from files.
   keywords:
     - tooling
     - pdf
@@ -39,6 +40,8 @@ project:
       - 'dash-bootstrap-components==2.0.3'
       - 'waitress==3.0.2'
       - 'zensols.datdesc~=1.2.2'
+  # the program is called on the command line
+  has_entry_points: true
 doc:
   api_config:
     intersphinx_mapping:
