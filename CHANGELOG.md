@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+## [1.2.5] - 2025-07-16
+### Changed
+- Fix column metadata for tabular rendered data.
+
+
 ## [1.2.4] - 2025-07-16
 ### Changed
 - Upgrade [zensols.datdesc] to 1.2.2.
@@ -104,7 +109,8 @@ Downstream moderate risk update release.
 
 
 <!-- links -->
-[Unreleased]: https://github.com/plandes/rend/compare/v1.2.4...HEAD
+[Unreleased]: https://github.com/plandes/rend/compare/v1.2.5...HEAD
+[1.2.5]: https://github.com/plandes/rend/compare/v1.2.4...v1.2.5
 [1.2.4]: https://github.com/plandes/rend/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/plandes/rend/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/plandes/rend/compare/v1.2.1...v1.2.2

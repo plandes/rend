@@ -373,7 +373,7 @@ class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
                 v = self.column_meta_format.format(c=c, v=v)
             return c, v
 
-        cols: Dict[str, str] = self.source.asdict()
+        cols: Dict[str, str] = self.source.column_descriptions
         return dict(map(map_col, cols.keys()))
 
 
