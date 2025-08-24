@@ -121,8 +121,7 @@ class DarwinBrowser(Browser):
             return f.read()
 
     def _invoke_open_script(self, name: str, arg: str, extent: Extent,
-                            func: str = None, add_quotes: bool = True,
-                            is_file: bool = False):
+                            func: str = None, is_file: bool = False):
         """Invoke applescript.
 
         :param name: the key of the script in :obj:`script_paths`
@@ -134,7 +133,6 @@ class DarwinBrowser(Browser):
 
         """
         show_script: str = self.get_show_script(name)
-        qstr: str = '"' if add_quotes else ''
         update_page: str
         page_num: str = 'null'
         if isinstance(self.update_page, bool):
@@ -145,12 +143,14 @@ class DarwinBrowser(Browser):
             page_num = str(self.update_page)
         func: str = f'show{name.capitalize()}' if func is None else func
         file_form: str
-        if is_file and arg.find("'") == -1:
+        if is_file:
+            #lq, rq = ('"', '"') if arg.find("'") == -1 else ('"\'', '\'"')
+            lq, rq = ('"', '"')
             # add single quote for files with spaces in the name (as long as the
             # file name does not already have a single quote)
-            file_form = f"{qstr}'{arg}'{qstr}"
+            file_form = f"{lq}{arg}{rq}"
         else:
-            file_form = f'{qstr}{arg}{qstr}'
+            file_form = arg
         fn = (f'{func}({file_form}, {extent.x}, {extent.y}, ' +
               f'{extent.width}, {extent.height}, {update_page}, {page_num})')
         cmd = (show_script + '\n' + fn)
@@ -198,8 +198,7 @@ class DarwinBrowser(Browser):
             name='safari-multi',
             arg=url_str,
             func='showSafariMulti',
-            extent=extent,
-            add_quotes=False)
+            extent=extent)
 
     def show(self, presentation: Presentation):
         def map_loc(loc: Location) -> Location:
