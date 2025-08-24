@@ -35,8 +35,10 @@ on showPreview(filename, x, y, width, height, updatePage, pageToSet)
 	set currentPageNumber to getPageNumber()
 	log "current page: " & currentPageNumber
     end if
-    set command to "open " & filename
-    do shell script command
+    set filename to POSIX file filename
+    tell application "Finder"
+    	 open filename
+    end tell
     delay 0.1
     tell application "Preview"
         activate

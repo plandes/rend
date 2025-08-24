@@ -145,8 +145,9 @@ class DarwinBrowser(Browser):
             page_num = str(self.update_page)
         func: str = f'show{name.capitalize()}' if func is None else func
         file_form: str
-        if is_file:
-            # add single quote for files with spaces in the name
+        if is_file and arg.find("'") == -1:
+            # add single quote for files with spaces in the name (as long as the
+            # file name does not already have a single quote)
             file_form = f"{qstr}'{arg}'{qstr}"
         else:
             file_form = f'{qstr}{arg}{qstr}'
