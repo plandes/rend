@@ -150,7 +150,7 @@ class DarwinBrowser(Browser):
             # file name does not already have a single quote)
             file_form = f"{lq}{arg}{rq}"
         else:
-            file_form = arg
+            file_form = f'"{arg}"'
         fn = (f'{func}({file_form}, {extent.x}, {extent.y}, ' +
               f'{extent.width}, {extent.height}, {update_page}, {page_num})')
         cmd = (show_script + '\n' + fn)
