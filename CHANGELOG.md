@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+### Changed
+- Fixed additional unused parameters to Safari invocation on macOS.
+- Make refresh and reposition window optional for Safari browsers.
+
+
 ## [1.2.5] - 2025-07-16
 ### Changed
 - Fix column metadata for tabular rendered data.

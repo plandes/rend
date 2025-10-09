@@ -2,8 +2,7 @@
 
 """
 __author__ = 'Paul Landes'
-
-from typing import Dict, Sequence, Set, Tuple, Union, TYPE_CHECKING
+from typing import Dict, Sequence, Set, Tuple, List, Any, Union
 from dataclasses import dataclass, field
 from enum import Enum, auto
 import logging
@@ -68,6 +67,19 @@ class DarwinBrowser(Browser):
     mangle_url: bool = field(default=False)
     """Whether to add ending ``/`` neede by Safari on macOS."""
 
+    safari_always_reposition: bool = field(default=True)
+    """Whether to always reposition and resize the Safari window when
+    rerendering.  If ``False``, the browser will only refresh when the same URL
+    is rerendered.
+
+    """
+    safari_refresh: bool = field(default=False)
+    """Whether to refresh the browser on update, which updates the content but
+    does not change the position of the text in the window.  Otherwise, the
+    window is reset and then reloaded, which resets the window to the beginning
+    of the HTML content.
+
+    """
     def __post_init__(self):
         # try to install the applescript module if possible
         self._assert_applescript()
@@ -121,7 +133,8 @@ class DarwinBrowser(Browser):
             return f.read()
 
     def _invoke_open_script(self, name: str, arg: str, extent: Extent,
-                            func: str = None, is_file: bool = False):
+                            func: str = None, is_file: bool = False,
+                            extra: Tuple[Any, ...] = None):
         """Invoke applescript.
 
         :param name: the key of the script in :obj:`script_paths`
@@ -129,18 +142,14 @@ class DarwinBrowser(Browser):
         :param arg: the first argument to pass to the applescript (URL or file
                     name)
 
-        :param exent: the bounds to set on the raised window
+        :param extent: the bounds to set on the raised window
+
+        :param is_file: whether ``name`` refers to a file used for quoting
+
+        :param extra: additional parameters giving to the AppleScript function
 
         """
         show_script: str = self.get_show_script(name)
-        update_page: str
-        page_num: str = 'null'
-        if isinstance(self.update_page, bool):
-            update_page = str(self.update_page).lower()
-            page_num = 'null'
-        else:
-            update_page = 'true'
-            page_num = str(self.update_page)
         func: str = f'show{name.capitalize()}' if func is None else func
         file_form: str
         if is_file:
@@ -151,9 +160,13 @@ class DarwinBrowser(Browser):
             file_form = f"{lq}{arg}{rq}"
         else:
             file_form = f'"{arg}"'
-        fn = (f'{func}({file_form}, {extent.x}, {extent.y}, ' +
-              f'{extent.width}, {extent.height}, {update_page}, {page_num})')
-        cmd = (show_script + '\n' + fn)
+        params: List[Any] = [
+            file_form, extent.x, extent.y, extent.width, extent.height]
+        if extra is not None:
+            params.extend(extra)
+        args: str = ', '.join(map(str, params))
+        fn: str = f'{func}({args})'
+        cmd: str = (show_script + '\n' + fn)
         if logger.isEnabledFor(logging.DEBUG):
             path: Path = self.script_paths[name]
             logger.debug(f'invoking "{fn}" from {path}')
@@ -179,13 +192,27 @@ class DarwinBrowser(Browser):
             url = url + '/'
         return url
 
+    def _get_page_update_params(self) -> Tuple[Any, ...]:
+        update_page: str
+        page_num: str = 'null'
+        if isinstance(self.update_page, bool):
+            update_page = str(self.update_page).lower()
+            page_num = 'null'
+        else:
+            update_page = 'true'
+            page_num = str(self.update_page)
+        return update_page, page_num
+
     def _show_file(self, path: Path, extent: Extent):
+        params: Tuple[Any, ...] = self._get_page_update_params()
         self._invoke_open_script('preview', str(path.absolute()),
-                                 extent, is_file=True)
+                                 extent, is_file=True, extra=params)
 
     def _show_url(self, url: str, extent: Extent):
         url = self._safari_compliant_url(url)
-        self._invoke_open_script('safari', url, extent)
+        repos: bool = 'true' if self.safari_always_reposition else 'false'
+        refresh: bool = 'true' if self.safari_refresh else 'false'
+        self._invoke_open_script('safari', url, extent, extra=(repos, refresh))
 
     def _show_urls(self, urls: Tuple[str], extent: Extent):
         def map_url(url: str) -> str:
