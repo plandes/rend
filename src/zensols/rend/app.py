@@ -3,7 +3,7 @@
 """
 __author__ = 'Paul Landes'
 
-from typing import Optional
+from typing import Tuple, Optional
 from dataclasses import dataclass, field
 import logging
 from zensols.cli import ApplicationError
@@ -49,24 +49,21 @@ class Application(object):
             extent = Extent(self.width, self.height, 0, 0)
         return extent
 
-    def show(self, location: str, location_type: LocationType = None,
-             delimiter: str = ','):
+    def show(self, locations: Tuple[str, ...],
+             location_type: LocationType = None):
         """Open and display a file with the application's extents set for the
         display.
 
-        :param location: the file or URL to display
+        :param location: the file(s) or URL(s) to display
 
         :param location_type: specify either a URL or file; determined by
                               default
 
-        :param delimiter: the string used to split location strings or ``-`` for
-                          none
-
         """
         extent: Optional[Extent] = self._get_extent()
-        if delimiter == '-':
-            delimiter = None
-        pres: Presentation = Presentation.from_str(location, delimiter, extent)
+        pres: Presentation = Presentation(
+            locations=tuple(map(Location, locations)),
+            extent=extent)
         if location_type is not None:
             loc: Location
             for loc in pres.locations:

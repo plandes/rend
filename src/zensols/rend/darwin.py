@@ -9,6 +9,7 @@ import logging
 import textwrap
 import re
 from pathlib import Path
+from zensols.util import APIError
 from zensols.config import ConfigFactory
 from . import (
     RenderFileError, LocationType, Size, Extent, Location, Presentation, Browser
@@ -133,7 +134,7 @@ class DarwinBrowser(Browser):
             return f.read()
 
     def _invoke_open_script(self, name: str, arg: str, extent: Extent,
-                            func: str = None, is_file: bool = False,
+                            func: str = None, quote_style: str = 'double',
                             extra: Tuple[Any, ...] = None):
         """Invoke applescript.
 
@@ -144,7 +145,7 @@ class DarwinBrowser(Browser):
 
         :param extent: the bounds to set on the raised window
 
-        :param is_file: whether ``name`` refers to a file used for quoting
+        :param quote_style: whether ``name`` refers to a file used for quoting
 
         :param extra: additional parameters giving to the AppleScript function
 
@@ -152,14 +153,17 @@ class DarwinBrowser(Browser):
         show_script: str = self.get_show_script(name)
         func: str = f'show{name.capitalize()}' if func is None else func
         file_form: str
-        if is_file:
-            #lq, rq = ('"', '"') if arg.find("'") == -1 else ('"\'', '\'"')
+        if quote_style == 'double':
             lq, rq = ('"', '"')
             # add single quote for files with spaces in the name (as long as the
             # file name does not already have a single quote)
             file_form = f"{lq}{arg}{rq}"
-        else:
+        elif quote_style == 'single':
             file_form = f'"{arg}"'
+        elif quote_style == 'none':
+            file_form = arg
+        else:
+            raise APIError(f'No such quote style: {quote_style}')
         params: List[Any] = [
             file_form, extent.x, extent.y, extent.width, extent.height]
         if extra is not None:
@@ -205,14 +209,21 @@ class DarwinBrowser(Browser):
 
     def _show_file(self, path: Path, extent: Extent):
         params: Tuple[Any, ...] = self._get_page_update_params()
-        self._invoke_open_script('preview', str(path.absolute()),
-                                 extent, is_file=True, extra=params)
+        self._invoke_open_script(
+            'preview',
+            str(path.absolute()),
+            extent,
+            quote_style='double',
+            extra=params)
 
     def _show_url(self, url: str, extent: Extent):
         url = self._safari_compliant_url(url)
         repos: bool = 'true' if self.safari_always_reposition else 'false'
         refresh: bool = 'true' if self.safari_refresh else 'false'
-        self._invoke_open_script('safari', url, extent, extra=(repos, refresh))
+        self._invoke_open_script(
+            'safari', url, extent,
+            quote_style='single',
+            extra=(repos, refresh))
 
     def _show_urls(self, urls: Tuple[str], extent: Extent):
         def map_url(url: str) -> str:
@@ -225,6 +236,7 @@ class DarwinBrowser(Browser):
             name='safari-multi',
             arg=url_str,
             func='showSafariMulti',
+            quote_style='none',
             extent=extent)
 
     def show(self, presentation: Presentation):
