@@ -8,9 +8,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+## [1.3.0] - 2025-12-31
+### Removed
+- Python 3.11 support.
+
+### Added
+- Python 3.13 support.
+
 ### Changed
 - Fixed additional unused parameters to Safari invocation on macOS.
 - Make refresh and reposition window optional for Safari browsers.
+- Upgrade [zensols.util] to v1.16.2.
 
 
 ## [1.2.5] - 2025-07-16
@@ -114,7 +122,8 @@ Downstream moderate risk update release.
 
 
 <!-- links -->
-[Unreleased]: https://github.com/plandes/rend/compare/v1.2.5...HEAD
+[Unreleased]: https://github.com/plandes/rend/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/plandes/rend/compare/v1.2.5...v1.3.0
 [1.2.5]: https://github.com/plandes/rend/compare/v1.2.4...v1.2.5
 [1.2.4]: https://github.com/plandes/rend/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/plandes/rend/compare/v1.2.2...v1.2.3
