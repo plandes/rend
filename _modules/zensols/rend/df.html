@@ -1,0 +1,1061 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
+
+    <!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+        <title>zensols.rend.df - Invoke macOS applications to view files 1.3.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-codeautolink.css?v=b2176991" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/codeautolink.css?v=57550ae3" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../top.html"><div class="brand">Invoke macOS applications to view files 1.3.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../top.html">
+  
+  <span class="sidebar-brand-text">Invoke macOS applications to view files 1.3.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api.html">API Reference</a><input aria-label="Toggle navigation of API Reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/zensols.rend.html">zensols.rend package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CONTRIBUTING.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../LICENSE.html">License</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for zensols.rend.df</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Classes that render Pandas dataframes.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Paul Landes&#39;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">ClassVar</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">abstractmethod</span><span class="p">,</span> <span class="n">ABCMeta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">multiprocessing</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">queue</span><span class="w"> </span><span class="kn">import</span> <span class="n">Empty</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flask</span><span class="w"> </span><span class="kn">import</span> <span class="n">Flask</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">waitress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dash</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dash</span><span class="p">,</span> <span class="n">html</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dash.dash_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataTable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dash_bootstrap_components</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dbc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dash</span><span class="w"> </span><span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">Output</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zensols.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigFactory</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zensols.persist</span><span class="w"> </span><span class="kn">import</span> <span class="n">Deallocatable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">zensols.datdesc</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrameDescriber</span><span class="p">,</span> <span class="n">DataDescriber</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">RenderFileError</span><span class="p">,</span> <span class="n">Location</span><span class="p">,</span> <span class="n">LocationTransmuter</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DataFrameSource">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameSource">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataFrameSource</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a dataframe.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DataFrameSource.get_name">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameSource.get_name">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_name&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+        <span class="k">return</span> <span class="s1">&#39;Untitled&#39;</span></div>
+
+
+<div class="viewcode-block" id="DataFrameSource.get_dataframe">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameSource.get_dataframe">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create or get a cached dataframe.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="CachedDataFrameSource">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.CachedDataFrameSource">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CachedDataFrameSource</span><span class="p">(</span><span class="n">DataFrameSource</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns :obj:`df` as the dataframe.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="n">field</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The cached datagrame to return in meth:`get_dataframe`.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The name of the source, if available.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CachedDataFrameSource.get_name">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.CachedDataFrameSource.get_name">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;name: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">, super: </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="CachedDataFrameSource.get_dataframe">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.CachedDataFrameSource.get_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PathDataFrameSource">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.PathDataFrameSource">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PathDataFrameSource</span><span class="p">(</span><span class="n">DataFrameSource</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reads a dataframe from a file.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_EXTENSIONS</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="s1">&#39;csv tsv xlsx&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Supported file extesions by this source.&quot;&quot;&quot;</span>
+
+    <span class="n">path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">field</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The path to either an Excel, TSV, CSV file.&quot;&quot;&quot;</span>
+
+    <span class="n">sheet_name</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The sheet number or name if an Excel file.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PathDataFrameSource.get_name">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.PathDataFrameSource.get_name">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PathDataFrameSource.get_extesion">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.PathDataFrameSource.get_extesion">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_extesion</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="PathDataFrameSource.is_supported_path">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.PathDataFrameSource.is_supported_path">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_supported_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether the file is supported by this class.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_supported_extension</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">get_extesion</span><span class="p">(</span><span class="n">path</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PathDataFrameSource.is_supported_extension">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.PathDataFrameSource.is_supported_extension">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_supported_extension</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ext</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return whether the file extesion ``ext`` is supported by this class.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ext</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_EXTENSIONS</span></div>
+
+
+<div class="viewcode-block" id="PathDataFrameSource.from_path">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.PathDataFrameSource.from_path">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">DataFrameSource</span><span class="p">]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">map_sheet</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DataFrameSource</span><span class="p">:</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">CachedDataFrameSource</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">src</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">src</span>
+
+        <span class="n">ext</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_extesion</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ext</span> <span class="o">==</span> <span class="s1">&#39;xlsx&#39;</span><span class="p">:</span>
+            <span class="n">sheets</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span>
+                <span class="n">path</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">map_sheet</span><span class="p">,</span> <span class="n">sheets</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">PathDataFrameSource</span><span class="p">(</span><span class="n">path</span><span class="p">),)</span></div>
+
+
+<div class="viewcode-block" id="PathDataFrameSource.get_dataframe">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.PathDataFrameSource.get_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Procure the dataframe from this source.&quot;&quot;&quot;</span>
+        <span class="n">ext</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_extesion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_supported_extension</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">RenderFileError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported extension: </span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">fn</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;csv&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">,</span>
+            <span class="s1">&#39;tsv&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">sept</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;xlsx&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sheet_name</span><span class="p">),</span>
+        <span class="p">}[</span><span class="n">ext</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LayoutFactory">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.LayoutFactory">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LayoutFactory</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A factory class that creates a layout to be used with :class:`dash.Dash`.</span>
+<span class="sd">    This is designed to be used by :class:`.TerminalDashServer` to render a page</span>
+<span class="sd">    and then (optionally) quit for single use page rendering</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;Untitled&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The title of the browser frame.&quot;&quot;&quot;</span>
+
+    <span class="n">description</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">())</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The description of the data to use as a toolip over the title.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LayoutFactory.create_layout">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.LayoutFactory.create_layout">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the root application ``div`` HTML element component.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="LayoutFactory.create_terminate_callback">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.LayoutFactory.create_terminate_callback">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_terminate_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dash</span><span class="p">:</span> <span class="n">Dash</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ceate the callback used to stop the Dash server.  If this returns</span>
+<span class="sd">        ``None``, the server will not stop.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DataFrameLayoutFactory">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameLayoutFactory">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataFrameLayoutFactory</span><span class="p">(</span><span class="n">LayoutFactory</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a layout with a top title and a resizable</span>
+<span class="sd">    :class:`~dash.dash_table.DataTable`.  The layout optionally creates a</span>
+<span class="sd">    callback that is used to terminate the :class:`.TerminalDashServer`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">page_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The max number of rows displayed in the window before paging out.&quot;&quot;&quot;</span>
+
+    <span class="n">cell_wrap</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to wrap text or cut off with elipses.&quot;&quot;&quot;</span>
+
+    <span class="n">column_deletable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to add a widget to allow column deletion.&quot;&quot;&quot;</span>
+
+    <span class="n">column_sort</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to add a widget to sort columns&quot;&quot;&quot;</span>
+
+    <span class="n">column_filterable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to add a widget to filter by column text.&quot;&quot;&quot;</span>
+
+    <span class="n">column_width_px</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The minimum width of each column in pixels.&quot;&quot;&quot;</span>
+
+    <span class="n">row_deletable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether rows are deletable&quot;&quot;&quot;</span>
+
+    <span class="n">row_height_px</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The height of each row in the data table.&quot;&quot;&quot;</span>
+
+    <span class="n">data_font_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The font size of the data in the table.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_column_tooltips</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create column tooltips for hoverover on the header, which are</span>
+<span class="sd">        populated (for example) from</span>
+<span class="sd">        :class:`~zensols.datdesc.desc.DataFrameDescriber`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_data_table</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataTable</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">filter_left_col</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+
+        <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_dataframe</span><span class="p">()</span>
+        <span class="n">col_left_aligns</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                              <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">filter_left_col</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                                     <span class="nb">zip</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cell_wrap</span><span class="p">:</span>
+            <span class="n">style_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;whiteSpace&#39;</span><span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">style_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;overflow&#39;</span><span class="p">:</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span> <span class="s1">&#39;textOverflow&#39;</span><span class="p">:</span> <span class="s1">&#39;ellipsis&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">DataTable</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s1">&#39;datatable-paging&#39;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s1">&#39;records&#39;</span><span class="p">),</span>
+            <span class="n">page_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">page_size</span><span class="p">,</span>
+            <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+                <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span>
+                 <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span>
+                 <span class="s1">&#39;deletable&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_deletable</span><span class="p">,</span>
+                 <span class="s1">&#39;selectable&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+            <span class="p">],</span>
+            <span class="n">tooltip_header</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_column_tooltips</span><span class="p">(</span><span class="n">df</span><span class="p">),</span>
+            <span class="c1"># disable tooltips from going away</span>
+            <span class="n">tooltip_delay</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">tooltip_duration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">filter_action</span><span class="o">=</span><span class="s1">&#39;native&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_filterable</span> <span class="k">else</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
+            <span class="n">sort_action</span><span class="o">=</span><span class="s1">&#39;native&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_sort</span> <span class="k">else</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
+            <span class="n">sort_mode</span><span class="o">=</span><span class="s1">&#39;multi&#39;</span><span class="p">,</span>
+            <span class="n">row_deletable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">row_deletable</span><span class="p">,</span>
+            <span class="n">fixed_rows</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;headers&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+            <span class="n">css</span><span class="o">=</span><span class="p">[</span>
+                <span class="c1"># take the relative window width</span>
+                <span class="p">{</span><span class="s1">&#39;selector&#39;</span><span class="p">:</span> <span class="s1">&#39;table&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;rule&#39;</span><span class="p">:</span> <span class="s1">&#39;width: 100%;&#39;</span><span class="p">},</span>
+                <span class="c1"># subtract the title element height from the total viewport</span>
+                <span class="p">{</span><span class="s1">&#39;selector&#39;</span><span class="p">:</span> <span class="s1">&#39;.dash-spreadsheet.dash-freeze-top, .dash-spreadsheet .dash-virtualized&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;rule&#39;</span><span class="p">:</span> <span class="s1">&#39;max-height: calc(100vh - 90px);&#39;</span><span class="p">},</span>
+                <span class="c1"># without this, header tooltips have extra space</span>
+                <span class="p">{</span><span class="s1">&#39;selector&#39;</span><span class="p">:</span> <span class="s1">&#39;.dash-table-tooltip&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;rule&#39;</span><span class="p">:</span> <span class="s1">&#39;min-width: unset;&#39;</span><span class="p">},</span>
+                <span class="p">{</span><span class="s1">&#39;selector&#39;</span><span class="p">:</span> <span class="s1">&#39;.dash-spreadsheet tr&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;rule&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;height: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">row_height_px</span><span class="si">}</span><span class="s1">px;&#39;</span><span class="p">},</span>
+            <span class="p">],</span>
+            <span class="n">style_table</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;overflowY&#39;</span><span class="p">:</span> <span class="s1">&#39;scroll&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;border&#39;</span><span class="p">:</span> <span class="s1">&#39;1px solid grey&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;height&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;maxHeight&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">style_header</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;rgb(180, 180, 180)&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;fontWeight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">style_cell</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_font_size</span><span class="p">,</span>
+                <span class="s1">&#39;font-family&#39;</span><span class="p">:</span> <span class="s1">&#39;sans-serif&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;border&#39;</span><span class="p">:</span> <span class="s1">&#39;1px solid grey&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;minWidth&#39;</span><span class="p">:</span>
+                <span class="s1">&#39;</span><span class="si">{w}</span><span class="s1">px&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{w}</span><span class="s1">px&#39;</span><span class="p">,</span> <span class="s1">&#39;maxWidth&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{w}</span><span class="s1">px&#39;</span><span class="o">.</span>
+                <span class="nb">format</span><span class="p">(</span><span class="n">w</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">column_width_px</span><span class="p">),</span>
+            <span class="p">},</span>
+            <span class="n">style_cell_conditional</span><span class="o">=</span><span class="p">[{</span>
+                <span class="s1">&#39;if&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;column_id&#39;</span><span class="p">:</span> <span class="n">c</span><span class="p">},</span>
+                <span class="s1">&#39;textAlign&#39;</span><span class="p">:</span> <span class="s1">&#39;left&#39;</span>
+            <span class="p">}</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">col_left_aligns</span><span class="p">],</span>
+            <span class="n">style_data</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;maxWidth&#39;</span><span class="p">:</span> <span class="s1">&#39;300px&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;minWidth&#39;</span><span class="p">:</span> <span class="s1">&#39;50px&#39;</span><span class="p">,</span>
+            <span class="p">}</span> <span class="o">|</span> <span class="n">style_data</span><span class="p">,</span>
+            <span class="n">style_data_conditional</span><span class="o">=</span><span class="p">[{</span>
+                <span class="s1">&#39;if&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;row_index&#39;</span><span class="p">:</span> <span class="s1">&#39;odd&#39;</span><span class="p">},</span>
+                <span class="s1">&#39;backgroundColor&#39;</span><span class="p">:</span> <span class="s1">&#39;rgb(230, 230, 230)&#39;</span><span class="p">,</span>
+            <span class="p">}])</span>
+
+<div class="viewcode-block" id="DataFrameLayoutFactory.create_terminate_callback">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameLayoutFactory.create_terminate_callback">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_terminate_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dash</span><span class="p">:</span> <span class="n">Dash</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">dash</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+            <span class="n">Output</span><span class="p">(</span><span class="s1">&#39;server-kill-button-container&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">),</span>
+            <span class="n">Input</span><span class="p">(</span><span class="s1">&#39;server-kill-submit&#39;</span><span class="p">,</span> <span class="s1">&#39;n_clicks&#39;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="DataFrameLayoutFactory.create_layout">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameLayoutFactory.create_layout">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Span</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+                            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;tooltip-target&quot;</span><span class="p">,</span>
+                            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontSize&#39;</span><span class="p">:</span> <span class="s1">&#39;x-large&#39;</span><span class="p">}</span>
+                        <span class="p">),</span>
+                    <span class="p">],</span>
+                    <span class="n">style</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s1">&#39;height:&#39;</span><span class="p">:</span> <span class="s1">&#39;50px&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;maxHeight&#39;</span><span class="p">:</span> <span class="s1">&#39;50px&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="s1">&#39;100%&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;padding-bottom&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">,</span>
+                    <span class="p">},</span>
+                <span class="p">),</span>
+                <span class="c1"># add a tool top for any available (i.e DataFrameDescriber)</span>
+                <span class="c1"># description of the table</span>
+                <span class="n">dbc</span><span class="o">.</span><span class="n">Tooltip</span><span class="p">(</span>
+                    <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">target</span><span class="o">=</span><span class="s1">&#39;tooltip-target&#39;</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;tooltip-target-disable&#39;</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="c1"># create a hidden button that is called when the page renders</span>
+                <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;server-kill-submit&#39;</span><span class="p">,</span> <span class="n">n_clicks</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                        <span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;server-kill-button-container&#39;</span><span class="p">,</span>
+                                 <span class="n">children</span><span class="o">=</span><span class="s1">&#39;Enter a value and press submit&#39;</span><span class="p">)</span>
+                    <span class="p">],</span>
+                    <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;display&#39;</span><span class="p">:</span> <span class="s1">&#39;none&#39;</span><span class="p">}</span>
+                <span class="p">),</span>
+                <span class="c1"># create the DataTable component</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_create_data_table</span><span class="p">(),</span>
+            <span class="p">],</span>
+            <span class="n">style</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontFamily&#39;</span><span class="p">:</span> <span class="s1">&#39;Sans-Serif&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;padding&#39;</span><span class="p">:</span> <span class="s1">&#39;5px&#39;</span><span class="p">})</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DataSourceFrameLayoutFactory">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataSourceFrameLayoutFactory">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataSourceFrameLayoutFactory</span><span class="p">(</span><span class="n">DataFrameLayoutFactory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Uses a :class:`.DataFrameSource` to create the dataframe.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">DataFrameSource</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The dataframe source used to create the frame for the data.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">get_dataframe</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="DataFrameDescriberLayoutFactory">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameDescriberLayoutFactory">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataFrameDescriberLayoutFactory</span><span class="p">(</span><span class="n">DataFrameLayoutFactory</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A layout that renderes data from a :class:`.DataFrameDescriber`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The title of the browser frame.&quot;&quot;&quot;</span>
+
+    <span class="n">source</span><span class="p">:</span> <span class="n">DataFrameDescriber</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The data source.&quot;&quot;&quot;</span>
+
+    <span class="n">column_meta_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{c}</span><span class="s1">: </span><span class="si">{v}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Used to format the column metadata on :obj:`source`.&quot;&quot;&quot;</span>
+
+    <span class="n">index_meta_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Used as the index metadata on :obj:`source` when creating the dataframe</span>
+<span class="sd">    with :meth:`~zensols.datdesc.desc.DataFrameDescriver.df_with_index_meta`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">desc</span><span class="p">,)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">df_with_index_meta</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index_meta_format</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_column_tooltips</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">map_col</span><span class="p">(</span><span class="n">c</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">v</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">cols</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">c</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_meta_format</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">c</span><span class="p">,</span> <span class="n">v</span>
+
+        <span class="n">cols</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">column_descriptions</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">map_col</span><span class="p">,</span> <span class="n">cols</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span></div>
+
+
+
+<div class="viewcode-block" id="DataFrameLocation">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameLocation">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataFrameLocation</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A location of an in memory Pandas dataframe of :class:`.DataFrameSource`.</span>
+<span class="sd">    Use this as a way to programmatically render data in Python applications.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">DataFrameSource</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The used to as the source rather than :obj:`source`.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">CachedDataFrameSource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DataFrameLocation.validate">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameLocation.validate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">DataFrameSource</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">RenderFileError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Not a DataFrameSource: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DataDescriberLocation">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataDescriberLocation">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataDescriberLocation</span><span class="p">(</span><span class="n">Location</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Like :class:`.DataFrameLocation` but renders additional tool tips from</span>
+<span class="sd">    metadata in the :class:`~zensols.datdesc.desc.DataDescriber`.  Use this as a</span>
+<span class="sd">    way to programmatically render data in Python applications.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">source</span><span class="p">:</span> <span class="n">DataDescriber</span> <span class="o">=</span> <span class="n">field</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The used to as the source rather than :obj:`source`.&quot;&quot;&quot;</span>
+
+    <span class="n">table_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to render the dataframe using</span>
+<span class="sd">    :obj:`~zensols.datdesc.table.Table.formatted_dataframe`.  If not set, the</span>
+<span class="sd">    :obj:`.DataDescriberLocationTransmuter.table_format` default is used.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DataDescriberLocation.validate">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataDescriberLocation.validate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="n">DataDescriber</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">RenderFileError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Not a DataDescriber: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TerminalDashServer">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.TerminalDashServer">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TerminalDashServer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A server that takes a single incoming request, renderes the client&#39;s</span>
+<span class="sd">    page, the exists the interpreter.  This server can continue to run to serve</span>
+<span class="sd">    requests without a terminating callback.  The lifecycle includes:</span>
+
+<span class="sd">      1. Create a multiprocessing queue.</span>
+<span class="sd">      2. Fork a child process ``C`` from parent process ``P``.</span>
+<span class="sd">      3. ``C`` starts the Flask service, which binds to a port on localhost.</span>
+<span class="sd">      4. The framework in ``P`` continues to renderer any other queued data.</span>
+<span class="sd">      5. The client browser creates a single request to render the Dash data.</span>
+<span class="sd">      6. Once the browser renders, a callback indicates to terminate the server.</span>
+<span class="sd">      7. After rendering all data, ``P`` waits for the child process via IPC.</span>
+<span class="sd">      8. The terminate callback in ``C`` sends a queue (IPC) message to ``P``.</span>
+<span class="sd">      9. Upon receiving this message, the ``P`` terminates ``C``.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">layout_factory</span><span class="p">:</span> <span class="n">LayoutFactory</span> <span class="o">=</span> <span class="n">field</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The layout to use for the page and callback to exit.&quot;&quot;&quot;</span>
+
+    <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The port to start the server.&quot;&quot;&quot;</span>
+
+    <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The host interface on which to start the host.&quot;&quot;&quot;</span>
+
+    <span class="n">sleep_secs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The time to wait and allow the Dash server to start and the URL available</span>
+<span class="sd">    for the browser.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">timeout_secs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The timeout in seconds to wait for the child to quit before it is</span>
+<span class="sd">    terminated.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">url</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;http://</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_shutdown_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_clicks</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;page load complete&#39;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_flask</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">layout_factory</span><span class="p">:</span> <span class="n">LayoutFactory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layout_factory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flask</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="n">dash</span> <span class="o">=</span> <span class="n">Dash</span><span class="p">(</span>
+            <span class="vm">__name__</span><span class="p">,</span>
+            <span class="n">server</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_flask</span><span class="p">,</span>
+            <span class="n">external_stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">dbc</span><span class="o">.</span><span class="n">themes</span><span class="o">.</span><span class="n">BOOTSTRAP</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">dash</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">layout_factory</span><span class="o">.</span><span class="n">title</span>
+        <span class="n">term_cb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="n">layout_factory</span><span class="o">.</span>\
+            <span class="n">create_terminate_callback</span><span class="p">(</span><span class="n">dash</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">term_cb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">term_cb</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_callback</span><span class="p">)</span>
+        <span class="n">dash</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">layout_factory</span><span class="o">.</span><span class="n">create_layout</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_child_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queue</span><span class="p">:</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Queue</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Entry point for the child process from a parent spwan.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span> <span class="o">=</span> <span class="n">queue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_create_flask</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">waitress</span><span class="o">.</span><span class="n">serve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_flask</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">RenderFileError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Could not start server </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="si">}</span><span class="s1">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;starting flask...&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flask</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TerminalDashServer.run">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.TerminalDashServer.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the Dash server.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_par_queue</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Queue</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_proc</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Process</span><span class="p">(</span>
+            <span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_child_run</span><span class="p">,</span>
+            <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_par_queue</span><span class="p">,))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_proc</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="c1"># TODO: this should be moved the BrowserManager for a sleep for all</span>
+        <span class="c1"># servers in parallel rather than wait for each in series</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sleep_secs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TerminalDashServer.shutdown">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.TerminalDashServer.shutdown">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timeout_secs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Optionally wait, and then kill the child server processes.</span>
+
+<span class="sd">        :param timeout_secs: the number of seconds to wait before the server</span>
+<span class="sd">                            subprocess is killed</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;already shutdown&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">timeout_secs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">timeout_secs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeout_secs</span>
+            <span class="k">if</span> <span class="n">timeout_secs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">):</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;waiting on child for </span><span class="si">{</span><span class="n">timeout_secs</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_par_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout_secs</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">Empty</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;killed server child process did not &#39;</span> <span class="o">+</span>
+                                   <span class="sa">f</span><span class="s1">&#39;respond after </span><span class="si">{</span><span class="n">timeout_secs</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">):</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;killing server child process&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_proc</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_shutdown</span> <span class="o">=</span> <span class="kc">True</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TerminalDashServerLocation">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.TerminalDashServerLocation">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TerminalDashServerLocation</span><span class="p">(</span><span class="n">Location</span><span class="p">,</span> <span class="n">Deallocatable</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A location started by a :class:`.TerminalDashServer` which waits and</span>
+<span class="sd">    kills the child process when it is complete during deallocation.</span>
+
+<span class="sd">    :see: :meth:`deallocate`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">server</span><span class="p">:</span> <span class="n">TerminalDashServer</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The server used to render this location.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TerminalDashServerLocation.deallocate">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.TerminalDashServerLocation.deallocate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">deallocate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">deallocate</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DashServerLocationTransmuter">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DashServerLocationTransmuter">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DashServerLocationTransmuter</span><span class="p">(</span><span class="n">LocationTransmuter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transmutes locations to deallocatable</span>
+<span class="sd">    :class:`.TerminalDashServerLocation` instances that use a Dash server to</span>
+<span class="sd">    render the data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config_factory</span><span class="p">:</span> <span class="n">ConfigFactory</span> <span class="o">=</span> <span class="n">field</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Used to create layout factory instances of</span>
+<span class="sd">    :class:`.DataFrameLocationTransmuter`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dash_server_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The app config section name of the dash server</span>
+<span class="sd">    :class:`.TerminalDashServer` entry.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">layout_factory_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The app config section name of the</span>
+<span class="sd">    :class:`.DataFrameLocationTransmuter`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start_port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">8050</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The starting port for the Dash server to bind.  This is incremented for</span>
+<span class="sd">    each use transmutation so avoid collisions.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">run_servers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to start Flask/Dash servers.  This is turned off for some unit</span>
+<span class="sd">    tests.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_next_port</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_port</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">port</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_dash_server_loc_from_lf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout_factory</span><span class="p">:</span> <span class="n">LayoutFactory</span><span class="p">)</span> \
+            <span class="o">-&gt;</span> <span class="n">TerminalDashServerLocation</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a Dash server location from a dataframe source.&quot;&quot;&quot;</span>
+        <span class="n">server</span><span class="p">:</span> <span class="n">TerminalDashServer</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">config_factory</span><span class="o">.</span><span class="n">new_instance</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dash_server_name</span><span class="p">,</span>
+                <span class="n">layout_factory</span><span class="o">=</span><span class="n">layout_factory</span><span class="p">,</span>
+                <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_next_port</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_servers</span><span class="p">:</span>
+            <span class="n">server</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">TerminalDashServerLocation</span><span class="p">(</span>
+            <span class="n">source</span><span class="o">=</span><span class="n">server</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">server</span><span class="o">=</span><span class="n">server</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DataFrameLocationTransmuter">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameLocationTransmuter">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataFrameLocationTransmuter</span><span class="p">(</span><span class="n">DashServerLocationTransmuter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transmutes spreadsheet like files (Excel, CSV, etc.) to deallocatable</span>
+<span class="sd">    :class:`.TerminalDashServerLocation` instances that use a Dash server to</span>
+<span class="sd">    render the data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_dash_server_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">DataFrameSource</span><span class="p">)</span> <span class="o">-&gt;</span> \
+            <span class="n">TerminalDashServerLocation</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a dash server location from a dataframe source.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;creating layout factory for: </span><span class="si">{</span><span class="n">source</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">layout_factory</span><span class="p">:</span> <span class="n">DataSourceFrameLayoutFactory</span> <span class="o">=</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">config_factory</span><span class="o">.</span><span class="n">new_instance</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">layout_factory_name</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">source</span><span class="o">.</span><span class="n">get_name</span><span class="p">(),</span>
+                <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_dash_server_loc_from_lf</span><span class="p">(</span><span class="n">layout_factory</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_from_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="n">Location</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Location</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create locations from an Excel, CSV or TSV path.  If the file is an</span>
+<span class="sd">        Excel file, a location for each sheet is generated.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">source</span><span class="p">:</span> <span class="n">DataFrameSource</span>
+        <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">PathDataFrameSource</span><span class="o">.</span><span class="n">from_path</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_dash_server_loc</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DataFrameLocationTransmuter.transmute">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataFrameLocationTransmuter.transmute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">transmute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Location</span><span class="p">]:</span>
+        <span class="n">locs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Location</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">DataFrameLocation</span><span class="p">):</span>
+            <span class="n">locs</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_dash_server_loc</span><span class="p">(</span><span class="n">location</span><span class="o">.</span><span class="n">source</span><span class="p">),)</span>
+        <span class="k">elif</span> <span class="n">location</span><span class="o">.</span><span class="n">has_path</span> <span class="ow">and</span> <span class="n">PathDataFrameSource</span><span class="o">.</span><span class="n">is_supported_path</span><span class="p">(</span>
+                <span class="n">location</span><span class="o">.</span><span class="n">path</span><span class="p">):</span>
+            <span class="n">locs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_from_path</span><span class="p">(</span><span class="n">location</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">locs</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="DataDescriberLocationTransmuter">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataDescriberLocationTransmuter">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DataDescriberLocationTransmuter</span><span class="p">(</span><span class="n">DashServerLocationTransmuter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Like :class:`.DataFrameLocationTransmuter` but create server locations</span>
+<span class="sd">    from :class:`~zensols.datdesc.desc.DataDescriber` in memory instances.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">table_format</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Whether to render the dataframe using</span>
+<span class="sd">    :obj:`~zensols.datdesc.table.Table.formatted_dataframe`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_from_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desc</span><span class="p">:</span> <span class="n">DataDescriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Location</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create locations, one for each</span>
+<span class="sd">        :obj:`~zensols.datdesc.desc.DataDescriber.describers`.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dfd</span><span class="p">:</span> <span class="n">DataFrameDescriber</span>
+        <span class="k">for</span> <span class="n">dfd</span> <span class="ow">in</span> <span class="n">desc</span><span class="o">.</span><span class="n">describers</span><span class="p">:</span>
+            <span class="n">layout_factory</span><span class="p">:</span> <span class="n">DataFrameDescriberLayoutFactory</span> <span class="o">=</span> \
+                <span class="bp">self</span><span class="o">.</span><span class="n">config_factory</span><span class="o">.</span><span class="n">new_instance</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">layout_factory_name</span><span class="p">,</span>
+                    <span class="n">source</span><span class="o">=</span><span class="n">dfd</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_dash_server_loc_from_lf</span><span class="p">(</span><span class="n">layout_factory</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DataDescriberLocationTransmuter.transmute">
+<a class="viewcode-back" href="../../../api/zensols.rend.html#zensols.rend.df.DataDescriberLocationTransmuter.transmute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">transmute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">Location</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Location</span><span class="p">]:</span>
+        <span class="n">locs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Location</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="n">desc</span><span class="p">:</span> <span class="n">DataDescriber</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">table_format</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_format</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">DataDescriberLocation</span><span class="p">):</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">source</span>
+            <span class="c1"># allow the location to override the table formatting option</span>
+            <span class="k">if</span> <span class="n">location</span><span class="o">.</span><span class="n">table_format</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">table_format</span> <span class="o">=</span> <span class="n">location</span><span class="o">.</span><span class="n">table_format</span>
+        <span class="k">elif</span> <span class="n">location</span><span class="o">.</span><span class="n">has_path</span> <span class="ow">and</span> <span class="n">location</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s1">&#39;.yml&#39;</span><span class="p">:</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="n">DataDescriber</span><span class="o">.</span><span class="n">from_yaml_file</span><span class="p">(</span><span class="n">location</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">desc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">table_format</span><span class="p">:</span>
+                <span class="n">desc</span><span class="o">.</span><span class="n">format_tables</span><span class="p">()</span>
+            <span class="n">locs</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_create_from_loc</span><span class="p">(</span><span class="n">desc</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">locs</span></div>
+</div>
+
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2026 Paul Landes
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../../_static/documentation_options.js?v=bb516dca"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    </body>
+</html>

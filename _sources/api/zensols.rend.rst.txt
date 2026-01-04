@@ -1,0 +1,69 @@
+zensols.rend package
+====================
+
+Submodules
+----------
+
+zensols.rend.app module
+-----------------------
+
+.. automodule:: zensols.rend.app
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+zensols.rend.browser module
+---------------------------
+
+.. automodule:: zensols.rend.browser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+zensols.rend.cli module
+-----------------------
+
+.. automodule:: zensols.rend.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+zensols.rend.darwin module
+--------------------------
+
+.. automodule:: zensols.rend.darwin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+zensols.rend.default module
+---------------------------
+
+.. automodule:: zensols.rend.default
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+zensols.rend.df module
+----------------------
+
+.. automodule:: zensols.rend.df
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+zensols.rend.domain module
+--------------------------
+
+.. automodule:: zensols.rend.domain
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: zensols.rend
+   :members:
+   :undoc-members:
+   :show-inheritance:
