@@ -33,12 +33,12 @@ project:
       package_host: '3.12.10'
     # pypi dependencies added to 'project'
     dependencies:
-      - 'screeninfo~=0.8'
-      - 'openpyxl~=3.1.2'
-      - 'dash==3.0.4'
-      - 'dash-bootstrap-components==2.0.3'
-      - 'waitress==3.0.2'
-      - 'zensols.datdesc~=1.4.0'
+      - 'screeninfo~=0.8.1'
+      - 'openpyxl~=3.1.5'
+      - 'dash~=3.0.4'
+      - 'dash-bootstrap-components~=2.0.3'
+      - 'waitress~=3.0.2'
+      - 'zensols.datdesc~=1.4.2'
   # the program is called on the command line
   has_entry_points: true
 doc:
