@@ -2,10 +2,8 @@
 
 """
 __author__ = 'Paul Landes'
-
-from typing import (
-    Callable, Union, Optional, Iterable, Tuple, Dict, Set, ClassVar
-)
+from typing import Union, ClassVar
+from collections.abc import Iterable, Callable
 from dataclasses import dataclass, field
 from abc import abstractmethod, ABCMeta
 from pathlib import Path
@@ -54,7 +52,7 @@ class CachedDataFrameSource(DataFrameSource):
     df: pd.DataFrame = field()
     """The cached datagrame to return in meth:`get_dataframe`."""
 
-    name: Optional[str] = field(default=None)
+    name: str | None = field(default=None)
     """The name of the source, if available."""
 
     def get_name(self) -> str:
@@ -73,7 +71,7 @@ class PathDataFrameSource(DataFrameSource):
     """Reads a dataframe from a file.
 
     """
-    _EXTENSIONS: ClassVar[Set[str]] = frozenset('csv tsv xlsx'.split())
+    _EXTENSIONS: ClassVar[set[str]] = frozenset('csv tsv xlsx'.split())
     """Supported file extesions by this source."""
 
     path: Path = field()
@@ -102,15 +100,15 @@ class PathDataFrameSource(DataFrameSource):
         return ext in cls._EXTENSIONS
 
     @classmethod
-    def from_path(cls, path: Path) -> Tuple[DataFrameSource]:
-        def map_sheet(t: Tuple[str, pd.DataFrame]) -> DataFrameSource:
+    def from_path(cls, path: Path) -> tuple[DataFrameSource, ...]:
+        def map_sheet(t: tuple[str, pd.DataFrame]) -> DataFrameSource:
             src = CachedDataFrameSource(t[1])
             src._name = t[0]
             return src
 
         ext: str = cls.get_extesion(path)
         if ext == 'xlsx':
-            sheets: Dict[str, pd.DataFrame] = pd.read_excel(
+            sheets: dict[str, pd.DataFrame] = pd.read_excel(
                 path, sheet_name=None)
             return tuple(map(map_sheet, sheets.items()))
         return (PathDataFrameSource(path),)
@@ -138,7 +136,7 @@ class LayoutFactory(object, metaclass=ABCMeta):
     title: str = field(default='Untitled')
     """The title of the browser frame."""
 
-    description: Tuple[str] = field(default=())
+    description: tuple[str, ...] = field(default=())
     """The description of the data to use as a toolip over the title."""
 
     @abstractmethod
@@ -146,7 +144,7 @@ class LayoutFactory(object, metaclass=ABCMeta):
         """Create the root application ``div`` HTML element component."""
         pass
 
-    def create_terminate_callback(self, dash: Dash) -> Optional[Callable]:
+    def create_terminate_callback(self, dash: Dash) -> Callable | None:
         """Ceate the callback used to stop the Dash server.  If this returns
         ``None``, the server will not stop.
 
@@ -192,7 +190,7 @@ class DataFrameLayoutFactory(LayoutFactory, metaclass=ABCMeta):
     def _get_dataframe(self) -> pd.DataFrame:
         pass
 
-    def _get_column_tooltips(self, df: pd.DataFrame) -> Dict[str, str]:
+    def _get_column_tooltips(self, df: pd.DataFrame) -> dict[str, str]:
         """Create column tooltips for hoverover on the header, which are
         populated (for example) from
         :class:`~zensols.datdesc.desc.DataFrameDescriber`.
@@ -280,7 +278,7 @@ class DataFrameLayoutFactory(LayoutFactory, metaclass=ABCMeta):
                 'backgroundColor': 'rgb(230, 230, 230)',
             }])
 
-    def create_terminate_callback(self, dash: Dash) -> Optional[Callable]:
+    def create_terminate_callback(self, dash: Dash) -> Callable | None:
         return dash.callback(
             Output('server-kill-button-container', 'children'),
             Input('server-kill-submit', 'n_clicks'))
@@ -366,14 +364,14 @@ class DataFrameDescriberLayoutFactory(DataFrameLayoutFactory):
     def _get_dataframe(self) -> pd.DataFrame:
         return self.source.df_with_index_meta(self.index_meta_format)
 
-    def _get_column_tooltips(self, df: pd.DataFrame) -> Dict[str, str]:
+    def _get_column_tooltips(self, df: pd.DataFrame) -> dict[str, str]:
         def map_col(c: str):
             v: str = cols.get(c)
             if v is not None and v != c:
                 v = self.column_meta_format.format(c=c, v=v)
             return c, v
 
-        cols: Dict[str, str] = self.source.column_descriptions
+        cols: dict[str, str] = self.source.column_descriptions
         return dict(map(map_col, cols.keys()))
 
 
@@ -406,7 +404,7 @@ class DataDescriberLocation(Location):
     source: DataDescriber = field()
     """The used to as the source rather than :obj:`source`."""
 
-    table_format: Optional[bool] = field(default=None)
+    table_format: bool | None = field(default=None)
     """Whether to render the dataframe using
     :obj:`~zensols.datdesc.table.Table.formatted_dataframe`.  If not set, the
     :obj:`.DataDescriberLocationTransmuter.table_format` default is used.
@@ -474,7 +472,7 @@ class TerminalDashServer(object):
             external_stylesheets=[dbc.themes.BOOTSTRAP],
         )
         dash.title = layout_factory.title
-        term_cb: Optional[Callable] = layout_factory.\
+        term_cb: Callable | None = layout_factory.\
             create_terminate_callback(dash)
         if term_cb is not None:
             term_cb(self._shutdown_callback)
@@ -628,8 +626,8 @@ class DataFrameLocationTransmuter(DashServerLocationTransmuter):
         for source in PathDataFrameSource.from_path(loc.path):
             yield self._create_dash_server_loc(source)
 
-    def transmute(self, location: Location) -> Tuple[Location]:
-        locs: Tuple[Location] = ()
+    def transmute(self, location: Location) -> tuple[Location, ...]:
+        locs: tuple[Location, ...] = ()
         if isinstance(location, DataFrameLocation):
             locs = (self._create_dash_server_loc(location.source),)
         elif location.has_path and PathDataFrameSource.is_supported_path(
@@ -662,8 +660,14 @@ class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
                     source=dfd)
             yield self._create_dash_server_loc_from_lf(layout_factory)
 
-    def transmute(self, location: Location) -> Tuple[Location]:
-        locs: Tuple[Location] = ()
+    def _is_dd(self, location: Location) -> bool:
+        if location.has_path:
+            path: Path = location.path
+            return path.suffix == '.yml' and path.stem.endswith('-table')
+        return False
+
+    def transmute(self, location: Location) -> tuple[Location, ...]:
+        locs: Tuple[location, ...] = ()
         desc: DataDescriber = None
         table_format: bool = self.table_format
         if isinstance(location, DataDescriberLocation):
@@ -671,7 +675,7 @@ class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
             # allow the location to override the table formatting option
             if location.table_format is not None:
                 table_format = location.table_format
-        elif location.has_path and location.path.suffix == '.yml':
+        elif self._is_dd(location):
             desc = DataDescriber.from_yaml_file(location.path)
         if desc is not None:
             if table_format:
