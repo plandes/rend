@@ -187,7 +187,8 @@ class Location(PersistableContainer, Dictable):
             return self._file_url_path
 
     def coerce_type(self, location_type: LocationType):
-        """Change to the location from a file to a URL or vica versa if possible.
+        """Change to the location from a file to a URL or vica versa if
+        possible.
 
         """
         if location_type != self.type:
