@@ -3,7 +3,7 @@
 """
 from __future__ import annotations
 __author__ = 'Paul Landes'
-from typing import Sequence, Union
+from typing import Sequence, Union, TypeAlias
 from dataclasses import dataclass, field
 from abc import ABCMeta, abstractmethod
 import logging
@@ -20,6 +20,8 @@ from . import (
 )
 
 logger = logging.getLogger(__name__)
+
+PresentType: TypeAlias = str | Path | Presentation | Location | DataFrame | list
 
 
 @dataclass
@@ -141,8 +143,7 @@ class BrowserManager(object):
         df_source = CachedDataFrameSource(df, name)
         return DataFrameLocation(df_source)
 
-    def to_presentation(self, data: Union[str, Path, Presentation, Location, DataFrame, list],
-                        extent: Extent = None) \
+    def to_presentation(self, data: PresentType, extent: Extent = None) \
             -> Presentation:
         """Create a presentation instance from a string, path, or other
         presentation.
