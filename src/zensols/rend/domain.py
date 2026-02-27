@@ -3,7 +3,7 @@
 """
 from __future__ import annotations
 __author__ = 'Paul Landes'
-from typing import Union, Tuple, Any, Set, List
+from typing import Union, Any
 from dataclasses import dataclass, field
 from abc import abstractmethod, ABCMeta
 import logging
@@ -50,7 +50,7 @@ class LocationType(Enum):
         return type
 
     @staticmethod
-    def from_str(s: str) -> Tuple[LocationType, str]:
+    def from_str(s: str) -> tuple[LocationType, str]:
         """Return whether ``s`` looks like a file or a URL."""
         st: LocationType = None
         path: str = None
@@ -217,7 +217,7 @@ class LocationTransmuter(object, metaclass=ABCMeta):
 
     """
     @abstractmethod
-    def transmute(self, location: Location) -> Tuple[Location]:
+    def transmute(self, location: Location) -> tuple[Location, ...]:
         """Transmute the location if possible.
 
         :return: a transmuted location if possible, otherwise ``None``
@@ -237,7 +237,7 @@ class Presentation(PersistableContainer, Dictable):
     necessary, and not contained :class:`.Location`.
 
     """
-    locations: Tuple[Location] = field()
+    locations: tuple[Location, ...] = field()
     """The locations of the content to display"""
 
     extent: Extent = field(default=None)
@@ -251,7 +251,7 @@ class Presentation(PersistableContainer, Dictable):
     def from_str(location_defs: str, delimiter: str = ',',
                  extent: Extent = None) -> Presentation:
         """Create a presentation from a comma-delimited list of locations."""
-        locs: Tuple[Location]
+        locs: tuple[Location, ...]
         if delimiter is None:
             locs = (Location(location_defs),)
         else:
@@ -260,16 +260,16 @@ class Presentation(PersistableContainer, Dictable):
 
     @property
     @persisted('_location_type_set')
-    def location_type_set(self) -> Set[LocationType]:
+    def location_type_set(self) -> set[LocationType]:
         """A set of :obj:`locations`."""
         return frozenset(map(lambda loc: loc.type, self.locations))
 
     def apply_transmuter(self, transmuter: LocationTransmuter):
         changed: bool = False
-        updates: List[Location] = []
+        updates: list[Location] = []
         loc: Location
         for loc in self.locations:
-            locs: Tuple[Location] = transmuter.transmute(loc)
+            locs: tuple[Location, ...] = transmuter.transmute(loc)
             if len(locs) > 0:
                 updates.extend(locs)
                 changed = True
