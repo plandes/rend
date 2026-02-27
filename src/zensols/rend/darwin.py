@@ -2,7 +2,7 @@
 
 """
 __author__ = 'Paul Landes'
-from typing import Dict, Sequence, Set, Tuple, List, Any, Union
+from typing import Sequence, Any, Union
 from dataclasses import dataclass, field
 from enum import Enum, auto
 import logging
@@ -41,15 +41,15 @@ class DarwinBrowser(Browser):
     instance for URL viewing.
 
     """
-    script_paths: Dict[str, Path] = field()
+    script_paths: dict[str, Path] = field()
     """The applescript file paths used for managing show apps (``Preview.app``
     and ``Safari.app``).
 
     """
-    web_extensions: Set[str] = field()
+    web_extensions: set[str] = field()
     """Extensions that indicate to use Safari.app rather than Preview.app."""
 
-    applescript_warns: Dict[str, str] = field()
+    applescript_warns: dict[str, str] = field()
     """A set of string warning messages to log instead raise as an
     :class:`.ApplicationError`.
 
@@ -135,7 +135,7 @@ class DarwinBrowser(Browser):
 
     def _invoke_open_script(self, name: str, arg: str, extent: Extent,
                             func: str = None, quote_style: str = 'double',
-                            extra: Tuple[Any, ...] = None):
+                            extra: tuple[Any, ...] = None):
         """Invoke applescript.
 
         :param name: the key of the script in :obj:`script_paths`
@@ -164,7 +164,7 @@ class DarwinBrowser(Browser):
             file_form = arg
         else:
             raise APIError(f'No such quote style: {quote_style}')
-        params: List[Any] = [
+        params: list[Any] = [
             file_form, extent.x, extent.y, extent.width, extent.height]
         if extra is not None:
             params.extend(extra)
@@ -196,7 +196,7 @@ class DarwinBrowser(Browser):
             url = url + '/'
         return url
 
-    def _get_page_update_params(self) -> Tuple[Any, ...]:
+    def _get_page_update_params(self) -> tuple[Any, ...]:
         update_page: str
         page_num: str = 'null'
         if isinstance(self.update_page, bool):
@@ -208,7 +208,7 @@ class DarwinBrowser(Browser):
         return update_page, page_num
 
     def _show_file(self, path: Path, extent: Extent):
-        params: Tuple[Any, ...] = self._get_page_update_params()
+        params: tuple[Any, ...] = self._get_page_update_params()
         self._invoke_open_script(
             'preview',
             str(path.absolute()),
@@ -225,7 +225,7 @@ class DarwinBrowser(Browser):
             quote_style='single',
             extra=(repos, refresh))
 
-    def _show_urls(self, urls: Tuple[str], extent: Extent):
+    def _show_urls(self, urls: tuple[str, ...], extent: Extent):
         def map_url(url: str) -> str:
             url = self._safari_compliant_url(url)
             return f'"{url}"'
@@ -248,10 +248,10 @@ class DarwinBrowser(Browser):
             return loc
 
         extent: Extent = presentation.extent
-        urls: Tuple[str] = None
-        locs: Tuple[Location] = tuple(map(map_loc, presentation.locations))
+        urls: tuple[str, ...] = None
+        locs: tuple[Location, ...] = tuple(map(map_loc, presentation.locations))
         if len(locs) > 1:
-            loc_set: Set[LocationType] = set(map(lambda lc: lc.type, locs))
+            loc_set: set[LocationType] = set(map(lambda lc: lc.type, locs))
             if len(loc_set) != 1 or next(iter(loc_set)) != LocationType.file:
                 urls = tuple(map(lambda loc: loc.url, locs))
         if urls is not None:
