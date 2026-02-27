@@ -3,7 +3,7 @@
 """
 from __future__ import annotations
 __author__ = 'Paul Landes'
-from typing import Sequence, Dict, Union, Tuple
+from typing import Sequence, Union
 from dataclasses import dataclass, field
 from abc import ABCMeta, abstractmethod
 import logging
@@ -69,7 +69,7 @@ class BrowserManager(object):
     configuration.
 
     """
-    transmuters: Tuple[LocationTransmuter] = field(default_factory=list)
+    transmuters: tuple[LocationTransmuter, ...] = field(default_factory=list)
     """A list of transmuters that map concrete locations to the ephemeral."""
 
     def __post_init__(self):
@@ -88,7 +88,7 @@ class BrowserManager(object):
 
     @property
     @persisted('_displays')
-    def displays(self) -> Dict[str, Size]:
+    def displays(self) -> dict[str, Size]:
         """The configured displays."""
         def map_display(name: str) -> Display:
             targ = Extent(**fac(f'{name}_target').asdict())
@@ -100,7 +100,7 @@ class BrowserManager(object):
 
     def _get_extent(self) -> Extent:
         screen: Size = self.browser.screen_size
-        displays: Dict[Size, Display] = self.displays_by_size
+        displays: dict[Size, Display] = self.displays_by_size
         display: Display = displays.get(screen)
         if logger.isEnabledFor(logging.TRACE):
             from pprint import pprint
@@ -124,7 +124,7 @@ class BrowserManager(object):
 
     @property
     @persisted('_displays_by_size')
-    def displays_by_size(self) -> Dict[Size, Display]:
+    def displays_by_size(self) -> dict[Size, Display]:
         """A dictionary of displays keyed by size."""
         return {Size(d.width, d.height): d for d in self.displays.values()}
 
@@ -141,8 +141,8 @@ class BrowserManager(object):
         df_source = CachedDataFrameSource(df, name)
         return DataFrameLocation(df_source)
 
-    def to_presentation(self, data: Union[str, Path, Presentation, Location, DataFrame, List],
-                        extent: Extent = None, transmute: bool = True) \
+    def to_presentation(self, data: Union[str, Path, Presentation, Location, DataFrame, list],
+                        extent: Extent = None) \
             -> Presentation:
         """Create a presentation instance from a string, path, or other
         presentation.
@@ -150,8 +150,6 @@ class BrowserManager(object):
         :param data: the data (image file, URL, Pandas dataframe) to display
 
         :param extent: the position and size of the window after browsing
-
-        :param transmute: whether to apply :class:`.LocationTransmuter` instanes
 
         """
         pres: Presentation
@@ -179,10 +177,9 @@ class BrowserManager(object):
         else:
             raise RenderFileError(f'Unsupported location type: {type(data)}')
         pres.extent = self._get_extent() if extent is None else extent
-        if transmute:
-            lt: LocationTransmuter
-            for lt in self.transmuters:
-                pres.apply_transmuter(lt)
+        lt: LocationTransmuter
+        for lt in self.transmuters:
+            pres.apply_transmuter(lt)
         return pres
 
     def show(self,
