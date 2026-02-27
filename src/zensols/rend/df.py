@@ -2,7 +2,7 @@
 
 """
 __author__ = 'Paul Landes'
-from typing import Union, ClassVar
+from typing import ClassVar
 from collections.abc import Iterable, Callable
 from dataclasses import dataclass, field
 from abc import abstractmethod, ABCMeta
@@ -77,7 +77,7 @@ class PathDataFrameSource(DataFrameSource):
     path: Path = field()
     """The path to either an Excel, TSV, CSV file."""
 
-    sheet_name: Union[int, str] = field(default=0)
+    sheet_name: int | str = field(default=0)
     """The sheet number or name if an Excel file."""
 
     def get_name(self) -> str:
@@ -381,7 +381,7 @@ class DataFrameLocation(Location):
     Use this as a way to programmatically render data in Python applications.
 
     """
-    source: Union[pd.DataFrame, DataFrameSource] = field()
+    source: pd.DataFrame | DataFrameSource = field()
     """The used to as the source rather than :obj:`source`."""
 
     def __post_init__(self):
