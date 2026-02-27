@@ -667,7 +667,7 @@ class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
         return False
 
     def transmute(self, location: Location) -> tuple[Location, ...]:
-        locs: Tuple[location, ...] = ()
+        locs: tuple[location, ...] = ()
         desc: DataDescriber = None
         table_format: bool = self.table_format
         if isinstance(location, DataDescriberLocation):
