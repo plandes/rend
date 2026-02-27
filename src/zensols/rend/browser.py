@@ -3,7 +3,7 @@
 """
 from __future__ import annotations
 __author__ = 'Paul Landes'
-from typing import Sequence, Union, TypeAlias
+from typing import Sequence, TypeAlias
 from dataclasses import dataclass, field
 from abc import ABCMeta, abstractmethod
 import logging
@@ -21,7 +21,8 @@ from . import (
 
 logger = logging.getLogger(__name__)
 
-PresentType: TypeAlias = str | Path | Presentation | Location | DataFrame | list
+Showable: TypeAlias = str | Path | Presentation | Location | \
+    DataFrame | Sequence
 
 
 @dataclass
@@ -143,7 +144,7 @@ class BrowserManager(object):
         df_source = CachedDataFrameSource(df, name)
         return DataFrameLocation(df_source)
 
-    def to_presentation(self, data: PresentType, extent: Extent = None) \
+    def to_presentation(self, data: Showable, extent: Extent = None) \
             -> Presentation:
         """Create a presentation instance from a string, path, or other
         presentation.
@@ -183,9 +184,7 @@ class BrowserManager(object):
             pres.apply_transmuter(lt)
         return pres
 
-    def show(self,
-             data: Union[str, Path, Presentation, Location, DataFrame, Sequence],
-             extent: Extent = None):
+    def show(self, data: Showable, extent: Extent = None):
         """Display ``data`` content on the screen and optionally resize the
         window to ``extent``.
 
