@@ -24,7 +24,6 @@ from zensols.persist import Deallocatable
 from zensols.datdesc import DataFrameDescriber, DataDescriber
 from . import RenderFileError, Location, LocationTransmuter
 
-
 logger = logging.getLogger(__name__)
 
 
