@@ -248,7 +248,7 @@ class DarwinBrowser(Browser):
 
     def _show(self, presentation: Presentation):
         def map_loc(loc: Location) -> Location:
-            if loc.is_file_url or loc.type == LocationType.file:
+            if loc.has_path:
                 path: Path = loc.path
                 if path.suffix[1:] in self.web_extensions:
                     loc.coerce_type(LocationType.url)

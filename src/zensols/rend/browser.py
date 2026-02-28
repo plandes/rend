@@ -59,7 +59,7 @@ class FileTypeFilter(Dictable):
     def __call__(self, presentation: Presentation):
         keeps: list[Location] = []
         for loc in presentation.locations:
-            if loc.is_file_url or loc.type == LocationType.file:
+            if loc.has_path:
                 path: Path = loc.path
                 if self._name_matches(path) or self._type_matches(path):
                     keeps.append(loc)
