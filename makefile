@@ -46,17 +46,30 @@ runshowpng:
 			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
 				ARG="show test-resources/sample.png"
 
-# show tabular data
-.PHONY:			runshowcsv
-runshowcsv:
-			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
-				ARG="show test-resources/states.csv"
-
 # show a website
 .PHONY:			runshowwebsite
 runshowwebsite:
 			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
 				ARG="show http://example.com"
 
+# show tabular data
+.PHONY:			runshowcsv
+runshowcsv:
+			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
+				ARG="show test-resources/states.csv"
+
+# show tabular data from yml config
+.PHONY:			runshowyml
+runshowyml:
+			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
+				ARG="show test-resources/dd/tab/roster-table.yml"
+
+# show tabular data from json config
+.PHONY:			runshowjson
+runshowjson:
+			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
+				ARG="show test-resources/dd/tab/roster-table.json"
+
 .PHONY:			runshow
-runshow:		runshowpdf runshowpng runshowcsv runshowwebsite
+runshow:		runshowpdf runshowpng runshowwebsite \
+				runshowcsv runshowyml runshowjson

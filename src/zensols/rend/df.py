@@ -2,7 +2,6 @@
 
 """
 __author__ = 'Paul Landes'
-from typing import ClassVar
 from collections.abc import Iterable, Callable
 from dataclasses import dataclass, field
 from abc import abstractmethod, ABCMeta
@@ -70,9 +69,6 @@ class PathDataFrameSource(DataFrameSource):
     """Reads a dataframe from a file.
 
     """
-    _EXTENSIONS: ClassVar[set[str]] = frozenset('csv tsv xlsx'.split())
-    """Supported file extesions by this source."""
-
     path: Path = field()
     """The path to either an Excel, TSV, CSV file."""
 
@@ -87,25 +83,13 @@ class PathDataFrameSource(DataFrameSource):
         return path.suffix[1:]
 
     @classmethod
-    def is_supported_path(cls, path: Path) -> bool:
-        """Return whether the file is supported by this class."""
-        return cls.is_supported_extension(cls.get_extesion(path))
-
-    @classmethod
-    def is_supported_extension(cls, ext: str) -> bool:
-        """Return whether the file extesion ``ext`` is supported by this class.
-
-        """
-        return ext in cls._EXTENSIONS
-
-    @classmethod
     def from_path(cls, path: Path) -> tuple[DataFrameSource, ...]:
         def map_sheet(t: tuple[str, pd.DataFrame]) -> DataFrameSource:
             src = CachedDataFrameSource(t[1])
             src._name = t[0]
             return src
 
-        ext: str = cls.get_extesion(path)
+        ext: str = path.suffix[1:]
         if ext == 'xlsx':
             sheets: dict[str, pd.DataFrame] = pd.read_excel(
                 path, sheet_name=None)
@@ -114,9 +98,7 @@ class PathDataFrameSource(DataFrameSource):
 
     def get_dataframe(self) -> pd.DataFrame:
         """Procure the dataframe from this source."""
-        ext: str = self.get_extesion(self.path)
-        if not self.is_supported_extension(ext):
-            raise RenderFileError(f'Unsupported extension: {ext}')
+        ext: str = self.path.suffix[1:]
         fn: Callable = {
             'csv': pd.read_csv,
             'tsv': lambda p: pd.read(p, sept='\t'),
@@ -629,8 +611,7 @@ class DataFrameLocationTransmuter(DashServerLocationTransmuter):
         locs: tuple[Location, ...] = ()
         if isinstance(location, DataFrameLocation):
             locs = (self._create_dash_server_loc(location.source),)
-        elif location.has_path and PathDataFrameSource.is_supported_path(
-                location.path):
+        elif location.has_path:
             locs = tuple(self._create_from_path(location))
         return locs
 
@@ -641,7 +622,7 @@ class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
     from :class:`~zensols.datdesc.desc.DataDescriber` in memory instances.
 
     """
-    table_format: bool = field(default=False)
+    table_format: str | bool = field(default='auto')
     """Whether to render the dataframe using
     :obj:`~zensols.datdesc.table.Table.formatted_dataframe`.
 
@@ -659,25 +640,23 @@ class DataDescriberLocationTransmuter(DashServerLocationTransmuter):
                     source=dfd)
             yield self._create_dash_server_loc_from_lf(layout_factory)
 
-    def _is_dd(self, location: Location) -> bool:
-        if location.has_path:
-            path: Path = location.path
-            return path.suffix == '.yml' and path.stem.endswith('-table')
-        return False
-
     def transmute(self, location: Location) -> tuple[Location, ...]:
         locs: tuple[location, ...] = ()
         desc: DataDescriber = None
-        table_format: bool = self.table_format
+        table_format: str | bool = self.table_format
         if isinstance(location, DataDescriberLocation):
             desc = location.source
             # allow the location to override the table formatting option
             if location.table_format is not None:
                 table_format = location.table_format
-        elif self._is_dd(location):
-            desc = DataDescriber.from_yaml_file(location.path)
+        elif location.has_path:
+            if location.path.suffix == '.yml':
+                desc = DataDescriber.from_yaml_file(location.path)
+            elif location.path.suffix == '.json':
+                desc = DataDescriber.from_json_file(location.path)
+            table_format = True if table_format == 'auto' else table_format
         if desc is not None:
-            if table_format:
+            if table_format is True:
                 desc.format_tables()
             locs = tuple(self._create_from_loc(desc))
         return locs

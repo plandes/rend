@@ -28,6 +28,36 @@ rend_darwin_browser:
   update_page: false
 
 
+## Data describer
+#
+rend_datdesc_location_transmuter:
+  class_name: zensols.rend.datdesc.DataDescriberTransumter
+  renderable_factory: 'instance: datdesc_renderable_file_factory'
+
+## Mapped transmuter
+#
+rend_mapped_stash:
+  class_name: zensols.rend.maptrans.RegexFactoryStash
+  pattern: 'rend_{name}_location_transmuter'
+  exclude_keys: ['mapped']
+
+rend_mapped_location_transmuter:
+  class_name: zensols.rend.maptrans.MappedLocationTransmuter
+  trans_stash: 'instance: rend_mapped_stash'
+  transmuters:
+    data_frame: '^.+\\.(?:csv|tsv|xlsx)${conf_esc:dollar}'
+    data_describer: '^.+-table\\.(?:yml|json)${conf_esc:dollar}'
+
+## Manager
+#
+rend_browser_manager:
+  class_name: zensols.rend.BrowserManager
+  default_browser_name: 'rend_default_browser'
+  transmuters: >-
+    instance: list:
+      rend_mapped_location_transmuter
+
+
 ## Datafame rendering
 #
 rend_data_frame_layout_factory:
@@ -69,12 +99,4 @@ rend_data_describer_location_transmuter:
   class_name: zensols.rend.df.DataDescriberLocationTransmuter
   dash_server_name: 'rend_dash_server_name'
   layout_factory_name: 'rend_data_describer_layout_factory'
-  table_format: false
-
-rend_browser_manager:
-  class_name: zensols.rend.BrowserManager
-  default_browser_name: 'rend_default_browser'
-  transmuters: >-
-    instance: list:
-      rend_data_frame_location_transmuter,
-      rend_data_describer_location_transmuter
+  table_format: 'auto'

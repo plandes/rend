@@ -1,0 +1,15 @@
+rosterTab:
+  type: one_column
+  caption: Example dataframe using mock roster data.
+  head: Mock Roster
+  path: test-resources/dd/tab/roster.csv
+  template_params:
+    tabular: tabular
+    tabular_args: ''
+  column_renames:
+    name: the person's name
+    age: the age of the individual
+  format_thousands_column_names:
+    age: null
+  code_pre: |
+    df.at[3, 'age'] = 10000
