@@ -219,9 +219,11 @@ class LocationTransmuter(object, metaclass=ABCMeta):
     """
     @abstractmethod
     def transmute(self, location: Location) -> tuple[Location, ...]:
-        """Transmute the location if possible.
+        """Transmute the location if possible.  The subclass can eelect to
+        replace ``location`` by returning a non-zero tuple of locations.
+        Otherwise ``location`` will be added to the :class:`.Presentation`.
 
-        :return: a transmuted location if possible, otherwise ``None``
+        :return: a transmuted location if possible, otherwise and empty tuple
 
         """
         pass
