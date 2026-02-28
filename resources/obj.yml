@@ -4,8 +4,14 @@
 
 ## Browser objects
 #
+rend_file_type_filter:
+  class_name: zensols.rend.browser.FileTypeFilter
+  name_regex: '.+\\.(?:pdf)${conf_esc:dollar}'
+  mime_regex: '(?:^image/.+|.+/(?:pdf)${conf_esc:dollar})'
+
 rend_default_browser:
   class_name: zensols.rend.default.WebBrowser
+  file_type_filter: 'instance: rend_file_type_filter'
 
 rend_darwin_script_paths:
   preview: 'resource(zensols.rend): resources/show-preview.scpt'
@@ -14,6 +20,7 @@ rend_darwin_script_paths:
 
 rend_darwin_browser:
   class_name: zensols.rend.darwin.DarwinBrowser
+  file_type_filter: 'instance: rend_file_type_filter'
   script_paths: 'instance: rend_darwin_script_paths'
   web_extensions: 'set: html, svg'
   applescript_warns:

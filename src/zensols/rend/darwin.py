@@ -36,6 +36,9 @@ class ErrorType(Enum):
 
 @dataclass
 class DarwinBrowser(Browser):
+    """A browser that uses Preview.app and Safari.app on macOS.
+
+    """
     config_factory: ConfigFactory = field()
     """The configuration factory used to create a default :class:`.Browser`
     instance for URL viewing.
@@ -209,6 +212,8 @@ class DarwinBrowser(Browser):
 
     def _show_file(self, path: Path, extent: Extent):
         params: tuple[Any, ...] = self._get_page_update_params()
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f'show file: {path}')
         self._invoke_open_script(
             'preview',
             str(path.absolute()),
@@ -220,6 +225,8 @@ class DarwinBrowser(Browser):
         url = self._safari_compliant_url(url)
         repos: bool = 'true' if self.safari_always_reposition else 'false'
         refresh: bool = 'true' if self.safari_refresh else 'false'
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f'show url: {url}, repos={repos}, refresh={refresh}')
         self._invoke_open_script(
             'safari', url, extent,
             quote_style='single',
@@ -239,7 +246,7 @@ class DarwinBrowser(Browser):
             quote_style='none',
             extent=extent)
 
-    def show(self, presentation: Presentation):
+    def _show(self, presentation: Presentation):
         def map_loc(loc: Location) -> Location:
             if loc.is_file_url or loc.type == LocationType.file:
                 path: Path = loc.path

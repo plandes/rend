@@ -30,7 +30,7 @@ class WebBrowser(Browser):
             logger.info(f'opening browser at: {url}')
         webbrowser.open(url, autoraise=False)
 
-    def show(self, presentation: Presentation):
+    def _show(self, presentation: Presentation):
         loc: Location
         for loc in presentation.locations:
             self._open_url(loc.url)

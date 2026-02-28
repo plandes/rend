@@ -7,9 +7,12 @@ from typing import Sequence, TypeAlias
 from dataclasses import dataclass, field
 from abc import ABCMeta, abstractmethod
 import logging
+import re
 import platform
 from itertools import chain
 from pathlib import Path
+import filetype
+from filetype.types.base import Type as FileType
 from pandas import DataFrame
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
@@ -25,10 +28,58 @@ Showable: TypeAlias = str | Path | Presentation | Location | \
 
 
 @dataclass
+class FileTypeFilter(Dictable):
+    name_regex: re.Pattern | str = field()
+    mime_regex: re.Pattern | str = field()
+
+    def __post_init__(self):
+        for attr in 'name_regex mime_regex'.split():
+            val = getattr(self, attr)
+            if isinstance(val, str):
+                enc: str = val.encode().decode('unicode-escape')
+                setattr(self, attr, re.compile(enc))
+
+    def _name_matches(self, path: Path) -> bool:
+        if self.name_regex is not None:
+            return self.name_regex.match(str(path)) is not None
+        return False
+
+    def _type_matches(self, path: Path) -> bool:
+        if self.mime_regex is not None:
+            ftype: FileType = filetype.guess(path)
+            if logger.isEnabledFor(logging.DEBUG):
+                logger.debug(f'file type: {ftype}')
+            if ftype is not None:
+                mime: str = ftype.mime
+                if logger.isEnabledFor(logging.DEBUG):
+                    logger.debug(f'mime type: {mime}')
+                return self.mime_regex.match(mime) is not None
+        return False
+
+    def __call__(self, presentation: Presentation):
+        keeps: list[Location] = []
+        for loc in presentation.locations:
+            if loc.is_file_url or loc.type == LocationType.file:
+                path: Path = loc.path
+                if self._name_matches(path) or self._type_matches(path):
+                    keeps.append(loc)
+                else:
+                    logger.warning(f'unknown file: {path}--skipping')
+            else:
+                keeps.append(loc)
+        if len(presentation.locations) > len(keeps):
+            presentation.locations = tuple(keeps)
+        return presentation
+
+
+@dataclass
 class Browser(Dictable, metaclass=ABCMeta):
     """An abstract base class for browsers the can visually display files.
 
     """
+    file_type_filter: FileTypeFilter = field()
+    """"""
+
     @property
     @persisted('_screen_size')
     def screen_size(self) -> Size:
@@ -40,13 +91,18 @@ class Browser(Dictable, metaclass=ABCMeta):
         """Get the screen size for the current display."""
         pass
 
-    @abstractmethod
     def show(self, presentation: Presentation):
         """Display the content.
 
         :param presentation: the file/PDF (or image) to display
 
         """
+        presentation = self.file_type_filter(presentation)
+        self._show(presentation)
+
+    @abstractmethod
+    def _show(self, presentation: Presentation):
+        """See :meth:`show`."""
         pass
 
 

@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+### Added
+- File extension and type filtering so browsers don't fail on bad file types.
+
+
 ## [1.3.1] - 2026-01-04
 ### Changes
 - Update dependencies for forward compatibility through medical and AMR

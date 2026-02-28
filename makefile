@@ -40,6 +40,11 @@ runshowpdf:
 			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
 				ARG="show test-resources/sample.pdf"
 
+# show an image file
+.PHONY:			runshowpng
+runshowpng:
+			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
+				ARG="show test-resources/sample.png"
 
 # show tabular data
 .PHONY:			runshowcsv
@@ -54,4 +59,4 @@ runshowwebsite:
 				ARG="show http://example.com"
 
 .PHONY:			runshow
-runshow:		runshowpdf runshowcsv runshowwebsite
+runshow:		runshowpdf runshowpng runshowcsv runshowwebsite
