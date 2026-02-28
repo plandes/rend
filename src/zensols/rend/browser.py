@@ -29,9 +29,17 @@ Showable: TypeAlias = str | Path | Presentation | Location | \
 
 @dataclass
 class FileTypeFilter(Dictable):
-    name_regex: re.Pattern | str = field()
-    mime_regex: re.Pattern | str = field()
+    """Filters locations either by file name or the contents of the file.
 
+    """
+    name_regex: re.Pattern | str = field()
+    """A regular expression that matches locations to keep."""
+
+    mime_regex: re.Pattern | str = field()
+    """A regular expression that matches mime types (determined by file content)
+    to keep.
+
+    """
     def __post_init__(self):
         for attr in 'name_regex mime_regex'.split():
             val = getattr(self, attr)
@@ -78,7 +86,7 @@ class Browser(Dictable, metaclass=ABCMeta):
 
     """
     file_type_filter: FileTypeFilter = field()
-    """"""
+    """Filters locations either by file name or the contents of the file."""
 
     @property
     @persisted('_screen_size')
