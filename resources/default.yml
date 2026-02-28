@@ -1,0 +1,16 @@
+#@meta {author: "Paul Landes"}
+#@meta {desc: "application defaults", date: "2026-02-28"}
+
+# description: rend application defaults
+
+rend_data_frame_layout_defaults:
+  page_size: 100
+  cell_wrap: false
+  column_deletable: true
+  column_sort: true
+  column_filterable: false
+  column_width_px: 90
+  row_deletable: false
+  row_height_px: 25
+  data_font_size: 12
+  column_meta_format: '{c}: {v}'

@@ -1,0 +1,73 @@
+#@meta {author: "Paul Landes"}
+#@meta {desc: "rend application context", date: "2026-02-28"}
+
+
+## Browser objects
+#
+rend_default_browser:
+  class_name: zensols.rend.default.WebBrowser
+
+rend_darwin_script_paths:
+  preview: 'resource(zensols.rend): resources/show-preview.scpt'
+  safari: 'resource(zensols.rend): resources/show-safari.scpt'
+  safari-multi: 'resource(zensols.rend): resources/show-safari-multi.scpt'
+
+rend_darwin_browser:
+  class_name: zensols.rend.darwin.DarwinBrowser
+  script_paths: 'instance: rend_darwin_script_paths'
+  web_extensions: 'set: html, svg'
+  applescript_warns:
+    'osascript is not allowed assistive access': 'warning'
+  update_page: false
+
+
+## Datafame rendering
+#
+rend_data_frame_layout_factory:
+  class_name: zensols.rend.df.DataSourceFrameLayoutFactory
+  page_size: ${rend_data_frame_layout_defaults:page_size}
+  cell_wrap: ${rend_data_frame_layout_defaults:cell_wrap}
+  column_deletable: ${rend_data_frame_layout_defaults:column_deletable}
+  column_sort: ${rend_data_frame_layout_defaults:column_sort}
+  column_filterable: ${rend_data_frame_layout_defaults:column_filterable}
+  column_width_px: ${rend_data_frame_layout_defaults:column_width_px}
+  row_deletable: ${rend_data_frame_layout_defaults:row_deletable}
+  row_height_px: ${rend_data_frame_layout_defaults:row_height_px}
+  data_font_size: ${rend_data_frame_layout_defaults:data_font_size}
+
+rend_data_describer_layout_factory:
+  class_name: zensols.rend.df.DataFrameDescriberLayoutFactory
+  column_meta_format: ${rend_data_frame_layout_defaults:column_meta_format}
+  page_size: ${rend_data_frame_layout_defaults:page_size}
+  cell_wrap: ${rend_data_frame_layout_defaults:cell_wrap}
+  column_deletable: ${rend_data_frame_layout_defaults:column_deletable}
+  column_sort: ${rend_data_frame_layout_defaults:column_sort}
+  column_filterable: ${rend_data_frame_layout_defaults:column_filterable}
+  column_width_px: ${rend_data_frame_layout_defaults:column_width_px}
+  row_deletable: ${rend_data_frame_layout_defaults:row_deletable}
+  row_height_px: ${rend_data_frame_layout_defaults:row_height_px}
+  data_font_size: ${rend_data_frame_layout_defaults:data_font_size}
+
+rend_dash_server_name:
+  class_name: zensols.rend.df.TerminalDashServer
+  sleep_secs: 1
+  timeout_secs: 5
+
+rend_data_frame_location_transmuter:
+  class_name: zensols.rend.df.DataFrameLocationTransmuter
+  dash_server_name: rend_dash_server_name
+  layout_factory_name: rend_data_frame_layout_factory
+
+rend_data_describer_location_transmuter:
+  class_name: zensols.rend.df.DataDescriberLocationTransmuter
+  dash_server_name: 'rend_dash_server_name'
+  layout_factory_name: 'rend_data_describer_layout_factory'
+  table_format: false
+
+rend_browser_manager:
+  class_name: zensols.rend.BrowserManager
+  default_browser_name: 'rend_default_browser'
+  transmuters: >-
+    instance: list:
+      rend_data_frame_location_transmuter,
+      rend_data_describer_location_transmuter
