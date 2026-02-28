@@ -13,7 +13,6 @@ from pathlib import Path
 from pandas import DataFrame
 from zensols.config import Dictable, ConfigFactory
 from zensols.persist import persisted
-from zensols.datdesc import DataFrameDescriber, DataDescriber
 from . import (
     RenderFileError, Size, Extent, LocationType, Location, LocationTransmuter,
     Display, Presentation,
@@ -154,6 +153,7 @@ class BrowserManager(object):
         :param extent: the position and size of the window after browsing
 
         """
+        from zensols.datdesc import DataFrameDescriber, DataDescriber
         pres: Presentation
         if isinstance(data, (str, Path)):
             loc_type: LocationType = LocationType.from_type(data)
