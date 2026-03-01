@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - File extension and type filtering so browsers don't fail on bad file types.
+- Support for rendering [zensols.datdesc] figures.
 
 
 ## [1.3.1] - 2026-01-04

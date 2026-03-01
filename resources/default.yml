@@ -1,7 +1,6 @@
 #@meta {author: "Paul Landes"}
 #@meta {desc: "application defaults", date: "2026-02-28"}
 
-# description: rend application defaults
 
 rend_data_frame_layout_defaults:
   page_size: 100
