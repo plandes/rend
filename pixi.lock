@@ -95,7 +95,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2c/7a/8711d0acdb58712a297671e1c38fc398171c9510c3c9ec2b4e8635fc7507/zensols_util-1.16.3-py3-none-any.whl
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/bzip2-1.0.8-hd037594_8.conda
@@ -178,7 +178,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2c/7a/8711d0acdb58712a297671e1c38fc398171c9510c3c9ec2b4e8635fc7507/zensols_util-1.16.3-py3-none-any.whl
       win-64:
       - conda: https://conda.anaconda.org/conda-forge/win-64/bzip2-1.0.8-h0ad9c76_8.conda
@@ -261,7 +261,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2c/7a/8711d0acdb58712a297671e1c38fc398171c9510c3c9ec2b4e8635fc7507/zensols_util-1.16.3-py3-none-any.whl
   default:
     channels:
@@ -352,7 +352,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2c/7a/8711d0acdb58712a297671e1c38fc398171c9510c3c9ec2b4e8635fc7507/zensols_util-1.16.3-py3-none-any.whl
       osx-arm64:
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/bzip2-1.0.8-hd037594_8.conda
@@ -429,7 +429,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2c/7a/8711d0acdb58712a297671e1c38fc398171c9510c3c9ec2b4e8635fc7507/zensols_util-1.16.3-py3-none-any.whl
       win-64:
       - conda: https://conda.anaconda.org/conda-forge/win-64/bzip2-1.0.8-h0ad9c76_8.conda
@@ -506,7 +506,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2c/7a/8711d0acdb58712a297671e1c38fc398171c9510c3c9ec2b4e8635fc7507/zensols_util-1.16.3-py3-none-any.whl
   testcur:
     channels:
@@ -596,7 +596,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/53/c6/aa06a09f74252e0848be598eca64589ccbcc9d5d46091779c4be21d8f357/zensols_util-1.16.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2e/54/647ade08bf0db230bfea292f893923872fd20be6ac6f53b2b936ba839d75/zipp-3.23.0-py3-none-any.whl
       osx-arm64:
@@ -673,7 +673,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/53/c6/aa06a09f74252e0848be598eca64589ccbcc9d5d46091779c4be21d8f357/zensols_util-1.16.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2e/54/647ade08bf0db230bfea292f893923872fd20be6ac6f53b2b936ba839d75/zipp-3.23.0-py3-none-any.whl
       win-64:
@@ -750,7 +750,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/53/c6/aa06a09f74252e0848be598eca64589ccbcc9d5d46091779c4be21d8f357/zensols_util-1.16.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2e/54/647ade08bf0db230bfea292f893923872fd20be6ac6f53b2b936ba839d75/zipp-3.23.0-py3-none-any.whl
   testprev:
@@ -842,7 +842,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/53/c6/aa06a09f74252e0848be598eca64589ccbcc9d5d46091779c4be21d8f357/zensols_util-1.16.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2e/54/647ade08bf0db230bfea292f893923872fd20be6ac6f53b2b936ba839d75/zipp-3.23.0-py3-none-any.whl
       osx-arm64:
@@ -917,7 +917,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/53/c6/aa06a09f74252e0848be598eca64589ccbcc9d5d46091779c4be21d8f357/zensols_util-1.16.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2e/54/647ade08bf0db230bfea292f893923872fd20be6ac6f53b2b936ba839d75/zipp-3.23.0-py3-none-any.whl
       win-64:
@@ -992,7 +992,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/8d/57/a27182528c90ef38d82b636a11f606b0cbb0e17588ed205435f8affe3368/waitress-3.0.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/6c/69/05837f91dfe42109203ffa3e488214ff86a6d68b2ed6c167da6cdc42349b/werkzeug-3.0.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/87/b9/bc9e4fe0c6a2656d0baa40aa324f9c11e07e5bcec51be9e90ee4deebb309/XlsxWriter-3.0.9-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/53/c6/aa06a09f74252e0848be598eca64589ccbcc9d5d46091779c4be21d8f357/zensols_util-1.16.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2e/54/647ade08bf0db230bfea292f893923872fd20be6ac6f53b2b936ba839d75/zipp-3.23.0-py3-none-any.whl
 packages:
@@ -4034,10 +4034,10 @@ packages:
   version: 3.0.9
   sha256: 5eaaf3c6f791cba1dd1c3065147c35982180f693436093aabe5b7d6c16148e95
   requires_python: '>=3.6'
-- pypi: https://files.pythonhosted.org/packages/7d/0f/d9daf0f55c7993dd515b37795a7d799f9ab2994ae6060c2744e615eebe8f/zensols_datdesc-1.4.4-py3-none-any.whl
+- pypi: https://files.pythonhosted.org/packages/b4/e8/c3f0b1c3a92242d4826d03473238ce1bda9f63565af34f2c2ecdfdb2d976/zensols_datdesc-1.4.5-py3-none-any.whl
   name: zensols-datdesc
-  version: 1.4.4
-  sha256: c248d6c2a40ea54d6e2928fc0967eebcf11197d91ee0658eac93b1e54f85cb36
+  version: 1.4.5
+  sha256: a8f1d4a999579ff48f2565a7613306d3aae63e44fcd2ea730a52842df897a24a
   requires_dist:
   - hyperopt~=0.2.7
   - jinja2~=3.1.6

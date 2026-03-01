@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+## [1.3.2] - 2026-02-28
 ### Added
 - File extension and type filtering so browsers don't fail on bad file types.
 - Support for rendering [zensols.datdesc] figures.
@@ -133,7 +134,8 @@ Downstream moderate risk update release.
 
 
 <!-- links -->
-[Unreleased]: https://github.com/plandes/rend/compare/v1.3.1...HEAD
+[Unreleased]: https://github.com/plandes/rend/compare/v1.3.2...HEAD
+[1.3.2]: https://github.com/plandes/rend/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/plandes/rend/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/plandes/rend/compare/v1.2.5...v1.3.0
 [1.2.5]: https://github.com/plandes/rend/compare/v1.2.4...v1.2.5
