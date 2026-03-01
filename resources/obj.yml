@@ -28,11 +28,15 @@ rend_darwin_browser:
   update_page: false
 
 
-## Data describer
+## Manager
 #
-rend_datdesc_location_transmuter:
-  class_name: zensols.rend.datdesc.DataDescriberTransumter
-  renderable_factory: 'instance: datdesc_renderable_file_factory'
+rend_browser_manager:
+  class_name: zensols.rend.BrowserManager
+  default_browser_name: 'rend_default_browser'
+  transmuters: >-
+    instance: list:
+      rend_mapped_location_transmuter
+
 
 ## Mapped transmuter
 #
@@ -47,15 +51,7 @@ rend_mapped_location_transmuter:
   transmuters:
     data_frame: '^.+\\.(?:csv|tsv|xlsx)${conf_esc:dollar}'
     data_describer: '^.+-table\\.(?:yml|json)${conf_esc:dollar}'
-
-## Manager
-#
-rend_browser_manager:
-  class_name: zensols.rend.BrowserManager
-  default_browser_name: 'rend_default_browser'
-  transmuters: >-
-    instance: list:
-      rend_mapped_location_transmuter
+    figure: '^.+-figure\\.yml${conf_esc:dollar}'
 
 
 ## Datafame rendering
@@ -100,3 +96,10 @@ rend_data_describer_location_transmuter:
   dash_server_name: 'rend_dash_server_name'
   layout_factory_name: 'rend_data_describer_layout_factory'
   table_format: 'auto'
+
+
+## Figure rendering
+#
+rend_figure_location_transmuter:
+  class_name: zensols.rend.figure.FigureTransmuter
+  timeout_secs: 0.5

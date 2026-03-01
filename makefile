@@ -47,8 +47,8 @@ runshowpng:
 				ARG="show test-resources/sample.png"
 
 # show a website
-.PHONY:			runshowwebsite
-runshowwebsite:
+.PHONY:			runshowsite
+runshowsite:
 			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
 				ARG="show http://example.com"
 
@@ -62,14 +62,21 @@ runshowcsv:
 .PHONY:			runshowyml
 runshowyml:
 			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
-				ARG="show test-resources/dd/tab/roster-table.yml"
+				ARG="show test-resources/renderables/roster-table.yml"
 
 # show tabular data from json config
 .PHONY:			runshowjson
 runshowjson:
 			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
-				ARG="show test-resources/dd/tab/roster-table.json"
+				ARG="show test-resources/renderables/roster-table.json"
 
+# show a figure
+.PHONY:			runshowfig
+runshowfig:
+			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
+				ARG="show test-resources/renderables/roster-figure.yml"
+
+# integration like test that invokes show on all files via run* targets
 .PHONY:			runshow
-runshow:		runshowpdf runshowpng runshowwebsite \
-				runshowcsv runshowyml runshowjson
+runshow:		runshowpdf runshowpng runshowsite \
+				runshowcsv runshowyml runshowjson runshowfig

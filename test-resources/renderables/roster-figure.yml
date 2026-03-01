@@ -1,0 +1,15 @@
+rosterFig:
+  seaborn:
+    style:
+      style: darkgrid
+      rc:
+        axes.facecolor: 'str: .9'
+    context:
+      context: 'paper'
+      font_scale: 1.3
+  plots:
+    - type: bar
+      data: 'dataframe: test-resources/renderables/roster.csv'
+      title: 'Roster Bar Chart'
+      y_column_name: age
+      x_column_name: name

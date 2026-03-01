@@ -204,9 +204,9 @@ class Location(PersistableContainer, Dictable):
         elif location_type == LocationType.url and self.is_file_url:
             self._file_url_path = None
         self._url.clear()
-        self._url.clear()
 
     def deallocate(self):
+        super().deallocate()
         if logger.isEnabledFor(logging.DEBUG):
             logger.debug(f'deallocating {type(self)}')
 
