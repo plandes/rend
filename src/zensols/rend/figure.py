@@ -49,6 +49,9 @@ class FigureTransmuter(LocationTransmuter):
     :meth:`deallocate`.
 
     """
+    figure_params: str = field()
+    """The image format to use when saving plots."""
+
     @property
     @persisted('_renderable_factory')
     def renderable_factory(self) -> RenderableFactory:
@@ -67,7 +70,7 @@ class FigureTransmuter(LocationTransmuter):
             rend: Renderable = rends[0]
             fig: Figure
             for fig in rend:
-                fig.image_format = 'svg'
+                fig.__dict__.update(self.figure_params)
                 with tempfile(file_fmt=fig.path.name, create=True,
                               remove=False) as path:
                     fig.image_dir = path.parent

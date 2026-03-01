@@ -103,3 +103,5 @@ rend_data_describer_location_transmuter:
 rend_figure_location_transmuter:
   class_name: zensols.rend.figure.FigureTransmuter
   timeout_secs: 0.5
+  figure_params:
+    image_format: svg
