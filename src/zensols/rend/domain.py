@@ -176,7 +176,7 @@ class Location(PersistableContainer, Dictable):
         """The path of the location.
 
         :raises RenderFileError: if the location does not point to a path or not
-                               a URL path
+                                 a URL path
 
         """
         if isinstance(self.source, Path):

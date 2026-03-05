@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
+### Changed
+- Fixed missing transmuter for API passed data describers.
+
+
 ## [1.3.2] - 2026-02-28
 ### Added
 - File extension and type filtering so browsers don't fail on bad file types.

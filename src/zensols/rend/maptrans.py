@@ -68,19 +68,33 @@ class MappedLocationTransmuter(LocationTransmuter):
     names when :obj:`.Location.has_path` is ``True``.
 
     """
+    config_factory: ConfigFactory = field()
+    """Creates transmuters from :obj:`object_transmuter_names`."""
+
     trans_stash: Stash = field()
     """A stash that creates instances of :class:`.LocationTransmuter`."""
 
-    transmuters: dict[str, re.Pattern | str] = field()
+    path_transmuters: dict[str, re.Pattern | str] = field()
     """A mapping of :obj:`trans_stash` keys, which are substrings of section
     names, to regular expressions that match a transmuter that can transmute the
     location.
 
     """
+    object_transmuter_names: tuple[str, ...] = field()
+    """A list of section names that have transmuters that are used to handle
+    objects passed to the program's API.
+
+    """
     def __post_init__(self):
-        self.transmuters = dict(map(
+        self.path_transmuters = dict(map(
             lambda t: (t[0], self._process_regex(t[1])),
-            self.transmuters.items()))
+            self.path_transmuters.items()))
+
+    @property
+    @persisted('_object_transmuters')
+    def object_transmuters(self) -> tuple[LocationTransmuter]:
+        return tuple(map(
+            lambda cn: self.config_factory(cn), self.object_transmuter_names))
 
     def _process_regex(self, val: str | re.Pattern):
         if isinstance(val, str):
@@ -92,7 +106,7 @@ class MappedLocationTransmuter(LocationTransmuter):
         fname: str = str(path)
         name: str
         regex: re.Pattern
-        for name, regex in self.transmuters.items():
+        for name, regex in self.path_transmuters.items():
             if regex.match(fname) is not None:
                 return name
 
@@ -102,5 +116,11 @@ class MappedLocationTransmuter(LocationTransmuter):
             st_key: str = self._get_key(location.path)
             if st_key is not None:
                 lc: LocationTransmuter = self.trans_stash[st_key]
+                new_locs.extend(lc.transmute(location))
+        else:
+            # when objects are passed in, we have to take the hit of importing
+            # :mod:`df`
+            lc: LocationTransmuter
+            for lc in self.object_transmuters:
                 new_locs.extend(lc.transmute(location))
         return tuple(new_locs)

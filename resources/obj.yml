@@ -48,10 +48,13 @@ rend_mapped_stash:
 rend_mapped_location_transmuter:
   class_name: zensols.rend.maptrans.MappedLocationTransmuter
   trans_stash: 'instance: rend_mapped_stash'
-  transmuters:
+  path_transmuters:
     data_frame: '^.+\\.(?:csv|tsv|xlsx)${conf_esc:dollar}'
     data_describer: '^.+-table\\.(?:yml|json)${conf_esc:dollar}'
     figure: '^.+-figure\\.yml${conf_esc:dollar}'
+  object_transmuter_names:
+    - rend_data_frame_location_transmuter
+    - rend_data_describer_location_transmuter
 
 
 ## Datafame rendering
