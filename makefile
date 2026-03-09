@@ -34,6 +34,12 @@ invokeisolate:
 			@( unset RENDRC ; unset ZENSOLSRC ; \
 			   $(MAKE) $(PY_MAKE_ARGS) pyharn ARG="$(ARG)" )
 
+# show a HTML file
+.PHONY:			runshowhtml
+runshowhtml:
+			@$(MAKE) $(PY_MAKE_ARGS) invokeisolate \
+				ARG="show test-resources/sample.html"
+
 # show a PDF file
 .PHONY:			runshowpdf
 runshowpdf:
@@ -78,5 +84,5 @@ runshowfig:
 
 # integration like test that invokes show on all files via run* targets
 .PHONY:			runshow
-runshow:		runshowpdf runshowpng runshowsite \
+runshow:		runshowhtml runshowpdf runshowpng runshowsite \
 				runshowcsv runshowyml runshowjson runshowfig
