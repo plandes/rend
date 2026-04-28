@@ -6,7 +6,7 @@
 #
 rend_file_type_filter:
   class_name: zensols.rend.browser.FileTypeFilter
-  name_regex: '.+\\.(?:pdf|html)${conf_esc:dollar}'
+  name_regex: '.+\\.(?:pdf|html|svg)${conf_esc:dollar}'
   mime_regex: '(?:^image/.+|.+/(?:pdf)${conf_esc:dollar})'
 
 rend_default_browser:
